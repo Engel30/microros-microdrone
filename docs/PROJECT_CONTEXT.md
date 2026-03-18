@@ -71,17 +71,29 @@ graph TD
 | **D7** | RX1 | UART | Optical Flow + ToF |
 | **D8** | V-Sense | Analog | Partitore Batteria |
 | **D9** | Buzzer | PWM | Alert sonori |
-| **D10** | Status LED | GPIO | Debug visivo |
+| **D10** | Status LED | GPIO | LED singolo colore via R 330Ω |
 
 ---
 
 ## 3. Strategia Meccanica & Pesi
-*   **Telaio:** 75mm Whoop (Plastica).
+*   **Telaio:** 3D Print PLA (FDM). Frame commerciali non compatibili con motori 8520 coreless.
+*   **Montaggio motori:** Press-fit (foro ~8.3-8.4mm).
 *   **Propulsione:** 8520 Brushed Coreless.
 *   **Target Peso:** < 65g (TWR > 2.5:1).
 
+### Assemblaggio Elettronica
+*   **Perfboard:** 7x5cm (24x18 fori), montata sopra il frame.
+*   **Componenti rimovibili:** Pin header femmina saldati sulla perfboard, componenti inseribili.
+*   **SMD sulla perfboard:** SI2302 (SOT-23) saldati direttamente tra pad.
+*   **Through-hole:** 1N5819, resistenze 100kΩ (partitore batteria), 330Ω (LED).
+*   **No resistenze gate MOSFET:** pull-down interni ESP32-S3 configurati via firmware (`gpio_config` con `pull_down_en`).
+*   **Collegamenti:** Ponti di stagno per connessioni corte, jumper 30AWG per connessioni lunghe.
+*   **Modulo ottico:** 4 fili volanti (VCC, GND, TX, RX) che scendono sotto il frame.
+
 ## 4. Power & Monitoring
-*   **Alimentazione:** 1S LiPo (BT2.0 connector).
+*   **Alimentazione:** 1S LiPo (BT2.0 connector) → pin **VUSB** della XIAO. **NON collegare USB e batteria contemporaneamente.**
+*   **Condensatore filtro:** 470µF tra VUSB e GND (vicino all'ingresso batteria sulla perfboard).
+*   **Sensori:** Alimentati dal pin 3V3 della XIAO (regolatore interno).
 *   **Tethering:** Buck Converter regolato a 4.2V per test al banco.
 *   **V-Sense:** Partitore resistivo 100k/100k su pin D8 per monitoraggio tensione cella.
 

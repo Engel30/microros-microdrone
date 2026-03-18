@@ -13,7 +13,8 @@
 | **MCU Board** | **Seeed Studio XIAO ESP32S3** | 1 | Versione standard (NO Sense). |
 | **IMU (Assetto)** | **Modulo GY-521 (MPU-6050)** | 1 | Accelerometro + Giroscopio (I2C). **Alimentare a 3.3V** (~5mA). |
 | **Optical Flow + ToF** | **Modulo Integrato (tipo Matek 3901-L0X)** | 1 | **UART (MSP Protocol).** Include PMW3901 + VL53L0X. **TASSATIVO 3.3V** (~40mA). NO 5V! |
-| **Buzzer** | **Buzzer Attivo 3.3V / 5V** | 1 | Piccolo (diametro 9mm). Fondamentale per allarmi batteria. |
+| **Buzzer** | **Buzzer Passivo 3.3V** | 1 | Diametro 12mm. PWM su D9 per toni variabili. Fondo con PCB esposta. |
+| **LED Status** | **LED singolo colore** | 1 | Su D10 via R 330Ω. Debug visivo (on/off, lampeggio). |
 
 ---
 
@@ -22,7 +23,7 @@
 
 | Componente | Specifiche | Qtà | Note |
 | :--- | :--- | :--- | :--- |
-| **Telaio (Frame)** | **75mm Whoop Frame** | 1 | BetaFPV 75 Pro o simili (plastica). |
+| **Telaio (Frame)** | **Frame 3D Print (PLA, FDM)** | 1 | Stampato in 3D. Motori 8520 press-fit (foro ~8.3-8.4mm). Frame commerciale non compatibile con motori coreless. |
 | **Motori** | **8520 Coreless Brushed** | 4 | 3.7V (1S). Prendi 1-2 di scorta. |
 | **Eliche** | **40mm (4-pale)** | 2 Set | Foro 1.0mm. Prendine molte (si rompono!). |
 | **Batteria** | **LiPo 1S 450-550mAh** | 2-3 | Connettore **BT2.0** (Obbligatorio). |
@@ -38,10 +39,9 @@
 | **MOSFET** | **SI2302** (SOT-23) | 5-10 | Driver motori. |
 | **Diodo** | **1N5819** (THT) | 10 | Flyback protezione motori. |
 | **Condensatore** | **470uF / 6.3V** | 1 | Bulk capacitor anti-reset. |
-| **Resistenza** | **10k Ohm** | 10 | Pull-down MOSFET e partitore. |
-| **Resistenza** | **100k Ohm** | 2 | **V-Sense (Monitoraggio Batteria)** | Creano un partitore (R1+R2) per leggere i 4.2V della batteria su un pin ADC (max 3.3V). |
+| **Resistenza** | **330 Ohm** | 1 | Resistenza limitatrice LED status. |
+| **Resistenza** | **100k Ohm** | 2 | **V-Sense (Monitoraggio Batteria).** Partitore per leggere i 4.2V su pin ADC (max 3.3V). |
 | **Switch** | **Mini Slide Switch** | 1 | Interruttore On/Off fisico. |
-| **Resistenza** | **220 Ohm** | 5 | Protezione Gate MOSFET. |
 
 ---
 
@@ -53,7 +53,7 @@
 | **Machine Pin Headers** | Femmina (Tulipano) | Per incastrare i sensori sulla millefori (anti-vibrazione). |
 | **Standard Pin Headers** | Maschio | Da saldare sui moduli sensori. |
 | **Cavo Batteria** | **BT2.0 (Maschio)** | Pigtail con cavi in silicone da saldare alla scheda. |
-| **Millefori** | FR4 Double-Sided | Verde, 5x7cm (da tagliare a circa 4.5x4.5cm). |
+| **Millefori** | FR4 Double-Sided | Verde, 7x5cm (usata intera, 24x18 fori). |
 | **Fili Silicone** | 30AWG (Segnali) | Per collegare i motori alla scheda (flessibili). |
 | **Fili Silicone** | 24AWG (Power) | Per batteria e tethering (regge corrente alta). |
 

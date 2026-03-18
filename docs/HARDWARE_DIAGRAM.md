@@ -7,7 +7,7 @@ graph TD
     %% --- POWER SUBSYSTEM ---
     subgraph Power
         LIPO(LiPo_1S) -- BT2.0 --> SW(Switch)
-        SW -- VBAT_4.2V --> VCC(XIAO_5V_Pin)
+        SW -- VBAT_4.2V --> VCC(XIAO_VUSB_Pin)
         LIPO -- GND --> GND(Common_GND)
         
         VCC -- Internal_LDO --> RAIL_3V3(XIAO_3V3_Pin)
@@ -58,7 +58,7 @@ graph TD
 3.  **D6, D7:** Bus UART1 (Flow/ToF - Matek 3901-L0X)
 4.  **D8 (A8):** V-Sense (Analog Read Batteria)
 5.  **D9:** Buzzer (Audio Feedback)
-6.  **D10:** Debug LED / NeoPixel
+6.  **D10:** LED status (singolo colore) via R 330Ω.
 7.  **3V3 (Output):** Alimentazione SENSORI (IMU + Flow). **Max 200mA.** (Carico attuale: ~45mA).
-8.  **5V (Input):** Ingresso alimentazione da Batteria (via Switch). **NON COLLEGARE SENSORI QUI.**
+8.  **VUSB (Input):** Ingresso alimentazione da Batteria 1S (via Switch). **NON collegare USB e batteria contemporaneamente.** **NON COLLEGARE SENSORI QUI.**
 9.  **GND:** Massa comune.

@@ -20,11 +20,11 @@ Focus su basso costo e comprensione dei sistemi di controllo.
 
 ## 2. Propulsione e Telaio (Strategia Ibrida)
 
-### Telaio (Commerciale)
-*   **Modello:** Frame **75mm Whoop** (es. BetaFPV 75 Pro, Kingkong).
-*   **Materiale:** Plastica a iniezione.
-*   **Peso:** ~7-9g.
-*   **Motivo:** Indistruttibile e molto più leggero del PLA stampato.
+### Telaio (3D Print)
+*   **Materiale:** PLA (FDM).
+*   **Motivi 8520:** Press-fit (foro ~8.3-8.4mm). Frame commerciali 75mm Whoop non compatibili con motori coreless 8520.
+*   **Perfboard:** 7x5cm montata sopra il frame. Componenti su pin header femmina (rimovibili e riutilizzabili).
+*   **Ottico:** Modulo flow montato sotto al centro con visuale libera verso il basso.
 
 ### Motori
 *   **Tipo:** Coreless Brushed **8520** (8.5mm x 20mm).
