@@ -1,0 +1,8 @@
+# Flash size 8MB (il chip ha 8MB, non i 2MB di default)
+CONFIG_ESPTOOLPY_FLASHSIZE_8MB=y
+
+# FreeRTOS tick rate 1kHz (serve per task a 1kHz come IMU e PID)
+CONFIG_FREERTOS_HZ=1000
+
+# WiFi su Core 0 (default, lo esplicitiamo)
+CONFIG_ESP_WIFI_TASK_CORE_ID=0

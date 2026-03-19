@@ -1,0 +1,2 @@
+/home/angelo/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/bin/xtensa-esp32s3-elf-ar qc libsensor_fusion.a CMakeFiles/__idf_sensor_fusion.dir/sensor_fusion.c.obj
+/home/angelo/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/bin/xtensa-esp32s3-elf-ranlib libsensor_fusion.a

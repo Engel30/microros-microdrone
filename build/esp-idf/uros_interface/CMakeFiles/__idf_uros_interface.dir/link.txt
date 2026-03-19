@@ -1,0 +1,2 @@
+/home/angelo/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/bin/xtensa-esp32s3-elf-ar qc liburos_interface.a CMakeFiles/__idf_uros_interface.dir/uros_interface.c.obj
+/home/angelo/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/bin/xtensa-esp32s3-elf-ranlib liburos_interface.a

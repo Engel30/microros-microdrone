@@ -48,10 +48,10 @@ Ristrutturare il firmware del micro-drone da un prototipo Arduino monolitico a u
 
 | Pin | Funzione | Bus/Tipo | Componente |
 |---|---|---|---|
-| D0 | Motore 1 (Front-Left) | PWM | MOSFET SI2302 + 1N5819 + R 220 Ohm |
-| D1 | Motore 2 (Front-Right) | PWM | idem |
-| D2 | Motore 3 (Back-Left) | PWM | idem |
-| D3 | Motore 4 (Back-Right) | PWM | idem |
+| D0 | Motore 1 (Front-Left) | PWM | MOSFET SI2302 + 1N5819 |
+| D1 | Motore 2 (Rear-Left) | PWM | idem |
+| D2 | Motore 3 (Rear-Right) | PWM | idem |
+| D3 | Motore 4 (Front-Right) | PWM | idem |
 | D4 | SDA | I2C (400kHz) | MPU6050 (3.3V, ~5mA) |
 | D5 | SCL | I2C (400kHz) | MPU6050 |
 | D6 | TX1 | UART (19200) | Optical Flow + ToF (protocollo CXOF) |
@@ -74,7 +74,7 @@ Ristrutturare il firmware del micro-drone da un prototipo Arduino monolitico a u
 |---|---|
 | Motori | 4x 8520 Coreless Brushed (3.7V, 1S) |
 | Driver | MOSFET SI2302 (SOT-23), low-side switch |
-| Protezione | Diodo flyback 1N5819 per motore, R gate 220 Ohm |
+| Protezione | Diodo flyback 1N5819 per motore |
 | Controllo | PWM diretto dall'ESP32 (LEDC o MCPWM) |
 | Eliche | 40mm 4-pale, foro 1.0mm |
 | Frame | 75mm Whoop (BetaFPV 75 Pro o simili) |

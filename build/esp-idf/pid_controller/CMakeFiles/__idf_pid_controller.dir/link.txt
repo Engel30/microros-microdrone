@@ -1,0 +1,2 @@
+/home/angelo/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/bin/xtensa-esp32s3-elf-ar qc libpid_controller.a CMakeFiles/__idf_pid_controller.dir/pid_controller.c.obj
+/home/angelo/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/bin/xtensa-esp32s3-elf-ranlib libpid_controller.a

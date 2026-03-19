@@ -1,0 +1,43 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/home/angelo/microros-microdrone/build/CMakeFiles/bootloader"
+		},
+		{
+			"file" : "/home/angelo/microros-microdrone/build/CMakeFiles/bootloader.rule"
+		},
+		{
+			"file" : "/home/angelo/microros-microdrone/build/CMakeFiles/bootloader-complete.rule"
+		},
+		{
+			"file" : "/home/angelo/microros-microdrone/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule"
+		},
+		{
+			"file" : "/home/angelo/microros-microdrone/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule"
+		},
+		{
+			"file" : "/home/angelo/microros-microdrone/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule"
+		},
+		{
+			"file" : "/home/angelo/microros-microdrone/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule"
+		},
+		{
+			"file" : "/home/angelo/microros-microdrone/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule"
+		},
+		{
+			"file" : "/home/angelo/microros-microdrone/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule"
+		},
+		{
+			"file" : "/home/angelo/microros-microdrone/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"bootloader"
+		],
+		"name" : "bootloader"
+	}
+}

@@ -1,0 +1,2 @@
+/home/angelo/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/bin/xtensa-esp32s3-elf-ar qc libmotor_driver.a CMakeFiles/__idf_motor_driver.dir/motor_driver.c.obj
+/home/angelo/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/bin/xtensa-esp32s3-elf-ranlib libmotor_driver.a
