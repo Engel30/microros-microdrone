@@ -1,5 +1,6 @@
 idf_component_register(
     SRCS "main.c"
     INCLUDE_DIRS "."
-    REQUIRES common
+    REQUIRES common imu_driver flow_driver
+    PRIV_REQUIRES esp_driver_gpio
 )

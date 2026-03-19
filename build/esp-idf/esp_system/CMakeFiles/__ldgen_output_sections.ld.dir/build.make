@@ -207,10 +207,12 @@ esp-idf/esp_system/ld/sections.ld: esp-idf/spiffs/libspiffs.a
 esp-idf/esp_system/ld/sections.ld: esp-idf/touch_element/libtouch_element.a
 esp-idf/esp_system/ld/sections.ld: esp-idf/usb/libusb.a
 esp-idf/esp_system/ld/sections.ld: esp-idf/wifi_provisioning/libwifi_provisioning.a
+esp-idf/esp_system/ld/sections.ld: esp-idf/esp-idf-lib__i2cdev/libesp-idf-lib__i2cdev.a
+esp-idf/esp_system/ld/sections.ld: esp-idf/esp-idf-lib__mpu6050/libesp-idf-lib__mpu6050.a
+esp-idf/esp_system/ld/sections.ld: esp-idf/imu_driver/libimu_driver.a
+esp-idf/esp_system/ld/sections.ld: esp-idf/flow_driver/libflow_driver.a
 esp-idf/esp_system/ld/sections.ld: esp-idf/main/libmain.a
 esp-idf/esp_system/ld/sections.ld: esp-idf/battery_monitor/libbattery_monitor.a
-esp-idf/esp_system/ld/sections.ld: esp-idf/flow_driver/libflow_driver.a
-esp-idf/esp_system/ld/sections.ld: esp-idf/imu_driver/libimu_driver.a
 esp-idf/esp_system/ld/sections.ld: esp-idf/motor_driver/libmotor_driver.a
 esp-idf/esp_system/ld/sections.ld: esp-idf/pid_controller/libpid_controller.a
 esp-idf/esp_system/ld/sections.ld: esp-idf/sensor_fusion/libsensor_fusion.a

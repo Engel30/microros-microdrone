@@ -83,10 +83,12 @@ $<TARGET_FILE:__idf_spiffs>
 $<TARGET_FILE:__idf_touch_element>
 $<TARGET_FILE:__idf_usb>
 $<TARGET_FILE:__idf_wifi_provisioning>
+$<TARGET_FILE:__idf_esp-idf-lib__i2cdev>
+$<TARGET_FILE:__idf_esp-idf-lib__mpu6050>
+$<TARGET_FILE:__idf_imu_driver>
+$<TARGET_FILE:__idf_flow_driver>
 $<TARGET_FILE:__idf_main>
 $<TARGET_FILE:__idf_battery_monitor>
-$<TARGET_FILE:__idf_flow_driver>
-$<TARGET_FILE:__idf_imu_driver>
 $<TARGET_FILE:__idf_motor_driver>
 $<TARGET_FILE:__idf_pid_controller>
 $<TARGET_FILE:__idf_sensor_fusion>

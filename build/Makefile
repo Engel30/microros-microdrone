@@ -1917,6 +1917,58 @@ __idf_wifi_provisioning/fast:
 .PHONY : __idf_wifi_provisioning/fast
 
 #=============================================================================
+# Target rules for targets named __idf_esp-idf-lib__i2cdev
+
+# Build rule for target.
+__idf_esp-idf-lib__i2cdev: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 __idf_esp-idf-lib__i2cdev
+.PHONY : __idf_esp-idf-lib__i2cdev
+
+# fast build rule for target.
+__idf_esp-idf-lib__i2cdev/fast:
+	$(MAKE) $(MAKESILENT) -f esp-idf/esp-idf-lib__i2cdev/CMakeFiles/__idf_esp-idf-lib__i2cdev.dir/build.make esp-idf/esp-idf-lib__i2cdev/CMakeFiles/__idf_esp-idf-lib__i2cdev.dir/build
+.PHONY : __idf_esp-idf-lib__i2cdev/fast
+
+#=============================================================================
+# Target rules for targets named __idf_esp-idf-lib__mpu6050
+
+# Build rule for target.
+__idf_esp-idf-lib__mpu6050: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 __idf_esp-idf-lib__mpu6050
+.PHONY : __idf_esp-idf-lib__mpu6050
+
+# fast build rule for target.
+__idf_esp-idf-lib__mpu6050/fast:
+	$(MAKE) $(MAKESILENT) -f esp-idf/esp-idf-lib__mpu6050/CMakeFiles/__idf_esp-idf-lib__mpu6050.dir/build.make esp-idf/esp-idf-lib__mpu6050/CMakeFiles/__idf_esp-idf-lib__mpu6050.dir/build
+.PHONY : __idf_esp-idf-lib__mpu6050/fast
+
+#=============================================================================
+# Target rules for targets named __idf_imu_driver
+
+# Build rule for target.
+__idf_imu_driver: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 __idf_imu_driver
+.PHONY : __idf_imu_driver
+
+# fast build rule for target.
+__idf_imu_driver/fast:
+	$(MAKE) $(MAKESILENT) -f esp-idf/imu_driver/CMakeFiles/__idf_imu_driver.dir/build.make esp-idf/imu_driver/CMakeFiles/__idf_imu_driver.dir/build
+.PHONY : __idf_imu_driver/fast
+
+#=============================================================================
+# Target rules for targets named __idf_flow_driver
+
+# Build rule for target.
+__idf_flow_driver: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 __idf_flow_driver
+.PHONY : __idf_flow_driver
+
+# fast build rule for target.
+__idf_flow_driver/fast:
+	$(MAKE) $(MAKESILENT) -f esp-idf/flow_driver/CMakeFiles/__idf_flow_driver.dir/build.make esp-idf/flow_driver/CMakeFiles/__idf_flow_driver.dir/build
+.PHONY : __idf_flow_driver/fast
+
+#=============================================================================
 # Target rules for targets named __idf_main
 
 # Build rule for target.
@@ -1941,32 +1993,6 @@ __idf_battery_monitor: cmake_check_build_system
 __idf_battery_monitor/fast:
 	$(MAKE) $(MAKESILENT) -f esp-idf/battery_monitor/CMakeFiles/__idf_battery_monitor.dir/build.make esp-idf/battery_monitor/CMakeFiles/__idf_battery_monitor.dir/build
 .PHONY : __idf_battery_monitor/fast
-
-#=============================================================================
-# Target rules for targets named __idf_flow_driver
-
-# Build rule for target.
-__idf_flow_driver: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 __idf_flow_driver
-.PHONY : __idf_flow_driver
-
-# fast build rule for target.
-__idf_flow_driver/fast:
-	$(MAKE) $(MAKESILENT) -f esp-idf/flow_driver/CMakeFiles/__idf_flow_driver.dir/build.make esp-idf/flow_driver/CMakeFiles/__idf_flow_driver.dir/build
-.PHONY : __idf_flow_driver/fast
-
-#=============================================================================
-# Target rules for targets named __idf_imu_driver
-
-# Build rule for target.
-__idf_imu_driver: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 __idf_imu_driver
-.PHONY : __idf_imu_driver
-
-# fast build rule for target.
-__idf_imu_driver/fast:
-	$(MAKE) $(MAKESILENT) -f esp-idf/imu_driver/CMakeFiles/__idf_imu_driver.dir/build.make esp-idf/imu_driver/CMakeFiles/__idf_imu_driver.dir/build
-.PHONY : __idf_imu_driver/fast
 
 #=============================================================================
 # Target rules for targets named __idf_motor_driver
@@ -2109,6 +2135,8 @@ help:
 	@echo "... __idf_cxx"
 	@echo "... __idf_driver"
 	@echo "... __idf_efuse"
+	@echo "... __idf_esp-idf-lib__i2cdev"
+	@echo "... __idf_esp-idf-lib__mpu6050"
 	@echo "... __idf_esp-tls"
 	@echo "... __idf_esp_adc"
 	@echo "... __idf_esp_app_format"

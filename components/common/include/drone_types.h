@@ -10,8 +10,11 @@ typedef struct {
 } imu_data_t;
 
 // Dati dal sensore optical flow (protocollo CXOF)
+// Body frame: X=avanti, Y=destra
 typedef struct {
-    int16_t flow_x, flow_y;            // pixel delta
+    float vel_x, vel_y;                // m/s nel body frame
+    float pos_x, pos_y;               // m, posizione integrata (debug)
+    int16_t raw_x, raw_y;             // pixel delta raw (debug)
     uint16_t range_mm;                 // distanza ToF in mm
     uint8_t quality;                   // qualita segnale (SQ)
     int64_t timestamp_us;

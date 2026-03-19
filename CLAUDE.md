@@ -6,6 +6,7 @@
 - **Linguaggio firmware:** C puro (richiesto da ESP-IDF e micro-ROS)
 - **Non modificare** il codice in `old/` — è riferimento per la logica dei sensori Arduino
 - **Ogni componente ha un README.md** nella sua cartella: aggiornalo quando aggiungi/modifichi funzionalità
+- **A fine risposta:** riassunto modifiche + spiegazione tecnica di cosa è stato fatto e perché
 - **Design spec (source of truth):** `docs/specs/2026-03-10-swarm-drone-architecture-design.md`
 - **Setup ambiente:** `docs/setup-guide.md`
 - Documenti in `docs/`, specs in `docs/specs/`
@@ -67,8 +68,8 @@ microros-microdrone/
 │   │   └── include/
 │   │       ├── drone_config.h      # Pin, frequenze, priorità, costanti
 │   │       └── drone_types.h       # imu_data_t, flow_data_t, state_t, motor_cmd_t
-│   ├── imu_driver/                 # MPU6050 via I2C (Fase 0A)
-│   ├── flow_driver/                # Parser CXOF via UART (Fase 0A)
+│   ├── imu_driver/                 # MPU6050 via I2C — IMPLEMENTATO, usa esp-idf-lib/mpu6050
+│   ├── flow_driver/                # Parser CXOF via UART — IMPLEMENTATO
 │   ├── motor_driver/               # PWM via LEDC (Fase 0B)
 │   ├── pid_controller/             # PID generico con anti-windup (Fase 1)
 │   ├── sensor_fusion/              # Fusione IMU + flow (Fase 2+)
@@ -77,14 +78,15 @@ microros-microdrone/
 ├── docs/
 │   ├── setup-guide.md              # Installazione ambiente completa
 │   └── specs/                      # Design spec
+├── managed_components/              # Librerie scaricate automaticamente (esp-idf-lib)
 └── old/                            # Vecchio firmware Arduino (solo riferimento)
 ```
 
 ## Sensori — dettagli chiave
 
-**MPU6050 (IMU):** Registri 0x3B-0x48 per dati raw. DLPF ~42Hz (CONFIG=0x03). SMPLRT_DIV=0 → 1kHz. Gyro ±500°/s, Accel ±4g. Yaw integrata da gyroZ con deadzone 0.2°/s (no magnetometro). I2C addr 0x68.
+**MPU6050 (IMU):** Libreria `esp-idf-lib/mpu6050` + `i2cdev`. Richiede `i2cdev_init()` prima dell'uso. DLPF ~42Hz, 1kHz sample rate, Gyro ±500°/s, Accel ±4g. Clock PLL gyro X. Calibrazione nel chip frame, rotazione body applicata dopo. Output nel body frame NED. Modulo GY-521 ha pull-up I2C integrati. I2C addr 0x68.
 
-**Optical Flow (CXOF):** Frame 11 byte `[FE 04 Xl Xh Yl Yh Dl Dh CK SQ AA]`. Distanza in cm (convertire in mm). State machine parser con re-sync. Riferimento: `old/lib/Optical_Flow/OpticalFlow.cpp`.
+**Optical Flow (CXOF):** Sensore P3901 (clone PMW3901) + VL53L1X ToF. UART 19200, frame 11 byte. State machine parser con re-sync. Conversione count→velocità con `FLOW_SCALE_RAD = 1.76e-3 rad/count` (da ArduPilot). Il PMW3901 ha scaler interno ~8-10x (1 count != 1 pixel fisico). ToF verificato OK. Scala velocità da calibrare con test 10cm. Output nel body frame NED con posizione integrata per debug.
 
 ## Roadmap
 

@@ -99,7 +99,7 @@ idf.py -p /dev/ttyACM0 monitor
 
 | Fase | Obiettivo | Stato |
 |------|-----------|-------|
-| 0A | Sensori raw + micro-ROS → Foxglove | In corso |
+| 0A | Sensori raw + micro-ROS → Foxglove | In corso (IMU OK, Flow OK, battery e micro-ROS pending) |
 | 0B | Test motori via topic ROS2 | Da implementare |
 | 1 | Stabilizzazione attitudine (PID hover) | Da implementare |
 | 2 | Velocity hold (optical flow) | Da implementare |

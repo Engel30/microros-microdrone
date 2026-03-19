@@ -1,5 +1,8 @@
 #pragma once
 
+#include "soc/gpio_num.h"
+#include "driver/uart.h"
+
 // ============================================================================
 // Drone Identity
 // ============================================================================
@@ -32,11 +35,39 @@
 #define PIN_LED_STATUS      GPIO_NUM_9   // D10
 
 // ============================================================================
+// Body frame convention: X=avanti, Y=destra, Z=giù (NED)
+// I segni correggono il montaggio fisico dei sensori sul frame
+// ============================================================================
+
+// IMU (MPU6050) — montato con: chip destra=+X, avanti=+Y
+// Correzione: scambia X↔Y per allineare a body frame
+#define IMU_SIGN_AX_FROM_RAW(ax, ay)   ( (ay))   // avanti = raw_ay
+#define IMU_SIGN_AY_FROM_RAW(ax, ay)   ( (ax))   // destra = raw_ax
+#define IMU_SIGN_AZ(az)                (-(az))    // giù = -raw_az (MPU ha Z verso alto)
+#define IMU_SIGN_GX_FROM_RAW(gx, gy)   ( (gy))
+#define IMU_SIGN_GY_FROM_RAW(gx, gy)   ( (gx))
+#define IMU_SIGN_GZ(gz)                (-(gz))
+
+// Optical Flow — montato con: avanti=-raw_x, destra=-raw_y
+// Correzione: nega entrambi (swap non serve perché X/Y flow coincidono con body dopo negazione)
+#define FLOW_SIGN_X(raw_x)    (-(raw_x))  // avanti = -raw_x
+#define FLOW_SIGN_Y(raw_y)    (-(raw_y))  // destra = -raw_y
+
+// ============================================================================
 // IMU Configuration (MPU6050)
 // ============================================================================
 #define MPU6050_ADDR        0x68
 #define IMU_SAMPLE_RATE_HZ  1000
 #define GYRO_DEADZONE_DPS   0.2f         // Deadzone yaw integration
+
+// ============================================================================
+// Optical Flow Configuration (PMW3901 clone, protocollo CXOF)
+// ============================================================================
+// Scala angolare: radianti per count CXOF.
+// Il PMW3901 ha uno scaler interno (~8-10x) quindi 1 count != 1 pixel fisico.
+// Valore da ArduPilot AP_OpticalFlow_CXOF.cpp, calibrato empiricamente.
+// Se la posizione è imprecisa, aggiustare questo valore.
+#define FLOW_SCALE_RAD      1.76e-3f     // rad/count (ArduPilot CXOF)
 
 // ============================================================================
 // Battery

@@ -559,12 +559,22 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/home/angelo/microros-microdrone/build/esp-idf/main/cmake_install.cmake")
+  include("/home/angelo/microros-microdrone/build/esp-idf/esp-idf-lib__esp_idf_lib_helpers/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/home/angelo/microros-microdrone/build/esp-idf/battery_monitor/cmake_install.cmake")
+  include("/home/angelo/microros-microdrone/build/esp-idf/esp-idf-lib__i2cdev/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("/home/angelo/microros-microdrone/build/esp-idf/esp-idf-lib__mpu6050/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("/home/angelo/microros-microdrone/build/esp-idf/imu_driver/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
@@ -574,7 +584,12 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/home/angelo/microros-microdrone/build/esp-idf/imu_driver/cmake_install.cmake")
+  include("/home/angelo/microros-microdrone/build/esp-idf/main/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("/home/angelo/microros-microdrone/build/esp-idf/battery_monitor/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)

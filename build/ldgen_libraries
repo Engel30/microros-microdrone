@@ -83,10 +83,12 @@
 /home/angelo/microros-microdrone/build/esp-idf/touch_element/libtouch_element.a
 /home/angelo/microros-microdrone/build/esp-idf/usb/libusb.a
 /home/angelo/microros-microdrone/build/esp-idf/wifi_provisioning/libwifi_provisioning.a
+/home/angelo/microros-microdrone/build/esp-idf/esp-idf-lib__i2cdev/libesp-idf-lib__i2cdev.a
+/home/angelo/microros-microdrone/build/esp-idf/esp-idf-lib__mpu6050/libesp-idf-lib__mpu6050.a
+/home/angelo/microros-microdrone/build/esp-idf/imu_driver/libimu_driver.a
+/home/angelo/microros-microdrone/build/esp-idf/flow_driver/libflow_driver.a
 /home/angelo/microros-microdrone/build/esp-idf/main/libmain.a
 /home/angelo/microros-microdrone/build/esp-idf/battery_monitor/libbattery_monitor.a
-/home/angelo/microros-microdrone/build/esp-idf/flow_driver/libflow_driver.a
-/home/angelo/microros-microdrone/build/esp-idf/imu_driver/libimu_driver.a
 /home/angelo/microros-microdrone/build/esp-idf/motor_driver/libmotor_driver.a
 /home/angelo/microros-microdrone/build/esp-idf/pid_controller/libpid_controller.a
 /home/angelo/microros-microdrone/build/esp-idf/sensor_fusion/libsensor_fusion.a

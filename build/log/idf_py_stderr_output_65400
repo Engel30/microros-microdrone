@@ -1,0 +1,23 @@
+In file included from /home/angelo/microros-microdrone/components/flow_driver/flow_driver.c:2:
+/home/angelo/microros-microdrone/components/flow_driver/flow_driver.c: In function 'flow_init':
+/home/angelo/microros-microdrone/components/common/include/drone_config.h:24:29: error: 'GPIO_NUM_43' undeclared (first use in this function)
+   24 | #define PIN_FLOW_TX         GPIO_NUM_43  // D6
+      |                             ^~~~~~~~~~~
+/home/angelo/microros-microdrone/components/flow_driver/flow_driver.c:110:39: note: in expansion of macro 'PIN_FLOW_TX'
+  110 |     ret = uart_set_pin(FLOW_UART_NUM, PIN_FLOW_TX, PIN_FLOW_RX,
+      |                                       ^~~~~~~~~~~
+/home/angelo/microros-microdrone/components/common/include/drone_config.h:24:29: note: each undeclared identifier is reported only once for each function it appears in
+   24 | #define PIN_FLOW_TX         GPIO_NUM_43  // D6
+      |                             ^~~~~~~~~~~
+/home/angelo/microros-microdrone/components/flow_driver/flow_driver.c:110:39: note: in expansion of macro 'PIN_FLOW_TX'
+  110 |     ret = uart_set_pin(FLOW_UART_NUM, PIN_FLOW_TX, PIN_FLOW_RX,
+      |                                       ^~~~~~~~~~~
+/home/angelo/microros-microdrone/components/common/include/drone_config.h:25:29: error: 'GPIO_NUM_44' undeclared (first use in this function)
+   25 | #define PIN_FLOW_RX         GPIO_NUM_44  // D7
+      |                             ^~~~~~~~~~~
+/home/angelo/microros-microdrone/components/flow_driver/flow_driver.c:110:52: note: in expansion of macro 'PIN_FLOW_RX'
+  110 |     ret = uart_set_pin(FLOW_UART_NUM, PIN_FLOW_TX, PIN_FLOW_RX,
+      |                                                    ^~~~~~~~~~~
+make[2]: *** [esp-idf/flow_driver/CMakeFiles/__idf_flow_driver.dir/build.make:76: esp-idf/flow_driver/CMakeFiles/__idf_flow_driver.dir/flow_driver.c.obj] Error 1
+make[1]: *** [CMakeFiles/Makefile2:6103: esp-idf/flow_driver/CMakeFiles/__idf_flow_driver.dir/all] Error 2
+make: *** [Makefile:136: all] Error 2

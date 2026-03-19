@@ -1,0 +1,334 @@
+[0;32mI (103) esp_image: segment 3: paddr=00020020 vaddr=42000020 sizeESP-ROM:esp32s3-20210327[0m
+Build:Mar 27 2021
+rst:0x15 (USB_UART_CHIP_RESET),boot:0x2b (SPI_FAST_FLASH_BOOT)
+Saved PC:0x4037873e
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fce2810,len:0x15a0
+load:0x403c8700,len:0x4
+load:0x403c8704,len:0xd20
+load:0x403cb700,len:0x2ee4
+entry 0x403c8928
+[0;32mI (26) boot: ESP-IDF v5.4 2nd stage bootloader[0m
+[0;32mI (27) boot: compile time Mar 19 2026 20:08:29[0m
+[0;32mI (27) boot: Multicore bootloader[0m
+[0;32mI (27) boot: chip revision: v0.2[0m
+[0;32mI (30) boot: efuse block revision: v1.3[0m
+[0;32mI (33) boot.esp32s3: Boot SPI Speed : 80MHz[0m
+[0;32mI (37) boot.esp32s3: SPI Mode       : DIO[0m
+[0;32mI (41) boot.esp32s3: SPI Flash Size : 8MB[0m
+[0;32mI (45) boot: Enabling RNG early entropy source...[0m
+[0;32mI (49) boot: Partition Table:[0m
+[0;32mI (52) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (58) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (64) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (71) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (78) boot: End of partition table[0m
+[0;32mI (81) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0d310h ( 54032) map[0m
+[0;32mI (98) esp_image: segment 1: paddr=0001d338 vaddr=3fc93500 size=02a40h ( 10816) load[0m
+[0;32mI (100) esp_image: segment 2: paddr=0001fd80 vaddr=40374000 size=00298h (   664) load[0m
+[0;32mI (103) esp_image: segment 3: paddr=00020020 vaddr=42000020 size=1f31ch (127772) map[0m
+[0;32mI (133) esp_image: segment 4: paddr=0003f344 vaddr=40374298 size=0f210h ( 61968) load[0m
+[0;32mI (147) esp_image: segment 5: paddr=0004e55c vaddr=600fe100 size=0001ch (    28) load[0m
+[0;32mI (154) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (154) boot: Disabling RNG early entropy source...[0m
+[0;32mI (165) cpu_start: Multicore app[0m
+[0;32mI (174) cpu_start: Pro cpu start user code[0m
+[0;32mI (174) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (174) app_init: Application information:[0m
+[0;32mI (175) app_init: Project name:     microros-microdrone[0m
+[0;32mI (179) app_init: App version:      b0222b6-dirty[0m
+[0;32mI (183) app_init: Compile time:     Mar 19 2026 20:40:54[0m
+[0;32mI (188) app_init: ELF file SHA256:  7f8c44741...[0m
+[0;32mI (193) app_init: ESP-IDF:          v5.4[0m
+[0;32mI (196) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (200) efuse_init: Max chip rev:     v0.99 [0m
+[0;32mI (204) efuse_init: Chip rev:         v0.2[0m
+[0;32mI (208) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (214) heap_init: At 3FC96928 len 00052DE8 (331 KiB): RAM[0m
+[0;32mI (219) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
+[0;32mI (225) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
+[0;32mI (230) heap_init: At 600FE11C len 00001ECC (7 KiB): RTCRAM[0m
+[0;32mI (236) spi_flash: detected chip: gd[0m
+[0;32mI (238) spi_flash: flash io: dio[0m
+[0;32mI (242) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (248) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (255) main_task: Started on CPU0[0m
+[0;32mI (258) main_task: Calling app_main()[0m
+[0;32mI (261) main: microros-microdrone starting - Drone ID: 1[0m
+[0;32mI (266) gpio: GPIO[9]| InputEn: 0| OutputEn: 1| OpenDrain: 0| Pullup: 0| Pulldown: 0| Intr:0 [0m
+[0;32mI (275) i2cdev: [Port 0] First initialization. Configuring bus with SDA=5, SCL=6 (Pullups SCL:0 SDA:0)[0m
+[0;33mW (284) i2c.master: Please check pull-up resistances whether be connected properly. Otherwise unexpected behavior would happen. For more detailed information, please read docs[0m
+[0;32mI (299) i2cdev: [Port 0] Successfully installed I2C master bus (Handle: 0x3fc9a654).[0m
+[0;32mI (307) i2cdev: [0x68 at 0] Device added successfully (Device Handle: 0x3fc9ab0c, Speed: 1000000 Hz).[0m
+[0;32mI (318) imu: MPU6050 inizializzato: ±4g, ±500°/s, DLPF 42Hz, 1kHz[0m
+[0;32mI (321) flow: Flow scale factor: 0.02194 (FOV=42° res=35)[0m
+[0;32mI (327) flow: Optical flow UART inizializzata: 19200 baud su TX=D6, RX=D7[0m
+[0;32mI (333) main: Calibrazione IMU in 2 secondi... TIENI FERMO![0m
+[0;32mI (2338) imu: Calibrazione IMU: 500 campioni...[0m
+[0;32mI (3339) imu: Calibrazione OK. Offset accel: [0.009, -0.022, -2.129] g[0m
+[0;32mI (3339) imu: Offset gyro: [1.14, 1.32, 1.65] deg/s[0m
+[0;32mI (3340) main: IMU  Acc:[0.03,-0.03,-3.26]g Gyr:[-0.1,0.1,3.3]dps[0m
+[0;32mI (3345) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:101[0m
+[0;32mI (3451) main: IMU  Acc:[0.03,-0.03,-3.26]g Gyr:[-0.1,0.2,3.3]dps[0m
+[0;32mI (3452) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:83[0m
+[0;32mI (3552) main: IMU  Acc:[0.03,-0.03,-3.26]g Gyr:[-0.2,0.1,3.3]dps[0m
+[0;32mI (3553) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:98[0m
+[0;32mI (3653) main: IMU  Acc:[0.03,-0.03,-3.27]g Gyr:[-0.2,0.2,3.3]dps[0m
+[0;32mI (3654) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:96[0m
+[0;32mI (3755) main: IMU  Acc:[0.03,-0.03,-3.26]g Gyr:[-0.2,0.1,3.2]dps[0m
+[0;32mI (3756) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:86[0m
+[0;32mI (3857) main: IMU  Acc:[0.03,-0.03,-3.26]g Gyr:[-0.1,0.1,3.3]dps[0m
+[0;32mI (3858) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:81[0m
+[0;32mI (3959) main: IMU  Acc:[0.03,-0.03,-3.27]g Gyr:[-0.2,0.2,3.2]dps[0m
+[0;32mI (3960) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:98[0m
+[0;32mI (4061) main: IMU  Acc:[0.03,-0.03,-3.25]g Gyr:[-0.1,0.3,3.4]dps[0m
+[0;32mI (4062) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:110[0m
+[0;32mI (4163) main: IMU  Acc:[0.03,-0.03,-3.26]g Gyr:[-0.2,0.2,3.3]dps[0m
+[0;32mI (4164) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:92[0m
+[0;32mI (4265) main: IMU  Acc:[0.03,-0.03,-3.26]g Gyr:[-0.2,0.1,3.3]dps[0m
+[0;32mI (4266) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,-1] Range:0mm Q:98[0m
+[0;32mI (4367) main: IMU  Acc:[0.03,-0.03,-3.26]g Gyr:[-0.2,0.2,3.3]dps[0m
+[0;32mI (4368) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:90[0m
+[0;32mI (4469) main: IMU  Acc:[0.03,-0.03,-3.26]g Gyr:[-0.2,0.2,3.1]dps[0m
+[0;32mI (4470) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:97[0m
+[0;32mI (4571) main: IMU  Acc:[0.03,-0.03,-3.25]g Gyr:[-0.2,0.1,3.4]dps[0m
+[0;32mI (4572) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:104[0m
+I (4673) main: IMU  Acc:[0.03,-0.03,-3.26]g Gyr:[-0.1,0.2,3.3]dps
+[0;32mI (4674) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:88[0m
+[0;32mI (4775) main: IMU  Acc:[0.03,-0.03,-3.26]g Gyr:[-0.2,0.1,3.3]dps[0m
+[0;32mI (4776) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:103[0m
+[0;32mI (4877) main: IMU  Acc:[0.03,-0.03,-3.26]g Gyr:[-0.2,0.2,3.3]dps[0m
+[0;32mI (4878) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:81[0m
+[0;32mI (4979) main: IMU  Acc:[0.03,-0.03,-3.26]g Gyr:[-0.2,0.1,3.2]dps[0m
+[0;32mI (4980) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:103[0m
+[0;32mI (5081) main: IMU  Acc:[0.04,-0.03,-3.26]g Gyr:[-0.2,0.2,3.3]dps[0m
+[0;32mI (5082) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:92[0m
+[0;32mI (5183) main: IMU  Acc:[0.03,-0.03,-3.26]g Gyr:[-0.2,0.1,3.3]dps[0m
+[0;32mI (5184) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:104[0m
+[0;32mI (5285) main: IMU  Acc:[0.03,-0.03,-3.26]g Gyr:[-0.2,0.1,3.2]dps[0m
+[0;32mI (5286) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:104[0m
+[0;32mI (5387) main: IMU  Acc:[0.03,-0.03,-3.26]g Gyr:[-0.3,0.2,3.2]dps[0m
+[0;32mI (5388) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:103[0m
+[0;32mI (5489) main: IMU  Acc:[0.03,-0.03,-3.25]g Gyr:[-0.2,0.2,3.3]dps[0m
+[0;32mI (5490) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:107[0m
+[0;32mI (5591) main: IMU  Acc:[0.03,-0.03,-3.27]g Gyr:[-0.1,0.2,3.5]dps[0m
+[0;32mI (5592) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:101[0m
+[0;32mI (5693) main: IMU  Acc:[0.03,-0.03,-3.26]g Gyr:[-0.2,0.3,3.4]dps[0m
+[0;32mI (5694) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:80[0m
+[0;32mI (5795) main: IMU  Acc:[0.03,-0.03,-3.25]g Gyr:[-0.1,0.2,3.1]dps[0m
+[0;32mI (5796) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:90[0m
+[0;32mI (5897) main: IMU  Acc:[0.03,-0.03,-3.26]g Gyr:[-0.2,0.2,3.3]dps[0m
+[0;32mI (5898) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:86[0m
+I (5999) main: IMU  Acc:[0.03,-0.03,-3.26]g Gyr:[-0.2,0.2,3.2]dps
+[0;32mI (6000) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:95[0m
+I (6101) main: IMU  Acc:[0.03,-0.03,-3.26]g Gyr:[-0.1,0.2,3.4]dps
+[0;32mI (6102) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:93[0m
+I (6203) main: IMU  Acc:[0.03,-0.03,-3.26]g Gyr:[-0.3,0.2,3.3]dps
+[0;32mI (6204) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:106[0m
+[0;32mI (6305) main: IMU  Acc:[0.03,-0.03,-3.26]g Gyr:[-0.2,0.3,3.4]dps[0m
+[0;32mI (6306) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:98[0m
+I (6407) main: IMU  Acc:[0.03,-0.03,-3.26]g Gyr:[-0.2,0.1,3.2]dps
+[0;32mI (6408) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:101[0m
+[0;32mI (6509) main: IMU  Acc:[0.03,-0.03,-3.26]g Gyr:[-0.2,0.2,3.2]dps[0m
+[0;32mI (6510) main: FLOW Vel:[0.000,-0.000]m/s Raw:[0,1] Range:0mm Q:85[0m
+[0;32mI (6611) main: IMU  Acc:[0.03,-0.03,-3.26]g Gyr:[-0.2,0.1,3.2]dps[0m
+[0;32mI (6612) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:93[0m
+[0;32mI (6713) main: IMU  Acc:[0.03,-0.03,-3.26]g Gyr:[-0.2,0.2,3.3]dps[0m
+[0;32mI (6714) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:109[0m
+[0;32mI (6815) main: IMU  Acc:[0.03,-0.03,-3.26]g Gyr:[-0.2,0.1,3.3]dps[0m
+[0;32mI (6816) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:80[0m
+[0;32mI (6917) main: IMU  Acc:[0.03,-0.03,-3.25]g Gyr:[-0.2,0.2,3.4]dps[0m
+[0;32mI (6918) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:99[0m
+[0;32mI (7019) main: IMU  Acc:[0.03,-0.03,-3.26]g Gyr:[-0.1,0.2,3.3]dps[0m
+[0;32mI (7020) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:99[0m
+[0;32mI (7121) main: IMU  Acc:[0.03,-0.03,-3.26]g Gyr:[-0.2,0.2,3.3]dps[0m
+[0;32mI (7122) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:83[0m
+[0;32mI (7223) main: IMU  Acc:[0.03,-0.03,-3.26]g Gyr:[-0.3,0.2,3.3]dps[0m
+[0;32mI (7224) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:77[0m
+I (7325) main: IMU  Acc:[0.03,-0.03,-3.26]g Gyr:[-0.2,0.1,3.3]dps
+[0;32mI (7326) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:100[0m
+[0;32mI (7427) main: IMU  Acc:[0.03,-0.03,-3.26]g Gyr:[-0.2,0.1,3.4]dps[0m
+[0;32mI (7428) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:86[0m
+I (7529) main: IMU  Acc:[0.03,-0.03,-3.26]g Gyr:[-0.1,0.2,3.2]dps
+[0;32mI (7530) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:86[0m
+[0;32mI (7630) main: IMU  Acc:[0.03,-0.03,-3.26]g Gyr:[-0.2,0.3,3.2]dps[0m
+[0;32mI (7631) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:98[0m
+[0;32mI (7731) main: IMU  Acc:[0.03,-0.03,-3.25]g Gyr:[-0.3,0.2,3.2]dps[0m
+[0;32mI (7732) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:104[0m
+[0;32mI (7833) main: IMU  Acc:[0.03,-0.03,-3.26]g Gyr:[-0.1,0.2,3.4]dps[0m
+[0;32mI (7834) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:103[0m
+[0;32mI (7935) main: IMU  Acc:[0.03,-0.03,-3.26]g Gyr:[-0.3,0.2,3.3]dps[0m
+[0;32mI (7936) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:96[0m
+[0;32mI (8037) main: IMU  Acc:[0.03,-0.03,-3.26]g Gyr:[-0.2,0.1,3.3]dps[0m
+[0;32mI (8038) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:78[0m
+[0;32mI (8139) main: IMU  Acc:[0.03,-0.03,-3.26]g Gyr:[-0.2,0.2,3.3]dps[0m
+[0;32mI (8140) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:99[0m
+[0;32mI (8241) main: IMU  Acc:[0.03,-0.03,-3.26]g Gyr:[-0.2,0.2,3.4]dps[0m
+[0;32mI (8242) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:84[0m
+I (8343) main: IMU  Acc:[0.03,-0.03,-3.26]g Gyr:[-0.2,0.3,3.2]dps
+[0;32mI (8344) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:75[0m
+[0;32mI (8445) main: IMU  Acc:[0.03,-0.03,-3.25]g Gyr:[-0.1,0.2,3.3]dps[0m
+[0;32mI (8446) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:102[0m
+[0;32mI (8547) main: IMU  Acc:[0.03,-0.03,-3.26]g Gyr:[-0.2,0.3,3.1]dps[0m
+[0;32mI (8548) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:105[0m
+[0;32mI (8649) main: IMU  Acc:[0.03,-0.03,-3.26]g Gyr:[-0.1,0.2,3.4]dps[0m
+[0;32mI (8650) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:98[0m
+[0;32mI (8751) main: IMU  Acc:[0.03,-0.03,-3.26]g Gyr:[-0.2,0.2,3.2]dps[0m
+[0;32mI (8752) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:101[0m
+[0;32mI (8853) main: IMU  Acc:[0.03,-0.03,-3.26]g Gyr:[-0.2,0.2,3.3]dps[0m
+[0;32mI (8854) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:88[0m
+[0;32mI (8955) main: IMU  Acc:[0.03,-0.03,-3.25]g Gyr:[-0.2,0.2,3.4]dps[0m
+[0;32mI (8956) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:87[0m
+[0;32mI (9057) main: IMU  Acc:[0.03,-0.03,-3.27]g Gyr:[-0.2,0.2,3.4]dps[0m
+[0;32mI (9058) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:75[0m
+[0;32mI (9159) main: IMU  Acc:[0.03,-0.03,-3.25]g Gyr:[-0.1,0.2,3.3]dps[0m
+[0;32mI (9160) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:96[0m
+[0;32mI (9261) main: IMU  Acc:[0.03,-0.03,-3.26]g Gyr:[-0.3,0.2,3.3]dps[0m
+[0;32mI (9262) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:97[0m
+[0;32mI (9363) main: IMU  Acc:[0.03,-0.03,-3.26]g Gyr:[-0.2,0.3,3.4]dps[0m
+[0;32mI (9364) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:91[0m
+[0;32mI (9465) main: IMU  Acc:[0.03,-0.03,-3.26]g Gyr:[-0.3,0.1,3.3]dps[0m
+[0;32mI (9466) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:103[0m
+[0;32mI (9567) main: IMU  Acc:[0.03,-0.03,-3.27]g Gyr:[-0.2,0.2,3.4]dps[0m
+[0;32mI (9568) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:101[0m
+[0;32mI (9669) main: IMU  Acc:[0.03,-0.03,-3.26]g Gyr:[-0.2,0.2,3.3]dps[0m
+[0;32mI (9670) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:94[0m
+[0;32mI (9771) main: IMU  Acc:[0.05,-0.02,-3.26]g Gyr:[0.5,-3.0,-16.1]dps[0m
+[0;32mI (9772) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:90[0m
+[0;32mI (9873) main: IMU  Acc:[0.05,-0.01,-3.22]g Gyr:[-0.2,-2.0,-48.2]dps[0m
+[0;32mI (9874) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:85[0m
+[0;32mI (9975) main: IMU  Acc:[0.04,-0.03,-3.25]g Gyr:[0.3,-3.5,-90.5]dps[0m
+[0;32mI (9976) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:105[0m
+[0;32mI (10077) main: IMU  Acc:[0.03,-0.03,-3.27]g Gyr:[1.6,-6.6,-112.0]dps[0m
+[0;32mI (10078) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:98[0m
+[0;32mI (10179) main: IMU  Acc:[0.08,-0.02,-3.26]g Gyr:[0.5,-1.4,-127.5]dps[0m
+[0;32mI (10180) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:99[0m
+[0;32mI (10281) main: IMU  Acc:[0.06,-0.10,-3.27]g Gyr:[3.1,-9.7,-160.1]dps[0m
+[0;32mI (10282) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:82[0m
+[0;32mI (10383) main: IMU  Acc:[0.04,-0.06,-3.25]g Gyr:[2.7,-3.5,-135.9]dps[0m
+[0;32mI (10384) main: FLOW Vel:[0.000,0.000]m/s Raw:[-3,0] Range:0mm Q:105[0m
+[0;32mI (10485) main: IMU  Acc:[0.03,-0.03,-3.27]g Gyr:[2.6,-5.3,-109.6]dps[0m
+[0;32mI (10486) main: FLOW Vel:[0.000,-0.000]m/s Raw:[-7,1] Range:0mm Q:92[0m
+[0;32mI (10587) main: IMU  Acc:[0.00,-0.06,-3.29]g Gyr:[2.6,-4.9,-67.7]dps[0m
+[0;32mI (10588) main: FLOW Vel:[0.000,0.000]m/s Raw:[-9,0] Range:0mm Q:105[0m
+[0;32mI (10689) main: IMU  Acc:[0.03,-0.00,-3.23]g Gyr:[-0.1,0.1,-37.6]dps[0m
+[0;32mI (10690) main: FLOW Vel:[0.000,0.000]m/s Raw:[-12,-1] Range:0mm Q:96[0m
+[0;32mI (10791) main: IMU  Acc:[0.06,0.01,-3.22]g Gyr:[-0.8,-2.0,-16.7]dps[0m
+[0;32mI (10792) main: FLOW Vel:[0.000,0.000]m/s Raw:[-4,-2] Range:0mm Q:90[0m
+[0;32mI (10893) main: IMU  Acc:[0.03,-0.02,-3.25]g Gyr:[-0.3,-1.8,3.4]dps[0m
+[0;32mI (10894) main: FLOW Vel:[-0.000,0.000]m/s Raw:[2,0] Range:0mm Q:87[0m
+[0;32mI (10995) main: IMU  Acc:[0.03,-0.03,-3.26]g Gyr:[-0.1,-0.1,3.2]dps[0m
+[0;32mI (10996) main: FLOW Vel:[0.000,0.000]m/s Raw:[-2,0] Range:0mm Q:93[0m
+[0;32mI (11097) main: IMU  Acc:[0.04,-0.03,-3.26]g Gyr:[-0.2,0.3,3.3]dps[0m
+[0;32mI (11098) main: FLOW Vel:[0.000,-0.000]m/s Raw:[-3,1] Range:0mm Q:91[0m
+I (11199) main: IMU  Acc:[0.04,-0.03,-3.26]g Gyr:[-0.2,0.2,3.3]dps
+[0;32mI (11200) main: FLOW Vel:[0.000,0.000]m/s Raw:[-3,0] Range:0mm Q:88[0m
+[0;32mI (11301) main: IMU  Acc:[0.04,-0.03,-3.26]g Gyr:[-0.2,0.1,3.3]dps[0m
+[0;32mI (11302) main: FLOW Vel:[0.000,0.000]m/s Raw:[-4,0] Range:0mm Q:101[0m
+I (11403) main: IMU  Acc:[0.08,-0.01,-3.25]g Gyr:[-0.7,3.0,3.8]dps
+[0;32mI (11404) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:93[0m
+[0;32mI (11505) main: IMU  Acc:[0.04,-0.03,-3.26]g Gyr:[-0.3,0.9,3.3]dps[0m
+[0;32mI (11506) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:103[0m
+[0;32mI (11607) main: IMU  Acc:[0.04,-0.03,-3.25]g Gyr:[-0.2,0.6,3.2]dps[0m
+[0;32mI (11608) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:97[0m
+[0;32mI (11709) main: IMU  Acc:[0.05,-0.03,-3.26]g Gyr:[-0.2,0.2,3.2]dps[0m
+[0;32mI (11710) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:87[0m
+[0;32mI (11811) main: IMU  Acc:[0.02,-0.02,-3.25]g Gyr:[-0.7,1.0,3.0]dps[0m
+[0;32mI (11812) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,-1] Range:0mm Q:86[0m
+[0;32mI (11913) main: IMU  Acc:[0.05,-0.03,-3.26]g Gyr:[-0.2,-0.0,3.6]dps[0m
+[0;32mI (11914) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:102[0m
+[0;32mI (12015) main: IMU  Acc:[0.04,-0.02,-3.26]g Gyr:[-0.1,-0.5,3.4]dps[0m
+[0;32mI (12016) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,-1] Range:0mm Q:91[0m
+[0;32mI (12117) main: IMU  Acc:[0.04,-0.03,-3.26]g Gyr:[-0.3,0.4,3.3]dps[0m
+[0;32mI (12118) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,-1] Range:0mm Q:89[0m
+[0;32mI (12219) main: IMU  Acc:[0.02,-0.05,-3.25]g Gyr:[-0.1,0.8,5.7]dps[0m
+[0;32mI (12220) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:110[0m
+[0;32mI (12321) main: IMU  Acc:[0.04,-0.05,-3.26]g Gyr:[-0.4,0.9,2.8]dps[0m
+[0;32mI (12322) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:106[0m
+[0;32mI (12423) main: IMU  Acc:[0.04,-0.03,-3.26]g Gyr:[-0.0,-0.7,3.3]dps[0m
+[0;32mI (12424) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:110[0m
+[0;32mI (12525) main: IMU  Acc:[0.05,-0.02,-3.26]g Gyr:[-0.6,0.9,3.3]dps[0m
+[0;32mI (12526) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:108[0m
+[0;32mI (12627) main: IMU  Acc:[0.05,-0.03,-3.27]g Gyr:[-0.2,-0.1,1.7]dps[0m
+[0;32mI (12628) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:89[0m
+[0;32mI (12729) main: IMU  Acc:[0.05,-0.03,-3.26]g Gyr:[-0.1,0.6,3.3]dps[0m
+[0;32mI (12730) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:103[0m
+[0;32mI (12831) main: IMU  Acc:[0.04,-0.03,-3.26]g Gyr:[-0.0,-0.6,3.3]dps[0m
+[0;32mI (12832) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:102[0m
+[0;32mI (12933) main: IMU  Acc:[0.05,-0.03,-3.26]g Gyr:[-0.5,0.6,3.3]dps[0m
+[0;32mI (12934) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:96[0m
+[0;32mI (13035) main: IMU  Acc:[0.05,-0.03,-3.26]g Gyr:[-0.4,0.5,3.2]dps[0m
+[0;32mI (13036) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:103[0m
+[0;32mI (13137) main: IMU  Acc:[0.05,-0.03,-3.26]g Gyr:[-0.3,0.4,3.4]dps[0m
+[0;32mI (13138) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:100[0m
+[0;32mI (13239) main: IMU  Acc:[0.05,-0.03,-3.26]g Gyr:[-0.3,-0.1,3.4]dps[0m
+[0;32mI (13240) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:81[0m
+[0;32mI (13341) main: IMU  Acc:[0.04,-0.02,-3.26]g Gyr:[-0.3,0.1,3.2]dps[0m
+[0;32mI (13342) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:103[0m
+[0;32mI (13443) main: IMU  Acc:[0.04,-0.03,-3.26]g Gyr:[-0.2,0.1,3.4]dps[0m
+[0;32mI (13444) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:102[0m
+[0;32mI (13545) main: IMU  Acc:[0.05,-0.03,-3.26]g Gyr:[-0.3,0.0,3.3]dps[0m
+[0;32mI (13546) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:99[0m
+[0;32mI (13647) main: IMU  Acc:[0.04,-0.03,-3.26]g Gyr:[-0.2,0.4,3.3]dps[0m
+[0;32mI (13648) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:89[0m
+[0;32mI (13749) main: IMU  Acc:[0.04,-0.03,-3.26]g Gyr:[-0.1,-0.1,3.4]dps[0m
+[0;32mI (13750) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:103[0m
+[0;32mI (13851) main: IMU  Acc:[0.04,-0.03,-3.26]g Gyr:[-0.0,-0.5,3.4]dps[0m
+[0;32mI (13852) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:108[0m
+[0;32mI (13953) main: IMU  Acc:[0.04,-0.05,-3.27]g Gyr:[0.7,-2.3,3.7]dps[0m
+[0;32mI (13954) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:98[0m
+[0;32mI (14055) main: IMU  Acc:[0.05,-0.02,-3.26]g Gyr:[-0.2,0.5,3.4]dps[0m
+[0;32mI (14056) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:101[0m
+[0;32mI (14157) main: IMU  Acc:[0.04,-0.02,-3.26]g Gyr:[-0.2,-0.0,3.4]dps[0m
+[0;32mI (14158) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:88[0m
+[0;32mI (14259) main: IMU  Acc:[0.04,-0.03,-3.26]g Gyr:[-0.1,0.1,3.3]dps[0m
+[0;32mI (14260) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:104[0m
+[0;32mI (14361) main: IMU  Acc:[0.04,-0.03,-3.26]g Gyr:[-0.1,0.1,3.3]dps[0m
+[0;32mI (14362) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:93[0m
+[0;32mI (14463) main: IMU  Acc:[0.04,-0.03,-3.26]g Gyr:[-0.3,0.1,3.2]dps[0m
+[0;32mI (14464) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:86[0m
+I (14565) main: IMU  Acc:[0.04,-0.03,-3.26]g Gyr:[-0.2,0.2,3.3]dps
+[0;32mI (14566) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:107[0m
+[0;32mI (14667) main: IMU  Acc:[0.04,-0.03,-3.25]g Gyr:[-0.2,0.2,3.2]dps[0m
+[0;32mI (14668) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:103[0m
+[0;32mI (14769) main: IMU  Acc:[0.05,-0.03,-3.26]g Gyr:[-0.2,0.2,3.4]dps[0m
+[0;32mI (14770) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:98[0m
+[0;32mI (14871) main: IMU  Acc:[0.07,-0.00,-3.26]g Gyr:[-0.3,-4.1,3.0]dps[0m
+[0;32mI (14872) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:91[0m
+[0;32mI (14973) main: IMU  Acc:[0.07,0.01,-3.27]g Gyr:[-0.2,2.4,3.3]dps[0m
+[0;32mI (14974) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:107[0m
+I (15075) main: IMU  Acc:[0.05,0.00,-3.27]g Gyr:[1.0,-1.7,3.2]dps
+[0;32mI (15076) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:110[0m
+[0;32mI (15177) main: IMU  Acc:[0.07,0.00,-3.29]g Gyr:[-0.1,8.6,3.3]dps[0m
+[0;32mI (15178) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,-1] Range:0mm Q:92[0m
+I (15279) main: IMU  Acc:[0.05,-0.00,-3.27]g Gyr:[-0.1,0.9,3.3]dps
+[0;32mI (15280) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:104[0m
+[0;32mI (15381) main: IMU  Acc:[0.03,0.01,-3.24]g Gyr:[-0.5,0.2,3.1]dps[0m
+[0;32mI (15382) main: FLOW Vel:[-0.000,0.000]m/s Raw:[1,0] Range:0mm Q:99[0m
+[0;32mI (15483) main: IMU  Acc:[0.04,-0.01,-3.25]g Gyr:[-0.1,0.1,3.3]dps[0m
+[0;32mI (15484) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:101[0m
+I (15585) main: IMU  Acc:[0.04,-0.01,-3.26]g Gyr:[-0.0,0.3,3.2]dps
+[0;32mI (15586) main: FLOW Vel:[0.000,0.000]m/s Raw:[-1,0] Range:0mm Q:105[0m
+[0;32mI (15687) main: IMU  Acc:[0.04,-0.01,-3.26]g Gyr:[-0.2,0.3,3.3]dps[0m
+[0;32mI (15688) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:85[0m
+[0;32mI (15789) main: IMU  Acc:[0.04,-0.01,-3.26]g Gyr:[-0.1,0.3,3.4]dps[0m
+[0;32mI (15790) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:84[0m
+[0;32mI (15891) main: IMU  Acc:[0.05,-0.01,-3.26]g Gyr:[-0.1,0.2,3.2]dps[0m
+[0;32mI (15892) main: FLOW Vel:[0.000,0.000]m/s Raw:[-1,0] Range:0mm Q:114[0m
+I (15993) main: IMU  Acc:[0.04,-0.01,-3.25]g Gyr:[-0.1,0.2,3.3]dps
+[0;32mI (15994) main: FLOW Vel:[-0.000,0.000]m/s Raw:[1,0] Range:0mm Q:104[0m
+[0;32mI (16095) main: IMU  Acc:[0.03,-0.01,-3.24]g Gyr:[-0.5,0.5,3.3]dps[0m
+[0;32mI (16096) main: FLOW Vel:[0.000,0.000]m/s Raw:[-1,0] Range:0mm Q:95[0m
+[0;32mI (16197) main: IMU  Acc:[0.04,-0.02,-3.26]g Gyr:[-0.1,0.4,3.4]dps[0m
+[0;32mI (16198) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:100[0m
+[0;32mI (16299) main: IMU  Acc:[0.05,-0.01,-3.26]g Gyr:[-0.3,0.1,3.4]dps[0m
+[0;32mI (16300) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:95[0m
+I (16401) main: IMU  Acc:[0.04,-0.01,-3.26]g Gyr:[-0.2,0.1,3.4]dps
+[0;32mI (16402) main: FLOW Vel:[0.000,0.000]m/s Raw:[-1,0] Range:0mm Q:93[0m
+[0;32mI (16503) main: IMU  Acc:[0.04,-0.01,-3.26]g Gyr:[-0.1,0.2,3.3]dps[0m
+[0;32mI (16504) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:106[0m
+[0;32mI (16605) main: IMU  Acc:[0.04,-0.01,-3.25]g Gyr:[-0.2,0.2,3.3]dps[0m
+[0;32mI (16606) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,0] Range:0mm Q:110[0m
+[0;32mI (16707) main: IMU  Acc:[0.04,-0.01,-3.26]g Gyr:[-0.1,0.3,3.3]dps[0m
+[0;32mI (16708) main: FLOW Vel:[0.000,0.000]m/s Raw:[0,-1] Range:0mm Q:91[0m

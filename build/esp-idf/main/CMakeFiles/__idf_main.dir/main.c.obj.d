@@ -106,4 +106,17 @@ esp-idf/main/CMakeFiles/__idf_main.dir/main.c.obj: \
  /home/angelo/esp/esp-idf/components/log/include/esp_log_color.h \
  /home/angelo/esp/esp-idf/components/log/include/esp_log_buffer.h \
  /home/angelo/esp/esp-idf/components/log/include/esp_log_timestamp.h \
- /home/angelo/microros-microdrone/components/common/include/drone_config.h
+ /home/angelo/esp/esp-idf/components/esp_driver_gpio/include/driver/gpio.h \
+ /home/angelo/esp/esp-idf/components/hal/include/hal/gpio_types.h \
+ /home/angelo/esp/esp-idf/components/soc/esp32s3/include/soc/gpio_num.h \
+ /home/angelo/esp/esp-idf/components/esp_rom/include/esp_rom_gpio.h \
+ /home/angelo/esp/esp-idf/components/soc/esp32s3/include/soc/gpio_pins.h \
+ /home/angelo/esp/esp-idf/components/esp_driver_gpio/include/driver/gpio_etm.h \
+ /home/angelo/esp/esp-idf/components/esp_hw_support/include/esp_etm.h \
+ /home/angelo/microros-microdrone/components/common/include/drone_config.h \
+ /home/angelo/esp/esp-idf/components/esp_driver_uart/include/driver/uart.h \
+ /home/angelo/esp/esp-idf/components/hal/include/hal/uart_types.h \
+ /home/angelo/esp/esp-idf/components/soc/esp32s3/include/soc/clk_tree_defs.h \
+ /home/angelo/microros-microdrone/components/common/include/drone_types.h \
+ /home/angelo/microros-microdrone/components/imu_driver/include/imu_driver.h \
+ /home/angelo/microros-microdrone/components/flow_driver/include/flow_driver.h
