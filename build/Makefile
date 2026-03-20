@@ -1969,6 +1969,19 @@ __idf_flow_driver/fast:
 .PHONY : __idf_flow_driver/fast
 
 #=============================================================================
+# Target rules for targets named __idf_motor_driver
+
+# Build rule for target.
+__idf_motor_driver: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 __idf_motor_driver
+.PHONY : __idf_motor_driver
+
+# fast build rule for target.
+__idf_motor_driver/fast:
+	$(MAKE) $(MAKESILENT) -f esp-idf/motor_driver/CMakeFiles/__idf_motor_driver.dir/build.make esp-idf/motor_driver/CMakeFiles/__idf_motor_driver.dir/build
+.PHONY : __idf_motor_driver/fast
+
+#=============================================================================
 # Target rules for targets named __idf_main
 
 # Build rule for target.
@@ -1993,19 +2006,6 @@ __idf_battery_monitor: cmake_check_build_system
 __idf_battery_monitor/fast:
 	$(MAKE) $(MAKESILENT) -f esp-idf/battery_monitor/CMakeFiles/__idf_battery_monitor.dir/build.make esp-idf/battery_monitor/CMakeFiles/__idf_battery_monitor.dir/build
 .PHONY : __idf_battery_monitor/fast
-
-#=============================================================================
-# Target rules for targets named __idf_motor_driver
-
-# Build rule for target.
-__idf_motor_driver: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 __idf_motor_driver
-.PHONY : __idf_motor_driver
-
-# fast build rule for target.
-__idf_motor_driver/fast:
-	$(MAKE) $(MAKESILENT) -f esp-idf/motor_driver/CMakeFiles/__idf_motor_driver.dir/build.make esp-idf/motor_driver/CMakeFiles/__idf_motor_driver.dir/build
-.PHONY : __idf_motor_driver/fast
 
 #=============================================================================
 # Target rules for targets named __idf_pid_controller

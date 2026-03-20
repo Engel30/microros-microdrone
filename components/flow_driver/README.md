@@ -2,14 +2,17 @@
 
 Driver per sensore optical flow PMW3901 (clone P3901) + ToF VL53L1X via UART (protocollo CXOF).
 
-## Stato: implementato (Fase 0A) — scala da calibrare
+## Stato: implementato e calibrato (Fase 0A)
 
-ToF (range_mm) verificato OK. Conversione pixel→velocità implementata con costante ArduPilot CXOF (`FLOW_SCALE_RAD = 1.76e-3 rad/count`). Da validare con test di spostamento noto (10cm). Se impreciso, aggiustare `FLOW_SCALE_RAD` in `drone_config.h`.
+- ToF (range_mm) verificato OK (testato fino a 72cm, rileva ostacoli)
+- `FLOW_SCALE_RAD = 1.294e-2 rad/count` — calibrato con test di spostamento 10cm su libro a 10-11cm altezza. Errore medio ~8% (range 86-104%). Il valore è 7.35x quello ArduPilot originale perché il clone P3901 ha scaler interno diverso dal PMW3901 genuino
+- Raw counts accumulati tra letture (`acc_raw_x/y`) per evitare perdita di frame intermedi quando più frame CXOF arrivano tra due chiamate a `flow_read()`
+- Gyro compensation non implementata nel driver (è responsabilità di sensor_fusion o del chiamante)
 
 ## API
 
 - `flow_init()` — Configura UART1 a 19200 baud su D6(TX)/D7(RX), buffer RX 256 byte
-- `flow_read(flow_data_t *data)` — Non-bloccante. Parsa frame CXOF, converte in velocità (m/s) e posizione integrata (m) nel body frame (X=avanti, Y=destra). Ritorna `ESP_OK` se un frame valido è pronto, `ESP_ERR_NOT_FOUND` altrimenti
+- `flow_read(flow_data_t *data)` — Non-bloccante. Parsa frame CXOF, converte in velocità (m/s) e posizione integrata (m) nel body frame (X=avanti, Y=destra). Ritorna `ESP_OK` se un frame valido è pronto, `ESP_ERR_NOT_FOUND` altrimenti. Resetta i contatori raw accumulati dopo la lettura
 
 ## Output (flow_data_t)
 
@@ -17,7 +20,7 @@ ToF (range_mm) verificato OK. Conversione pixel→velocità implementata con cos
 |-------|------|-------|-------------|
 | vel_x, vel_y | float | m/s | Velocità nel body frame |
 | pos_x, pos_y | float | m | Posizione integrata (debug, drifta nel tempo) |
-| raw_x, raw_y | int16 | count | Pixel delta raw dal sensore |
+| raw_x, raw_y | int16 | count | Pixel delta accumulati dal sensore (tra due letture) |
 | range_mm | uint16 | mm | Distanza ToF |
 | quality | uint8 | — | Qualità segnale superficie |
 
@@ -28,7 +31,15 @@ spostamento [m] = count * FLOW_SCALE_RAD * altitude [m]
 velocità [m/s]  = spostamento / dt
 ```
 
-Il PMW3901 ha uno scaler interno (~8-10x): 1 count != 1 pixel fisico. Il fattore `FLOW_SCALE_RAD` (rad/count) è un valore empirico. Fonte: ArduPilot `AP_OpticalFlow_CXOF.cpp`.
+A 70cm altezza, 1 count ≈ 0.9cm di spostamento. Pochi counts di rumore hanno impatto significativo → la gyro compensation nel consumatore è essenziale.
+
+## Note calibrazione
+
+- Testato su: libro (testo), foglio a quadretti, parquet
+- Il clone P3901 produce pochi raw counts per frame (tipicamente 1-8) rispetto al PMW3901 genuino
+- A 10-11cm: tracking affidabile, ~40-70 counts totali per 10cm di spostamento
+- A 70cm: tracking funziona ma ogni count pesa molto, necessaria compensazione gyro precisa
+- Quality tipica: 100-160 (sufficiente per tracking)
 
 ## Protocollo CXOF
 

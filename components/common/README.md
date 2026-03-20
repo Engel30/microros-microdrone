@@ -8,7 +8,7 @@ Tipi e configurazioni condivisi da tutti i componenti del progetto.
   - Pin GPIO (motori, I2C, UART, ADC, buzzer, LED)
   - Body frame: macro di correzione assi IMU e Flow (X=avanti, Y=destra, Z=giù, convenzione NED)
   - Parametri IMU: indirizzo I2C, sample rate, deadzone gyro
-  - Parametri Flow: `FLOW_SCALE_RAD` (rad/count, calibrato empiricamente da ArduPilot CXOF)
+  - Parametri Flow: `FLOW_SCALE_RAD` (rad/count, calibrato empiricamente su clone P3901: 1.294e-2, 7.35x ArduPilot)
   - Soglie batteria, frequenze task, priorità FreeRTOS, profondità code
 
 - **`drone_types.h`** — Struct condivise per comunicazione inter-task via FreeRTOS queues:

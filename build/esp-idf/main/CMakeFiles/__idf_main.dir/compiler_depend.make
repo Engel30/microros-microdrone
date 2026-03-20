@@ -32,6 +32,10 @@ esp-idf/main/CMakeFiles/__idf_main.dir/main.c.obj: ../main/main.c \
   /home/angelo/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/xtensa-esp-elf/include/sys/_stdint.h \
   /home/angelo/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/xtensa-esp-elf/include/assert.h \
   /home/angelo/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/xtensa-esp-elf/include/sys/stdio.h \
+  /home/angelo/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/xtensa-esp-elf/include/string.h \
+  /home/angelo/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/xtensa-esp-elf/include/strings.h \
+  /home/angelo/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/xtensa-esp-elf/include/sys/string.h \
+  /home/angelo/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/xtensa-esp-elf/include/math.h \
   /home/angelo/esp/esp-idf/components/freertos/FreeRTOS-Kernel/include/freertos/FreeRTOS.h \
   /home/angelo/esp/esp-idf/components/freertos/config/include/freertos/FreeRTOSConfig.h \
   /home/angelo/esp/esp-idf/components/freertos/config/xtensa/include/freertos/FreeRTOSConfig_arch.h \
@@ -115,20 +119,26 @@ esp-idf/main/CMakeFiles/__idf_main.dir/main.c.obj: ../main/main.c \
   /home/angelo/esp/esp-idf/components/soc/esp32s3/include/soc/gpio_pins.h \
   /home/angelo/esp/esp-idf/components/esp_driver_gpio/include/driver/gpio_etm.h \
   /home/angelo/esp/esp-idf/components/esp_hw_support/include/esp_etm.h \
+  /home/angelo/esp/esp-idf/components/esp_driver_usb_serial_jtag/include/driver/usb_serial_jtag.h \
   ../components/common/include/drone_config.h \
   /home/angelo/esp/esp-idf/components/esp_driver_uart/include/driver/uart.h \
   /home/angelo/esp/esp-idf/components/hal/include/hal/uart_types.h \
   /home/angelo/esp/esp-idf/components/soc/esp32s3/include/soc/clk_tree_defs.h \
   ../components/common/include/drone_types.h \
   ../components/imu_driver/include/imu_driver.h \
-  ../components/flow_driver/include/flow_driver.h
+  ../components/flow_driver/include/flow_driver.h \
+  ../components/motor_driver/include/motor_driver.h
 
+
+../components/motor_driver/include/motor_driver.h:
 
 ../components/common/include/drone_types.h:
 
 /home/angelo/esp/esp-idf/components/esp_driver_uart/include/driver/uart.h:
 
 /home/angelo/esp/esp-idf/components/esp_hw_support/include/esp_etm.h:
+
+/home/angelo/esp/esp-idf/components/esp_driver_usb_serial_jtag/include/driver/usb_serial_jtag.h:
 
 /home/angelo/esp/esp-idf/components/esp_driver_gpio/include/driver/gpio.h:
 
@@ -139,8 +149,6 @@ esp-idf/main/CMakeFiles/__idf_main.dir/main.c.obj: ../main/main.c \
 /home/angelo/esp/esp-idf/components/log/include/esp_log_level.h:
 
 /home/angelo/esp/esp-idf/components/freertos/FreeRTOS-Kernel/include/freertos/timers.h:
-
-/home/angelo/esp/esp-idf/components/freertos/FreeRTOS-Kernel/include/freertos/stream_buffer.h:
 
 /home/angelo/esp/esp-idf/components/freertos/FreeRTOS-Kernel/include/freertos/semphr.h:
 
@@ -198,17 +206,31 @@ esp-idf/main/CMakeFiles/__idf_main.dir/main.c.obj: ../main/main.c \
 
 /home/angelo/esp/esp-idf/components/xtensa/esp32s3/include/xtensa/config/extreg.h:
 
+/home/angelo/esp/esp-idf/components/xtensa/include/xtensa_api.h:
+
+/home/angelo/esp/esp-idf/components/soc/esp32s3/include/soc/mpu_caps.h:
+
+/home/angelo/esp/esp-idf/components/freertos/FreeRTOS-Kernel/include/freertos/queue.h:
+
+/home/angelo/esp/esp-idf/components/soc/esp32s3/include/soc/soc_caps.h:
+
 /home/angelo/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/lib/gcc/xtensa-esp-elf/14.2.0/include/stdint.h:
 
 /home/angelo/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/xtensa-esp-elf/include/sys/_intsup.h:
+
+../components/imu_driver/include/imu_driver.h:
+
+/home/angelo/esp/esp-idf/components/xtensa/include/xt_utils.h:
+
+/home/angelo/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/xtensa-esp-elf/include/sys/_locale.h:
 
 /home/angelo/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/lib/gcc/xtensa-esp-elf/14.2.0/include/stddef.h:
 
 /home/angelo/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/xtensa-esp-elf/include/stdint.h:
 
-config/sdkconfig.h:
+/home/angelo/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/xtensa-esp-elf/include/strings.h:
 
-/home/angelo/esp/esp-idf/components/esp_hw_support/include/spinlock.h:
+config/sdkconfig.h:
 
 /home/angelo/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/xtensa-esp-elf/include/machine/stdlib.h:
 
@@ -280,9 +302,19 @@ config/sdkconfig.h:
 
 /home/angelo/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/xtensa-esp-elf/include/sys/stdio.h:
 
-/home/angelo/esp/esp-idf/components/freertos/config/include/freertos/FreeRTOSConfig.h:
+/home/angelo/esp/esp-idf/components/esp_hw_support/include/spinlock.h:
 
-/home/angelo/esp/esp-idf/components/xtensa/include/xtensa_api.h:
+/home/angelo/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/xtensa-esp-elf/include/string.h:
+
+/home/angelo/esp/esp-idf/components/freertos/FreeRTOS-Kernel/include/freertos/stream_buffer.h:
+
+/home/angelo/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/xtensa-esp-elf/include/sys/string.h:
+
+/home/angelo/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/xtensa-esp-elf/include/math.h:
+
+/home/angelo/esp/esp-idf/components/xtensa/include/xtensa/xtruntime.h:
+
+/home/angelo/esp/esp-idf/components/freertos/config/include/freertos/FreeRTOSConfig.h:
 
 /home/angelo/esp/esp-idf/components/freertos/config/xtensa/include/freertos/FreeRTOSConfig_arch.h:
 
@@ -324,15 +356,9 @@ config/sdkconfig.h:
 
 /home/angelo/esp/esp-idf/components/freertos/FreeRTOS-Kernel/include/freertos/deprecated_definitions.h:
 
-/home/angelo/esp/esp-idf/components/freertos/FreeRTOS-Kernel/include/freertos/queue.h:
-
-/home/angelo/esp/esp-idf/components/soc/esp32s3/include/soc/soc_caps.h:
-
 /home/angelo/esp/esp-idf/components/esp_hw_support/include/esp_intr_alloc.h:
 
 /home/angelo/esp/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/include/freertos/portmacro.h:
-
-/home/angelo/esp/esp-idf/components/xtensa/include/xtensa/xtruntime.h:
 
 /home/angelo/esp/esp-idf/components/xtensa/esp32s3/include/xtensa/config/specreg.h:
 
@@ -345,11 +371,3 @@ config/sdkconfig.h:
 /home/angelo/esp/esp-idf/components/newlib/platform_include/sys/reent.h:
 
 /home/angelo/esp/esp-idf/components/esp_hw_support/include/esp_cpu.h:
-
-/home/angelo/esp/esp-idf/components/soc/esp32s3/include/soc/mpu_caps.h:
-
-../components/imu_driver/include/imu_driver.h:
-
-/home/angelo/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/xtensa-esp-elf/include/sys/_locale.h:
-
-/home/angelo/esp/esp-idf/components/xtensa/include/xt_utils.h:

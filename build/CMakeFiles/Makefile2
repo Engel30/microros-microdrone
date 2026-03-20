@@ -212,9 +212,9 @@ esp-idf/all: esp-idf/esp-idf-lib__i2cdev/all
 esp-idf/all: esp-idf/esp-idf-lib__mpu6050/all
 esp-idf/all: esp-idf/imu_driver/all
 esp-idf/all: esp-idf/flow_driver/all
+esp-idf/all: esp-idf/motor_driver/all
 esp-idf/all: esp-idf/main/all
 esp-idf/all: esp-idf/battery_monitor/all
-esp-idf/all: esp-idf/motor_driver/all
 esp-idf/all: esp-idf/pid_controller/all
 esp-idf/all: esp-idf/sensor_fusion/all
 esp-idf/all: esp-idf/uros_interface/all
@@ -330,9 +330,9 @@ esp-idf/preinstall: esp-idf/esp-idf-lib__i2cdev/preinstall
 esp-idf/preinstall: esp-idf/esp-idf-lib__mpu6050/preinstall
 esp-idf/preinstall: esp-idf/imu_driver/preinstall
 esp-idf/preinstall: esp-idf/flow_driver/preinstall
+esp-idf/preinstall: esp-idf/motor_driver/preinstall
 esp-idf/preinstall: esp-idf/main/preinstall
 esp-idf/preinstall: esp-idf/battery_monitor/preinstall
-esp-idf/preinstall: esp-idf/motor_driver/preinstall
 esp-idf/preinstall: esp-idf/pid_controller/preinstall
 esp-idf/preinstall: esp-idf/sensor_fusion/preinstall
 esp-idf/preinstall: esp-idf/uros_interface/preinstall
@@ -448,9 +448,9 @@ esp-idf/clean: esp-idf/esp-idf-lib__i2cdev/clean
 esp-idf/clean: esp-idf/esp-idf-lib__mpu6050/clean
 esp-idf/clean: esp-idf/imu_driver/clean
 esp-idf/clean: esp-idf/flow_driver/clean
+esp-idf/clean: esp-idf/motor_driver/clean
 esp-idf/clean: esp-idf/main/clean
 esp-idf/clean: esp-idf/battery_monitor/clean
-esp-idf/clean: esp-idf/motor_driver/clean
 esp-idf/clean: esp-idf/pid_controller/clean
 esp-idf/clean: esp-idf/sensor_fusion/clean
 esp-idf/clean: esp-idf/uros_interface/clean
@@ -2764,9 +2764,9 @@ CMakeFiles/microros-microdrone.elf.dir/all: esp-idf/esp-idf-lib__i2cdev/CMakeFil
 CMakeFiles/microros-microdrone.elf.dir/all: esp-idf/esp-idf-lib__mpu6050/CMakeFiles/__idf_esp-idf-lib__mpu6050.dir/all
 CMakeFiles/microros-microdrone.elf.dir/all: esp-idf/imu_driver/CMakeFiles/__idf_imu_driver.dir/all
 CMakeFiles/microros-microdrone.elf.dir/all: esp-idf/flow_driver/CMakeFiles/__idf_flow_driver.dir/all
+CMakeFiles/microros-microdrone.elf.dir/all: esp-idf/motor_driver/CMakeFiles/__idf_motor_driver.dir/all
 CMakeFiles/microros-microdrone.elf.dir/all: esp-idf/main/CMakeFiles/__idf_main.dir/all
 CMakeFiles/microros-microdrone.elf.dir/all: esp-idf/battery_monitor/CMakeFiles/__idf_battery_monitor.dir/all
-CMakeFiles/microros-microdrone.elf.dir/all: esp-idf/motor_driver/CMakeFiles/__idf_motor_driver.dir/all
 CMakeFiles/microros-microdrone.elf.dir/all: esp-idf/pid_controller/CMakeFiles/__idf_pid_controller.dir/all
 CMakeFiles/microros-microdrone.elf.dir/all: esp-idf/sensor_fusion/CMakeFiles/__idf_sensor_fusion.dir/all
 CMakeFiles/microros-microdrone.elf.dir/all: esp-idf/uros_interface/CMakeFiles/__idf_uros_interface.dir/all
@@ -4100,9 +4100,9 @@ esp-idf/esp_system/CMakeFiles/__ldgen_output_sections.ld.dir/all: esp-idf/esp-id
 esp-idf/esp_system/CMakeFiles/__ldgen_output_sections.ld.dir/all: esp-idf/esp-idf-lib__mpu6050/CMakeFiles/__idf_esp-idf-lib__mpu6050.dir/all
 esp-idf/esp_system/CMakeFiles/__ldgen_output_sections.ld.dir/all: esp-idf/imu_driver/CMakeFiles/__idf_imu_driver.dir/all
 esp-idf/esp_system/CMakeFiles/__ldgen_output_sections.ld.dir/all: esp-idf/flow_driver/CMakeFiles/__idf_flow_driver.dir/all
+esp-idf/esp_system/CMakeFiles/__ldgen_output_sections.ld.dir/all: esp-idf/motor_driver/CMakeFiles/__idf_motor_driver.dir/all
 esp-idf/esp_system/CMakeFiles/__ldgen_output_sections.ld.dir/all: esp-idf/main/CMakeFiles/__idf_main.dir/all
 esp-idf/esp_system/CMakeFiles/__ldgen_output_sections.ld.dir/all: esp-idf/battery_monitor/CMakeFiles/__idf_battery_monitor.dir/all
-esp-idf/esp_system/CMakeFiles/__ldgen_output_sections.ld.dir/all: esp-idf/motor_driver/CMakeFiles/__idf_motor_driver.dir/all
 esp-idf/esp_system/CMakeFiles/__ldgen_output_sections.ld.dir/all: esp-idf/pid_controller/CMakeFiles/__idf_pid_controller.dir/all
 esp-idf/esp_system/CMakeFiles/__ldgen_output_sections.ld.dir/all: esp-idf/sensor_fusion/CMakeFiles/__idf_sensor_fusion.dir/all
 esp-idf/esp_system/CMakeFiles/__ldgen_output_sections.ld.dir/all: esp-idf/uros_interface/CMakeFiles/__idf_uros_interface.dir/all
@@ -6121,6 +6121,32 @@ esp-idf/flow_driver/CMakeFiles/__idf_flow_driver.dir/clean:
 .PHONY : esp-idf/flow_driver/CMakeFiles/__idf_flow_driver.dir/clean
 
 #=============================================================================
+# Target rules for target esp-idf/motor_driver/CMakeFiles/__idf_motor_driver.dir
+
+# All Build rule for target.
+esp-idf/motor_driver/CMakeFiles/__idf_motor_driver.dir/all: esp-idf/xtensa/CMakeFiles/__idf_xtensa.dir/all
+	$(MAKE) $(MAKESILENT) -f esp-idf/motor_driver/CMakeFiles/__idf_motor_driver.dir/build.make esp-idf/motor_driver/CMakeFiles/__idf_motor_driver.dir/depend
+	$(MAKE) $(MAKESILENT) -f esp-idf/motor_driver/CMakeFiles/__idf_motor_driver.dir/build.make esp-idf/motor_driver/CMakeFiles/__idf_motor_driver.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/angelo/microros-microdrone/build/CMakeFiles --progress-num= "Built target __idf_motor_driver"
+.PHONY : esp-idf/motor_driver/CMakeFiles/__idf_motor_driver.dir/all
+
+# Build rule for subdir invocation for target.
+esp-idf/motor_driver/CMakeFiles/__idf_motor_driver.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/angelo/microros-microdrone/build/CMakeFiles 84
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 esp-idf/motor_driver/CMakeFiles/__idf_motor_driver.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/angelo/microros-microdrone/build/CMakeFiles 0
+.PHONY : esp-idf/motor_driver/CMakeFiles/__idf_motor_driver.dir/rule
+
+# Convenience name for target.
+__idf_motor_driver: esp-idf/motor_driver/CMakeFiles/__idf_motor_driver.dir/rule
+.PHONY : __idf_motor_driver
+
+# clean rule for target.
+esp-idf/motor_driver/CMakeFiles/__idf_motor_driver.dir/clean:
+	$(MAKE) $(MAKESILENT) -f esp-idf/motor_driver/CMakeFiles/__idf_motor_driver.dir/build.make esp-idf/motor_driver/CMakeFiles/__idf_motor_driver.dir/clean
+.PHONY : esp-idf/motor_driver/CMakeFiles/__idf_motor_driver.dir/clean
+
+#=============================================================================
 # Target rules for target esp-idf/main/CMakeFiles/__idf_main.dir
 
 # All Build rule for target.
@@ -6129,6 +6155,7 @@ esp-idf/main/CMakeFiles/__idf_main.dir/all: esp-idf/esp-idf-lib__i2cdev/CMakeFil
 esp-idf/main/CMakeFiles/__idf_main.dir/all: esp-idf/esp-idf-lib__mpu6050/CMakeFiles/__idf_esp-idf-lib__mpu6050.dir/all
 esp-idf/main/CMakeFiles/__idf_main.dir/all: esp-idf/imu_driver/CMakeFiles/__idf_imu_driver.dir/all
 esp-idf/main/CMakeFiles/__idf_main.dir/all: esp-idf/flow_driver/CMakeFiles/__idf_flow_driver.dir/all
+esp-idf/main/CMakeFiles/__idf_main.dir/all: esp-idf/motor_driver/CMakeFiles/__idf_motor_driver.dir/all
 	$(MAKE) $(MAKESILENT) -f esp-idf/main/CMakeFiles/__idf_main.dir/build.make esp-idf/main/CMakeFiles/__idf_main.dir/depend
 	$(MAKE) $(MAKESILENT) -f esp-idf/main/CMakeFiles/__idf_main.dir/build.make esp-idf/main/CMakeFiles/__idf_main.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/angelo/microros-microdrone/build/CMakeFiles --progress-num= "Built target __idf_main"
@@ -6175,32 +6202,6 @@ __idf_battery_monitor: esp-idf/battery_monitor/CMakeFiles/__idf_battery_monitor.
 esp-idf/battery_monitor/CMakeFiles/__idf_battery_monitor.dir/clean:
 	$(MAKE) $(MAKESILENT) -f esp-idf/battery_monitor/CMakeFiles/__idf_battery_monitor.dir/build.make esp-idf/battery_monitor/CMakeFiles/__idf_battery_monitor.dir/clean
 .PHONY : esp-idf/battery_monitor/CMakeFiles/__idf_battery_monitor.dir/clean
-
-#=============================================================================
-# Target rules for target esp-idf/motor_driver/CMakeFiles/__idf_motor_driver.dir
-
-# All Build rule for target.
-esp-idf/motor_driver/CMakeFiles/__idf_motor_driver.dir/all: esp-idf/xtensa/CMakeFiles/__idf_xtensa.dir/all
-	$(MAKE) $(MAKESILENT) -f esp-idf/motor_driver/CMakeFiles/__idf_motor_driver.dir/build.make esp-idf/motor_driver/CMakeFiles/__idf_motor_driver.dir/depend
-	$(MAKE) $(MAKESILENT) -f esp-idf/motor_driver/CMakeFiles/__idf_motor_driver.dir/build.make esp-idf/motor_driver/CMakeFiles/__idf_motor_driver.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/angelo/microros-microdrone/build/CMakeFiles --progress-num= "Built target __idf_motor_driver"
-.PHONY : esp-idf/motor_driver/CMakeFiles/__idf_motor_driver.dir/all
-
-# Build rule for subdir invocation for target.
-esp-idf/motor_driver/CMakeFiles/__idf_motor_driver.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/angelo/microros-microdrone/build/CMakeFiles 84
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 esp-idf/motor_driver/CMakeFiles/__idf_motor_driver.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/angelo/microros-microdrone/build/CMakeFiles 0
-.PHONY : esp-idf/motor_driver/CMakeFiles/__idf_motor_driver.dir/rule
-
-# Convenience name for target.
-__idf_motor_driver: esp-idf/motor_driver/CMakeFiles/__idf_motor_driver.dir/rule
-.PHONY : __idf_motor_driver
-
-# clean rule for target.
-esp-idf/motor_driver/CMakeFiles/__idf_motor_driver.dir/clean:
-	$(MAKE) $(MAKESILENT) -f esp-idf/motor_driver/CMakeFiles/__idf_motor_driver.dir/build.make esp-idf/motor_driver/CMakeFiles/__idf_motor_driver.dir/clean
-.PHONY : esp-idf/motor_driver/CMakeFiles/__idf_motor_driver.dir/clean
 
 #=============================================================================
 # Target rules for target esp-idf/pid_controller/CMakeFiles/__idf_pid_controller.dir

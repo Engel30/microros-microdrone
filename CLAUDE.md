@@ -53,6 +53,7 @@ usbipd attach --wsl --busid 1-6
 | D10 | GPIO_NUM_9 | LED status | GPIO |
 
 Motori: 8520 coreless brushed 3.7V 1S, MOSFET SI2302 low-side, diodo flyback 1N5819.
+**⚠️ OBBLIGATORIO:** Pull-down 10kΩ tra gate e source di ogni MOSFET (i GPIO sono flottanti durante il boot → motori partono a caso → spike distruggono l'ESP32).
 
 ## Struttura progetto
 
@@ -86,12 +87,12 @@ microros-microdrone/
 
 **MPU6050 (IMU):** Libreria `esp-idf-lib/mpu6050` + `i2cdev`. Richiede `i2cdev_init()` prima dell'uso. DLPF ~42Hz, 1kHz sample rate, Gyro ±500°/s, Accel ±4g. Clock PLL gyro X. Calibrazione nel chip frame, rotazione body applicata dopo. Output nel body frame NED. Modulo GY-521 ha pull-up I2C integrati. I2C addr 0x68.
 
-**Optical Flow (CXOF):** Sensore P3901 (clone PMW3901) + VL53L1X ToF. UART 19200, frame 11 byte. State machine parser con re-sync. Conversione count→velocità con `FLOW_SCALE_RAD = 1.76e-3 rad/count` (da ArduPilot). Il PMW3901 ha scaler interno ~8-10x (1 count != 1 pixel fisico). ToF verificato OK. Scala velocità da calibrare con test 10cm. Output nel body frame NED con posizione integrata per debug.
+**Optical Flow (CXOF):** Sensore P3901 (clone PMW3901) + VL53L1X ToF. UART 19200, frame 11 byte. State machine parser con re-sync. `FLOW_SCALE_RAD = 1.294e-2 rad/count` (calibrato empiricamente, 7.35x il valore ArduPilot originale — il clone P3901 ha scaler interno diverso dal PMW3901 genuino). ToF verificato OK. Calibrazione: ~8% errore medio su test 10cm a 10-11cm altezza (range 86-104%). Raw counts accumulati tra letture per evitare perdita frame. Gyro compensation implementata nel main loop (temporanea, andrà in sensor_fusion). A 70cm altezza ogni count pesa ~0.9cm: serve gyro compensation precisa. Output nel body frame NED.
 
 ## Roadmap
 
-- **Fase 0A (corrente):** sensori raw + micro-ROS → Foxglove
-- **Fase 0B:** test motori via topic ROS2
+- **Fase 0A (completata):** sensori raw (IMU + flow calibrati, logging CSV)
+- **Fase 0B (in corso, bloccata):** motor driver LEDC implementato, ESP32 bruciato → serve nuovo ESP32 + pull-down 10kΩ
 - **Fase 1:** PID attitudine, hover stabile
 - **Fase 2:** velocity hold con optical flow
 - **Fase 3:** position control

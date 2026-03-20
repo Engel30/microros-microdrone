@@ -25,6 +25,10 @@ static int64_t prev_timestamp_us = 0;
 static float integrated_x = 0.0f;
 static float integrated_y = 0.0f;
 
+// Raw counts accumulati tra le letture
+static int16_t acc_raw_x = 0;
+static int16_t acc_raw_y = 0;
+
 static void process_frame(void)
 {
     int64_t now = esp_timer_get_time();
@@ -36,9 +40,11 @@ static void process_frame(void)
     // Distanza ToF in cm → mm
     uint16_t range_mm = (uint16_t)(buf[6] | (buf[7] << 8)) * 10;
 
-    // Salva raw per debug
-    last_frame.raw_x = raw_x;
-    last_frame.raw_y = raw_y;
+    // Accumula raw counts (possono arrivare più frame tra le letture)
+    acc_raw_x += raw_x;
+    acc_raw_y += raw_y;
+    last_frame.raw_x = acc_raw_x;
+    last_frame.raw_y = acc_raw_y;
     last_frame.range_mm = range_mm;
     last_frame.quality = buf[9];
 
@@ -147,6 +153,8 @@ esp_err_t flow_init(void)
     prev_timestamp_us = 0;
     integrated_x = 0.0f;
     integrated_y = 0.0f;
+    acc_raw_x = 0;
+    acc_raw_y = 0;
 
     ESP_LOGI(TAG, "Optical flow UART inizializzata: %d baud su TX=D6, RX=D7",
              FLOW_BAUD_RATE);
@@ -167,6 +175,9 @@ esp_err_t flow_read(flow_data_t *data)
     if (new_data) {
         *data = last_frame;
         new_data = false;
+        // Reset contatori accumulati dopo la lettura
+        acc_raw_x = 0;
+        acc_raw_y = 0;
         return ESP_OK;
     }
 

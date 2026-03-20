@@ -65,9 +65,9 @@
 // ============================================================================
 // Scala angolare: radianti per count CXOF.
 // Il PMW3901 ha uno scaler interno (~8-10x) quindi 1 count != 1 pixel fisico.
-// Valore da ArduPilot AP_OpticalFlow_CXOF.cpp, calibrato empiricamente.
-// Se la posizione è imprecisa, aggiustare questo valore.
-#define FLOW_SCALE_RAD      1.76e-3f     // rad/count (ArduPilot CXOF)
+// Calibrato empiricamente con test 10cm su libro a 10-11cm di altezza.
+// Clone P3901: 7.35x il valore ArduPilot originale (1.76e-3).
+#define FLOW_SCALE_RAD      1.294e-2f    // rad/count (calibrato P3901)
 
 // ============================================================================
 // Battery
@@ -75,6 +75,15 @@
 #define BATTERY_LOW_VOLTAGE     3.3f     // Allarme batteria (V)
 #define BATTERY_CRITICAL_VOLTAGE 3.0f    // Atterraggio forzato (V)
 #define BATTERY_DIVIDER_RATIO   2.0f     // Partitore 100k/100k
+
+// ============================================================================
+// Motor PWM Configuration (LEDC)
+// ============================================================================
+#define MOTOR_PWM_FREQ_HZ       20000    // 20kHz — sopra soglia udibile
+#define MOTOR_PWM_RESOLUTION    LEDC_TIMER_10_BIT  // 1024 livelli (0-1023)
+#define MOTOR_PWM_MAX_DUTY      1023     // (2^10 - 1)
+#define MOTOR_LEDC_TIMER        LEDC_TIMER_0
+#define MOTOR_LEDC_MODE         LEDC_LOW_SPEED_MODE
 
 // ============================================================================
 // Task Frequencies

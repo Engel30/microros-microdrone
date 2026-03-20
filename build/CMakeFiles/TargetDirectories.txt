@@ -875,6 +875,13 @@
 /home/angelo/microros-microdrone/build/esp-idf/flow_driver/CMakeFiles/install.dir
 /home/angelo/microros-microdrone/build/esp-idf/flow_driver/CMakeFiles/install/local.dir
 /home/angelo/microros-microdrone/build/esp-idf/flow_driver/CMakeFiles/install/strip.dir
+/home/angelo/microros-microdrone/build/esp-idf/motor_driver/CMakeFiles/__idf_motor_driver.dir
+/home/angelo/microros-microdrone/build/esp-idf/motor_driver/CMakeFiles/edit_cache.dir
+/home/angelo/microros-microdrone/build/esp-idf/motor_driver/CMakeFiles/rebuild_cache.dir
+/home/angelo/microros-microdrone/build/esp-idf/motor_driver/CMakeFiles/list_install_components.dir
+/home/angelo/microros-microdrone/build/esp-idf/motor_driver/CMakeFiles/install.dir
+/home/angelo/microros-microdrone/build/esp-idf/motor_driver/CMakeFiles/install/local.dir
+/home/angelo/microros-microdrone/build/esp-idf/motor_driver/CMakeFiles/install/strip.dir
 /home/angelo/microros-microdrone/build/esp-idf/main/CMakeFiles/__idf_main.dir
 /home/angelo/microros-microdrone/build/esp-idf/main/CMakeFiles/edit_cache.dir
 /home/angelo/microros-microdrone/build/esp-idf/main/CMakeFiles/rebuild_cache.dir
@@ -889,13 +896,6 @@
 /home/angelo/microros-microdrone/build/esp-idf/battery_monitor/CMakeFiles/install.dir
 /home/angelo/microros-microdrone/build/esp-idf/battery_monitor/CMakeFiles/install/local.dir
 /home/angelo/microros-microdrone/build/esp-idf/battery_monitor/CMakeFiles/install/strip.dir
-/home/angelo/microros-microdrone/build/esp-idf/motor_driver/CMakeFiles/__idf_motor_driver.dir
-/home/angelo/microros-microdrone/build/esp-idf/motor_driver/CMakeFiles/edit_cache.dir
-/home/angelo/microros-microdrone/build/esp-idf/motor_driver/CMakeFiles/rebuild_cache.dir
-/home/angelo/microros-microdrone/build/esp-idf/motor_driver/CMakeFiles/list_install_components.dir
-/home/angelo/microros-microdrone/build/esp-idf/motor_driver/CMakeFiles/install.dir
-/home/angelo/microros-microdrone/build/esp-idf/motor_driver/CMakeFiles/install/local.dir
-/home/angelo/microros-microdrone/build/esp-idf/motor_driver/CMakeFiles/install/strip.dir
 /home/angelo/microros-microdrone/build/esp-idf/pid_controller/CMakeFiles/__idf_pid_controller.dir
 /home/angelo/microros-microdrone/build/esp-idf/pid_controller/CMakeFiles/edit_cache.dir
 /home/angelo/microros-microdrone/build/esp-idf/pid_controller/CMakeFiles/rebuild_cache.dir

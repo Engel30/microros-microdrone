@@ -185,9 +185,9 @@ microros-microdrone.elf: esp-idf/esp-idf-lib__i2cdev/libesp-idf-lib__i2cdev.a
 microros-microdrone.elf: esp-idf/esp-idf-lib__mpu6050/libesp-idf-lib__mpu6050.a
 microros-microdrone.elf: esp-idf/imu_driver/libimu_driver.a
 microros-microdrone.elf: esp-idf/flow_driver/libflow_driver.a
+microros-microdrone.elf: esp-idf/motor_driver/libmotor_driver.a
 microros-microdrone.elf: esp-idf/main/libmain.a
 microros-microdrone.elf: esp-idf/battery_monitor/libbattery_monitor.a
-microros-microdrone.elf: esp-idf/motor_driver/libmotor_driver.a
 microros-microdrone.elf: esp-idf/pid_controller/libpid_controller.a
 microros-microdrone.elf: esp-idf/sensor_fusion/libsensor_fusion.a
 microros-microdrone.elf: esp-idf/uros_interface/liburos_interface.a
@@ -203,6 +203,7 @@ microros-microdrone.elf: esp-idf/imu_driver/libimu_driver.a
 microros-microdrone.elf: esp-idf/esp-idf-lib__mpu6050/libesp-idf-lib__mpu6050.a
 microros-microdrone.elf: esp-idf/esp-idf-lib__i2cdev/libesp-idf-lib__i2cdev.a
 microros-microdrone.elf: esp-idf/flow_driver/libflow_driver.a
+microros-microdrone.elf: esp-idf/motor_driver/libmotor_driver.a
 microros-microdrone.elf: esp-idf/xtensa/libxtensa.a
 microros-microdrone.elf: esp-idf/esp_driver_gpio/libesp_driver_gpio.a
 microros-microdrone.elf: esp-idf/esp_pm/libesp_pm.a

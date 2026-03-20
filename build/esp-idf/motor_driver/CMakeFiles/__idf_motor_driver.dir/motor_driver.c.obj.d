@@ -34,10 +34,89 @@ esp-idf/motor_driver/CMakeFiles/__idf_motor_driver.dir/motor_driver.c.obj: \
  /home/angelo/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/xtensa-esp-elf/include/sys/stdio.h \
  /home/angelo/esp/esp-idf/components/esp_common/include/esp_compiler.h \
  /home/angelo/microros-microdrone/components/common/include/drone_types.h \
- /home/angelo/esp/esp-idf/components/log/include/esp_log.h \
- /home/angelo/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/xtensa-esp-elf/include/inttypes.h \
+ /home/angelo/microros-microdrone/components/common/include/drone_config.h \
+ /home/angelo/esp/esp-idf/components/soc/esp32s3/include/soc/gpio_num.h \
+ /home/angelo/esp/esp-idf/components/esp_driver_uart/include/driver/uart.h \
+ /home/angelo/esp/esp-idf/components/esp_hw_support/include/esp_intr_alloc.h \
+ /home/angelo/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/lib/gcc/xtensa-esp-elf/14.2.0/include/stdbool.h \
+ /home/angelo/esp/esp-idf/components/esp_hw_support/include/esp_intr_types.h \
+ /home/angelo/esp/esp-idf/components/soc/esp32s3/include/soc/soc_caps.h \
+ /home/angelo/esp/esp-idf/components/soc/esp32s3/include/soc/mpu_caps.h \
+ /home/angelo/esp/esp-idf/components/freertos/FreeRTOS-Kernel/include/freertos/FreeRTOS.h \
+ /home/angelo/esp/esp-idf/components/freertos/config/include/freertos/FreeRTOSConfig.h \
+ /home/angelo/esp/esp-idf/components/freertos/config/xtensa/include/freertos/FreeRTOSConfig_arch.h \
+ /home/angelo/esp/esp-idf/components/xtensa/include/xtensa_config.h \
+ /home/angelo/esp/esp-idf/components/xtensa/include/xtensa/hal.h \
+ /home/angelo/esp/esp-idf/components/xtensa/esp32s3/include/xtensa/config/core.h \
+ /home/angelo/esp/esp-idf/components/xtensa/include/xtensa/xtensa-versions.h \
+ /home/angelo/esp/esp-idf/components/xtensa/esp32s3/include/xtensa/config/core-isa.h \
+ /home/angelo/esp/esp-idf/components/xtensa/esp32s3/include/xtensa/config/core-matmap.h \
+ /home/angelo/esp/esp-idf/components/xtensa/esp32s3/include/xtensa/config/tie.h \
+ /home/angelo/esp/esp-idf/components/xtensa/esp32s3/include/xtensa/config/system.h \
+ /home/angelo/esp/esp-idf/components/xtensa/include/xtensa_context.h \
+ /home/angelo/esp/esp-idf/components/xtensa/include/xtensa/corebits.h \
+ /home/angelo/esp/esp-idf/components/xtensa/include/xtensa/xtruntime-frames.h \
+ /home/angelo/esp/esp-idf/components/freertos/FreeRTOS-Kernel/include/freertos/projdefs.h \
+ /home/angelo/esp/esp-idf/components/freertos/FreeRTOS-Kernel/include/freertos/portable.h \
+ /home/angelo/esp/esp-idf/components/freertos/FreeRTOS-Kernel/include/freertos/deprecated_definitions.h \
+ /home/angelo/esp/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/include/freertos/portmacro.h \
+ /home/angelo/esp/esp-idf/components/xtensa/include/xtensa/xtruntime.h \
+ /home/angelo/esp/esp-idf/components/xtensa/esp32s3/include/xtensa/config/specreg.h \
+ /home/angelo/esp/esp-idf/components/xtensa/include/xtensa/xtruntime-core-state.h \
+ /home/angelo/esp/esp-idf/components/xtensa/include/xt_instr_macros.h \
+ /home/angelo/esp/esp-idf/components/xtensa/include/xtensa/xtruntime.h \
+ /home/angelo/esp/esp-idf/components/esp_hw_support/include/spinlock.h \
+ /home/angelo/esp/esp-idf/components/esp_hw_support/include/esp_cpu.h \
+ /home/angelo/esp/esp-idf/components/xtensa/include/xtensa_api.h \
+ /home/angelo/esp/esp-idf/components/xtensa/include/xt_utils.h \
+ /home/angelo/esp/esp-idf/components/xtensa/esp32s3/include/xtensa/config/extreg.h \
+ /home/angelo/esp/esp-idf/components/esp_common/include/esp_bit_defs.h \
+ /home/angelo/esp/esp-idf/components/esp_common/include/esp_attr.h \
+ /home/angelo/esp/esp-idf/components/esp_system/include/esp_private/crosscore_int.h \
+ /home/angelo/esp/esp-idf/components/esp_common/include/esp_macros.h \
+ /home/angelo/esp/esp-idf/components/esp_common/include/esp_assert.h \
+ /home/angelo/esp/esp-idf/components/esp_hw_support/include/esp_memory_utils.h \
+ /home/angelo/esp/esp-idf/components/soc/esp32s3/include/soc/soc.h \
+ /home/angelo/esp/esp-idf/components/esp_common/include/esp_assert.h \
+ /home/angelo/esp/esp-idf/components/soc/esp32s3/register/soc/reg_base.h \
+ /home/angelo/esp/esp-idf/components/newlib/platform_include/esp_newlib.h \
+ /home/angelo/esp/esp-idf/components/heap/include/esp_heap_caps.h \
+ /home/angelo/esp/esp-idf/components/heap/include/multi_heap.h \
  /home/angelo/esp/esp-idf/components/esp_rom/include/esp_rom_sys.h \
+ /home/angelo/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/xtensa-esp-elf/include/inttypes.h \
  /home/angelo/esp/esp-idf/components/soc/esp32s3/include/soc/reset_reasons.h \
+ /home/angelo/esp/esp-idf/components/esp_system/include/esp_system.h \
+ /home/angelo/esp/esp-idf/components/esp_common/include/esp_idf_version.h \
+ /home/angelo/esp/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/include/freertos/portbenchmark.h \
+ /home/angelo/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/lib/gcc/xtensa-esp-elf/14.2.0/include/limits.h \
+ /home/angelo/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/lib/gcc/xtensa-esp-elf/14.2.0/include/syslimits.h \
+ /home/angelo/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/xtensa-esp-elf/include/limits.h \
+ /home/angelo/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/xtensa-esp-elf/include/sys/syslimits.h \
+ /home/angelo/esp/esp-idf/components/freertos/FreeRTOS-Kernel/include/freertos/mpu_wrappers.h \
+ /home/angelo/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/xtensa-esp-elf/include/reent.h \
+ /home/angelo/esp/esp-idf/components/freertos/esp_additions/include/freertos/idf_additions.h \
+ /home/angelo/esp/esp-idf/components/freertos/FreeRTOS-Kernel/include/freertos/task.h \
+ /home/angelo/esp/esp-idf/components/freertos/FreeRTOS-Kernel/include/freertos/list.h \
+ /home/angelo/esp/esp-idf/components/freertos/FreeRTOS-Kernel/include/freertos/queue.h \
+ /home/angelo/esp/esp-idf/components/freertos/FreeRTOS-Kernel/include/freertos/task.h \
+ /home/angelo/esp/esp-idf/components/freertos/FreeRTOS-Kernel/include/freertos/semphr.h \
+ /home/angelo/esp/esp-idf/components/freertos/FreeRTOS-Kernel/include/freertos/queue.h \
+ /home/angelo/esp/esp-idf/components/freertos/FreeRTOS-Kernel/include/freertos/stream_buffer.h \
+ /home/angelo/esp/esp-idf/components/freertos/FreeRTOS-Kernel/include/freertos/message_buffer.h \
+ /home/angelo/esp/esp-idf/components/freertos/FreeRTOS-Kernel/include/freertos/stream_buffer.h \
+ /home/angelo/esp/esp-idf/components/freertos/FreeRTOS-Kernel/include/freertos/event_groups.h \
+ /home/angelo/esp/esp-idf/components/freertos/FreeRTOS-Kernel/include/freertos/timers.h \
+ /home/angelo/esp/esp-idf/components/hal/include/hal/uart_types.h \
+ /home/angelo/esp/esp-idf/components/soc/esp32s3/include/soc/clk_tree_defs.h \
+ /home/angelo/esp/esp-idf/components/esp_driver_ledc/include/driver/ledc.h \
+ /home/angelo/esp/esp-idf/components/hal/include/hal/ledc_types.h \
+ /home/angelo/esp/esp-idf/components/esp_driver_gpio/include/driver/gpio.h \
+ /home/angelo/esp/esp-idf/components/hal/include/hal/gpio_types.h \
+ /home/angelo/esp/esp-idf/components/esp_rom/include/esp_rom_gpio.h \
+ /home/angelo/esp/esp-idf/components/soc/esp32s3/include/soc/gpio_pins.h \
+ /home/angelo/esp/esp-idf/components/esp_driver_gpio/include/driver/gpio_etm.h \
+ /home/angelo/esp/esp-idf/components/esp_hw_support/include/esp_etm.h \
+ /home/angelo/esp/esp-idf/components/log/include/esp_log.h \
  /home/angelo/esp/esp-idf/components/log/include/esp_log_level.h \
  /home/angelo/esp/esp-idf/components/log/include/esp_log_color.h \
  /home/angelo/esp/esp-idf/components/log/include/esp_log_buffer.h \
