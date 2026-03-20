@@ -7,7 +7,10 @@
 - **Non modificare** il codice in `old/` — è riferimento per la logica dei sensori Arduino
 - **Ogni componente ha un README.md** nella sua cartella: aggiornalo quando aggiungi/modifichi funzionalità
 - **A fine risposta:** riassunto modifiche + spiegazione tecnica di cosa è stato fatto e perché
+- **Prima di ogni task:** leggi i documenti rilevanti in `docs/` per avere contesto completo (specs, hardware, timeline, guide)
+- **Timeline:** aggiorna `docs/timeline.md` a fine sessione con data, attività svolta, osservazioni
 - **Design spec (source of truth):** `docs/specs/2026-03-10-swarm-drone-architecture-design.md`
+- **PCB custom:** `docs/pcb-custom/` (design spec, teoria, guida EasyEDA)
 - **Setup ambiente:** `docs/setup-guide.md`
 - Documenti in `docs/`, specs in `docs/specs/`
 
@@ -77,8 +80,13 @@ microros-microdrone/
 │   ├── battery_monitor/            # ADC batteria + buzzer (Fase 0A)
 │   └── uros_interface/             # Bridge micro-ROS <-> FreeRTOS queues (Fase 0A)
 ├── docs/
+│   ├── timeline.md                  # Cronologia attività progetto
 │   ├── setup-guide.md              # Installazione ambiente completa
-│   └── specs/                      # Design spec
+│   ├── specs/                      # Design spec
+│   └── pcb-custom/                 # PCB custom flight controller
+│       ├── pcb-design-spec.md      # Schema elettrico, BOM, layout, produzione
+│       ├── pcb-design-teoria.md    # Guida teoria PCB per principianti
+│       └── easyeda-guida-uso.md    # Guida pratica EasyEDA Std
 ├── managed_components/              # Librerie scaricate automaticamente (esp-idf-lib)
 └── old/                            # Vecchio firmware Arduino (solo riferimento)
 ```
