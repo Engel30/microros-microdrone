@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find /home/angelo/microros-microdrone -type f \\\\\\(-name *.stl -o -name *.scad -o -name *.step -o -name *.stp -o -name *.iges -o -name *.igs -o -name *.dwg -o -name *frame* -o -name *housing* -o -name *bracket* \\\\\\))",
+      "Bash(. ~/esp/esp-idf/export.sh)",
+      "Bash(idf.py build:*)",
+      "Bash(python3:*)",
+      "Bash(for f:*)",
+      "Bash(do python3:*)",
+      "Bash(done)",
+      "Bash(pip install:*)"
+    ]
+  }
+}
