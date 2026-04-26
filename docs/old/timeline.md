@@ -25,6 +25,15 @@ Registro cronologico delle attività. Aggiornare ad ogni sessione di lavoro.
 - Mancavano pull-down 10kΩ esterne sui gate (le pull-down interne si attivano solo dopo il boot)
 - **Fase 0B bloccata** — serve nuovo ESP32
 
+## 2026-04-26 — Consolidamento documentazione
+- Ripresa progetto in attesa dei nuovi ESP32-S3 (sostituzione di quello bruciato il 2026-03-19)
+- Allineamento di tutte le spec in `docs/specs/` con una source of truth unica
+- Decisione: micro-ROS resta sul singolo drone fino a fine Fase 3, ESP-NOW subentra con la fase swarm
+- Pivot STM32+UWB scartato e relativa spec (`2026-04-16-tesi-magistrale-direzione.md`) eliminata
+- Nuova spec: `docs/specs/2026-04-26-stato-progetto-e-roadmap.md`
+- Header "STORICO" su `2026-03-10-swarm-drone-architecture-design.md` e `2026-04-14-architettura-swarm-brainstorming.md`
+- Allineati `02-FIRMWARE-ARCHITETTURA.md`, `04-VISIONE-PROGETTO.md`, `05-ARCHITETTURA-SWARM.md`, `CLAUDE.md`
+
 ## 2026-03-20 — PCB Custom: Design
 - Analisi causa burning del regolatore 3.3V
 - Decisione: passare da perfboard a PCB custom per risolvere ground loop e protezioni

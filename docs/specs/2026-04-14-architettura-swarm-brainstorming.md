@@ -1,7 +1,11 @@
 # Brainstorming: Nuova Architettura Swarm
 
 **Data:** 2026-04-14
-**Stato:** Approccio B scelto — design dettagliato in corso
+**Stato:** ⚠️ STORICO — decisioni assorbite in `2026-04-26-stato-progetto-e-roadmap.md`
+
+> Brainstorming che ha portato alla scelta dell'Approccio B (ESP-NOW + Bridge AP). Le decisioni sono state consolidate nella spec del 2026-04-26 e nel documento operativo `docs/05-ARCHITETTURA-SWARM.md`. Conservato per la motivazione delle alternative valutate (utile per la tesi).
+
+**Decisione chiave applicata:** ESP-NOW arriva con la fase swarm. Sul singolo drone (Fasi 0B → 1 → 2 → 3) si tiene micro-ROS per non rompere il tooling Foxglove/ROS2 durante il PID tuning.
 
 ---
 

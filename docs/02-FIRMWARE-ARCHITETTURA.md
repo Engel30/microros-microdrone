@@ -2,6 +2,8 @@
 
 **Framework:** ESP-IDF v5.4, FreeRTOS, micro-ROS (XRCE-DDS over UDP WiFi)
 
+> **Scope:** singolo drone (Fasi 0B → 3). Per lo sciame, micro-ROS viene sostituito da ESP-NOW (vedi `docs/05-ARCHITETTURA-SWARM.md`). Source of truth: `docs/specs/2026-04-26-stato-progetto-e-roadmap.md`.
+
 ---
 
 ## 1. Dual-Core Architecture
@@ -106,6 +108,8 @@ components/
 
 ## Riferimenti
 
-- Design spec completo: `docs/specs/2026-03-10-swarm-drone-architecture-design.md`
+- Source of truth: `docs/specs/2026-04-26-stato-progetto-e-roadmap.md`
+- Spec storica (HW + fasi 0-3): `docs/specs/2026-03-10-swarm-drone-architecture-design.md`
 - Setup ambiente: `docs/03-SETUP-AMBIENTE.md`
 - Hardware: `docs/01-HARDWARE-BOM.md`
+- Architettura swarm: `docs/05-ARCHITETTURA-SWARM.md`

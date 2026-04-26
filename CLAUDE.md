@@ -9,7 +9,9 @@
 - **A fine risposta:** riassunto modifiche + spiegazione tecnica di cosa è stato fatto e perché
 - **Prima di ogni task:** leggi i documenti rilevanti in `docs/` per avere contesto completo (specs, hardware, timeline, guide)
 - **Timeline:** aggiorna `docs/timeline.md` a fine sessione con data, attività svolta, osservazioni
-- **Design spec (source of truth):** `docs/specs/2026-03-10-swarm-drone-architecture-design.md`
+- **Source of truth (stato + roadmap):** `docs/specs/2026-04-26-stato-progetto-e-roadmap.md`
+- **Architettura swarm (futura):** `docs/05-ARCHITETTURA-SWARM.md` (ESP-NOW, dopo Fase 3)
+- **Spec storiche** in `docs/specs/`: 2026-03-10 (design originale, micro-ROS), 2026-04-14 (brainstorming swarm). Conservate per la storia delle decisioni.
 - **PCB custom:** `docs/pcb-custom/` (design spec, teoria, guida EasyEDA)
 - **Setup ambiente:** `docs/setup-guide.md`
 - Documenti in `docs/`, specs in `docs/specs/`

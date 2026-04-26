@@ -56,8 +56,9 @@ Batteria 450mAh @ 1S = autonomia fisica ~7-10 min. Per tuning firmware senza cam
 | 2026-03-11→19 | 0A | Sensori (IMU, flow, battery) | ✅ |
 | 2026-03-19 | 0B | Motor test → ESP32 bruciato | ⚠️ |
 | 2026-03-20 | PCB | Design PCB custom EasyEDA | ✅ |
-| 2026-04-14 | Swarm | Brainstorming architettura swarm | ✅ |
+| 2026-04-14 | Swarm | Brainstorming architettura swarm (Approccio B: ESP-NOW) | ✅ |
 | 2026-04-16 | Doc | Riorganizzazione documentazione | ✅ |
+| 2026-04-26 | Doc | Consolidamento spec, source of truth unica | ✅ |
 | 2026-04-20 | PCB | EasyEDA layout completo | 🔄 |
 | 2026-05-05 | PCB | Ordine JLCPCB | 📅 |
 | 2026-05-20 | HW | Montaggio PCB, test motori | 📅 |
@@ -103,7 +104,11 @@ Batteria 450mAh @ 1S = autonomia fisica ~7-10 min. Per tuning firmware senza cam
 ## 7. Prossimi Step
 
 1. **PCB:** Completare layout EasyEDA, ordine JLCPCB
-2. **Hardware:** Montaggio PCB, test motori
-3. **Fase 1:** PID tuning, hover stabile
-4. **Swarm:** Design protocollo ESP-NOW
-5. **Tesi:** Documentazione + demo
+2. **Hardware:** Montaggio PCB su nuovi ESP32-S3 in arrivo, bring-up incrementale
+3. **Fase 0B:** Re-test sensori su nuova board, poi `cmd_motor_test` 1 motore alla volta, poi 4 motori
+4. **Fase 1:** PID attitudine, hover stabile (micro-ROS + Foxglove per tuning)
+5. **Fasi 2-3:** Velocity hold, position control
+6. **Swarm:** Migrazione `uros_interface` → `comm_protocol` ESP-NOW + Bridge AP, 4 ruoli
+7. **Tesi:** Documentazione + demo
+
+Source of truth: `docs/specs/2026-04-26-stato-progetto-e-roadmap.md`.

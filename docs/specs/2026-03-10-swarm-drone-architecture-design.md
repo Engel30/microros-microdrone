@@ -2,7 +2,9 @@
 
 **Data:** 2026-03-10
 **Autore:** Angelo + Claude
-**Stato:** Approvato
+**Stato:** ⚠️ STORICO — superato da `2026-04-26-stato-progetto-e-roadmap.md`
+
+> Questo documento è conservato per la storia delle decisioni. Le parti su HW, sensori, dual-core, queue e fasi 0-3 sono ancora valide e sono state riassunte nel documento di consolidamento. La parte su comunicazione swarm (centralizzata via micro-ROS) è stata superata dal brainstorming 2026-04-14 (ESP-NOW Approccio B). Per lo stato attuale, vedi la spec del 2026-04-26.
 
 ---
 

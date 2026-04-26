@@ -1,6 +1,8 @@
 # Architettura Swarm: ESP-NOW Distribuito
 
-**Status:** Design (Approccio B scelto)
+**Status:** Design (Approccio B scelto). Implementazione **dopo** Fase 3 single-drone.
+
+> Sul singolo drone (Fasi 0B → 1 → 2 → 3) il trasporto è micro-ROS UDP/WiFi. La transizione a ESP-NOW avviene quando si passa al multi-drone, sostituendo il componente `uros_interface/` con `comm_protocol/`. Source of truth: `docs/specs/2026-04-26-stato-progetto-e-roadmap.md`.
 
 ---
 
@@ -109,15 +111,19 @@ struct esp_now_header {
 
 ## 7. Transizione da micro-ROS a ESP-NOW
 
-**Roadmap versioni:**
-- **v2 (Fase 0-1):** micro-ROS UDP (attuale)
-- **v2.5 (Fase 2):** micro-ROS + inizio ESP-NOW
-- **v3 (Fase 3+):** Pure ESP-NOW (rimozione micro-ROS)
+**Quando:** alla fine della Fase 3 single-drone (position control completato). Prima di allora micro-ROS resta perché serve a Foxglove/rosbag per il PID tuning.
+
+**Cosa cambia nel firmware:**
+- Si rimuove `uros_interface/` e tutta la stack micro-ROS dai dipendenti
+- Si aggiunge `comm_protocol/` (ESP-NOW + header binario + ACK + retry)
+- I task di flight control (`task_imu`, `task_pid_*`, `task_motors`) **non cambiano**: leggono e scrivono sulle stesse FreeRTOS queue
+- Il task di comunicazione su Core 0 viene riscritto da capo
 
 **Benefici rimozione micro-ROS:**
-- RAM libera: +50-80KB
-- Build time: -5 minuti
-- Latenza: 1-2ms vs 50-100ms
+- RAM libera: ~50-80KB
+- Build time più rapido
+- Latenza peer-to-peer ~1-2ms vs ~10-50ms via UDP+agent
+- Nessuna dipendenza da WiFi infrastrutturato
 
 ---
 
