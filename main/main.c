@@ -5,7 +5,6 @@
 #include "freertos/task.h"
 #include "esp_log.h"
 #include "driver/gpio.h"
-#include "driver/usb_serial_jtag.h"
 #include "drone_config.h"
 #include "drone_types.h"
 #include "imu_driver.h"
@@ -20,44 +19,21 @@ static const char *TAG = "main";
 
 static const char *motor_names[4] = { "FL", "RL", "RR", "FR" };
 
-// Flag: driver USB Serial/JTAG installato
-static bool usb_serial_installed = false;
-
-static void console_init(void)
-{
-    if (usb_serial_installed) return;
-    usb_serial_jtag_driver_config_t cfg = {
-        .rx_buffer_size = 256,
-        .tx_buffer_size = 256,
-    };
-    esp_err_t ret = usb_serial_jtag_driver_install(&cfg);
-    if (ret == ESP_OK) {
-        usb_serial_installed = true;
-        ESP_LOGI(TAG, "USB Serial/JTAG driver installato per input console");
-    } else {
-        ESP_LOGE(TAG, "USB Serial/JTAG install fallito: %s", esp_err_to_name(ret));
-    }
-}
-
-// Legge una linea dalla console USB Serial/JTAG.
-// Ritorna lunghezza stringa, 0 se timeout.
-static int console_readline(char *buf, int maxlen, TickType_t timeout)
+// Legge una linea da stdin (USB Serial/JTAG). Blocca fino a Invio.
+static int console_readline(char *buf, int maxlen)
 {
     int pos = 0;
-    TickType_t start = xTaskGetTickCount();
     while (pos < maxlen - 1) {
-        TickType_t elapsed = xTaskGetTickCount() - start;
-        if (elapsed >= timeout) break;
-        TickType_t remaining = timeout - elapsed;
-
-        char c;
-        int len = usb_serial_jtag_read_bytes((uint8_t *)&c, 1, remaining);
-        if (len <= 0) break;  // timeout
+        int c = fgetc(stdin);
+        if (c == EOF) {
+            vTaskDelay(pdMS_TO_TICKS(20));
+            continue;
+        }
         if (c == '\n' || c == '\r') {
             if (pos > 0) break;
             continue;
         }
-        buf[pos++] = c;
+        buf[pos++] = (char)c;
     }
     buf[pos] = '\0';
     return pos;
@@ -77,7 +53,7 @@ static void motor_test_mode(void)
         fflush(stdout);
 
         char buf[16];
-        if (console_readline(buf, sizeof(buf), pdMS_TO_TICKS(30000)) == 0) {
+        if (console_readline(buf, sizeof(buf)) == 0) {
             continue;
         }
 
@@ -104,7 +80,7 @@ static void motor_test_mode(void)
         printf("Duty %% (0-100): ");
         fflush(stdout);
 
-        if (console_readline(buf, sizeof(buf), pdMS_TO_TICKS(15000)) == 0) {
+        if (console_readline(buf, sizeof(buf)) == 0) {
             continue;
         }
 
@@ -247,29 +223,26 @@ void app_main(void)
     }
     motors_stop();  // Safety: assicura duty 0 all'avvio
 
-    // Inizializza input console via USB Serial/JTAG
-    console_init();
+    // Attesa: il monitor USB impiega qualche secondo a riconnettersi dopo il reset
+    for (int i = 0; i < 10; i++) {
+        gpio_set_level(PIN_LED_STATUS, 0);
+        vTaskDelay(pdMS_TO_TICKS(150));
+        gpio_set_level(PIN_LED_STATUS, 1);
+        vTaskDelay(pdMS_TO_TICKS(150));
+    }
 
-    // Menu selezione modalità — LED lampeggia per segnalare attesa input
+    // Menu selezione modalità
     printf("\n====================================\n");
     printf("  MICROROS-MICRODRONE v0.2\n");
     printf("====================================\n");
     printf("[1] Sensor logging (IMU + Flow)\n");
     printf("[2] Motor test\n");
-    printf("Select mode (default=1 in 10s): ");
+    printf("Select mode: ");
     fflush(stdout);
-
-    // Lampeggio LED durante attesa
-    for (int i = 0; i < 5; i++) {
-        gpio_set_level(PIN_LED_STATUS, 0);
-        vTaskDelay(pdMS_TO_TICKS(100));
-        gpio_set_level(PIN_LED_STATUS, 1);
-        vTaskDelay(pdMS_TO_TICKS(100));
-    }
 
     char buf[8];
     int mode = 1;  // default: sensor logging
-    if (console_readline(buf, sizeof(buf), pdMS_TO_TICKS(10000)) > 0) {
+    if (console_readline(buf, sizeof(buf)) > 0) {
         mode = atoi(buf);
     }
 

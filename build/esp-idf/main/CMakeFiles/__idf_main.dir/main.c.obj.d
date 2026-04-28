@@ -117,7 +117,6 @@ esp-idf/main/CMakeFiles/__idf_main.dir/main.c.obj: \
  /home/angelo/esp/esp-idf/components/soc/esp32s3/include/soc/gpio_pins.h \
  /home/angelo/esp/esp-idf/components/esp_driver_gpio/include/driver/gpio_etm.h \
  /home/angelo/esp/esp-idf/components/esp_hw_support/include/esp_etm.h \
- /home/angelo/esp/esp-idf/components/esp_driver_usb_serial_jtag/include/driver/usb_serial_jtag.h \
  /home/angelo/microros-microdrone/components/common/include/drone_config.h \
  /home/angelo/esp/esp-idf/components/esp_driver_uart/include/driver/uart.h \
  /home/angelo/esp/esp-idf/components/hal/include/hal/uart_types.h \

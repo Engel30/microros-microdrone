@@ -6,3 +6,6 @@ CONFIG_FREERTOS_HZ=1000
 
 # WiFi su Core 0 (default, lo esplicitiamo)
 CONFIG_ESP_WIFI_TASK_CORE_ID=0
+
+# Console via USB Serial/JTAG (primary) — abilita stdin/stdout via VFS per input da tastiera
+CONFIG_ESP_CONSOLE_USB_SERIAL_JTAG=y

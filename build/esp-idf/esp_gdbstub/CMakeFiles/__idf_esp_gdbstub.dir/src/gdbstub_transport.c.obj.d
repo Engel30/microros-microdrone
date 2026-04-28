@@ -106,15 +106,13 @@ esp-idf/esp_gdbstub/CMakeFiles/__idf_esp_gdbstub.dir/src/gdbstub_transport.c.obj
  /home/angelo/esp/esp-idf/components/freertos/FreeRTOS-Kernel/include/freertos/event_groups.h \
  /home/angelo/esp/esp-idf/components/freertos/FreeRTOS-Kernel/include/freertos/timers.h \
  /home/angelo/esp/esp-idf/components/freertos/esp_additions/include/esp_private/freertos_debug.h \
- /home/angelo/esp/esp-idf/components/hal/esp32s3/include/hal/uart_ll.h \
+ /home/angelo/esp/esp-idf/components/hal/esp32s3/include/hal/usb_serial_jtag_ll.h \
+ /home/angelo/esp/esp-idf/components/soc/esp32s3/register/soc/system_struct.h \
+ /home/angelo/esp/esp-idf/components/soc/esp32s3/register/soc/rtc_cntl_struct.h \
+ /home/angelo/esp/esp-idf/components/soc/esp32s3/register/soc/usb_serial_jtag_reg.h \
+ /home/angelo/esp/esp-idf/components/soc/esp32s3/register/soc/usb_serial_jtag_struct.h \
+ /home/angelo/esp/esp-idf/components/hal/include/hal/usb_serial_jtag_types.h \
  /home/angelo/esp/esp-idf/components/hal/platform_port/include/hal/misc.h \
  /home/angelo/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/xtensa-esp-elf/include/string.h \
  /home/angelo/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/xtensa-esp-elf/include/strings.h \
- /home/angelo/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/xtensa-esp-elf/include/sys/string.h \
- /home/angelo/esp/esp-idf/components/hal/include/hal/uart_types.h \
- /home/angelo/esp/esp-idf/components/soc/esp32s3/include/soc/clk_tree_defs.h \
- /home/angelo/esp/esp-idf/components/soc/esp32s3/register/soc/uart_reg.h \
- /home/angelo/esp/esp-idf/components/soc/esp32s3/register/soc/uart_struct.h \
- /home/angelo/esp/esp-idf/components/soc/esp32s3/register/soc/system_struct.h \
- /home/angelo/esp/esp-idf/components/soc/esp32s3/register/soc/system_reg.h \
- /home/angelo/esp/esp-idf/components/soc/esp32s3/include/soc/dport_access.h
+ /home/angelo/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/xtensa-esp-elf/include/sys/string.h

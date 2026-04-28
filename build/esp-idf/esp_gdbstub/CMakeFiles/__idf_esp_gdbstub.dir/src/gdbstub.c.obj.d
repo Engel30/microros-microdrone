@@ -111,12 +111,12 @@ esp-idf/esp_gdbstub/CMakeFiles/__idf_esp_gdbstub.dir/src/gdbstub.c.obj: \
  /home/angelo/esp/esp-idf/components/freertos/esp_additions/include/esp_private/freertos_debug.h \
  /home/angelo/esp/esp-idf/components/esp_gdbstub/src/port/xtensa/include/esp_gdbstub_memory_regions.h \
  /home/angelo/esp/esp-idf/components/esp_gdbstub/private_include/esp_gdbstub_memory_regions_common.h \
- /home/angelo/esp/esp-idf/components/soc/esp32s3/register/soc/uart_reg.h \
- /home/angelo/esp/esp-idf/components/soc/esp32s3/register/soc/uart_struct.h \
+ /home/angelo/esp/esp-idf/components/soc/esp32s3/register/soc/usb_serial_jtag_struct.h \
  /home/angelo/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/xtensa-esp-elf/include/sys/param.h \
  /home/angelo/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/xtensa-esp-elf/include/machine/endian.h \
  /home/angelo/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/xtensa-esp-elf/include/machine/_endian.h \
  /home/angelo/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/xtensa-esp-elf/include/machine/param.h \
+ /home/angelo/esp/esp-idf/components/soc/esp32s3/register/soc/uart_reg.h \
  /home/angelo/esp/esp-idf/components/soc/esp32s3/include/soc/periph_defs.h \
  /home/angelo/esp/esp-idf/components/soc/esp32s3/include/soc/interrupts.h \
  /home/angelo/esp/esp-idf/components/log/include/esp_log.h \

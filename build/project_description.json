@@ -1,7 +1,7 @@
 {
     "version":            "1.1",
     "project_name":       "microros-microdrone",
-    "project_version":    "c3107c1-dirty",
+    "project_version":    "6d18b0e-dirty",
     "project_path":       "/home/angelo/microros-microdrone",
     "idf_path":           "/home/angelo/esp/esp-idf",
     "build_dir":          "/home/angelo/microros-microdrone/build",
