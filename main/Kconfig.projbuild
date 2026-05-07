@@ -1,0 +1,28 @@
+menu "Drone — micro-ROS / WiFi"
+
+config DRONE_WIFI_SSID
+    string "WiFi SSID"
+    default "YOUR_SSID"
+    help
+        SSID della rete WiFi a cui il drone si collega.
+
+config DRONE_WIFI_PASSWORD
+    string "WiFi Password"
+    default "YOUR_PASS"
+    help
+        Password della rete WiFi.
+
+config DRONE_UROS_AGENT_IP
+    string "micro-ROS Agent IP"
+    default "192.168.1.100"
+    help
+        IP del PC che esegue micro_ros_agent (UDP). Deve essere
+        raggiungibile dal drone sulla LAN.
+
+config DRONE_UROS_AGENT_PORT
+    int "micro-ROS Agent UDP Port"
+    default 8888
+    help
+        Porta UDP dell'agent micro-ROS.
+
+endmenu

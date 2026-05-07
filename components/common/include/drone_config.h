@@ -110,5 +110,30 @@
 #define QUEUE_DEPTH_IMU     5
 #define QUEUE_DEPTH_FLOW    3
 #define QUEUE_DEPTH_STATE   3
+#define QUEUE_DEPTH_BATT    2
 #define QUEUE_DEPTH_CMD     1
 #define QUEUE_DEPTH_MOTOR   1
+
+// ============================================================================
+// FreeRTOS Task Stack Sizes (parole, ESP-IDF default)
+// ============================================================================
+#define STACK_IMU           4096
+#define STACK_FLOW          4096
+#define STACK_BATTERY       3072
+#define STACK_MOTORS        3072
+#define STACK_MICROROS      8192   // micro-ROS richiede stack ampio
+
+// ============================================================================
+// micro-ROS / WiFi (credenziali via Kconfig: idf.py menuconfig)
+// ============================================================================
+#define WIFI_SSID            CONFIG_DRONE_WIFI_SSID
+#define WIFI_PASS            CONFIG_DRONE_WIFI_PASSWORD
+#define UROS_AGENT_IP        CONFIG_DRONE_UROS_AGENT_IP
+#define UROS_AGENT_PORT      CONFIG_DRONE_UROS_AGENT_PORT
+#define UROS_NODE_NAME       "drone_node"
+#define UROS_NAMESPACE       "drone_1"           // = "drone_<DRONE_ID>"
+
+// ============================================================================
+// Watchdog comando motori (uROS subscriber → task_motors)
+// ============================================================================
+#define MOTOR_CMD_TIMEOUT_MS 500

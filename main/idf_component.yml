@@ -1,3 +1,6 @@
 dependencies:
   idf:
     version: '>=5.0.0'
+  micro_ros_espidf_component:
+    git: https://github.com/micro-ROS/micro_ros_espidf_component.git
+    version: humble

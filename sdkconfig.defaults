@@ -9,3 +9,15 @@ CONFIG_ESP_WIFI_TASK_CORE_ID=0
 
 # Console via USB Serial/JTAG (primary) — abilita stdin/stdout via VFS per input da tastiera
 CONFIG_ESP_CONSOLE_USB_SERIAL_JTAG=y
+
+# Dual core (default ma esplicito) — task_imu/task_motors su Core 1
+CONFIG_FREERTOS_UNICORE=n
+
+# Stack main task (micro-ROS richiede heap/stack ampi)
+CONFIG_ESP_MAIN_TASK_STACK_SIZE=8192
+
+# pthread default stack (alcune dipendenze micro-ROS lo usano)
+CONFIG_PTHREAD_TASK_STACK_SIZE_DEFAULT=4096
+
+# Logging livello info
+CONFIG_LOG_DEFAULT_LEVEL_INFO=y
