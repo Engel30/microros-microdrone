@@ -2,7 +2,8 @@
 
 **Data:** 2026-05-07
 **Autore:** Angelo + Claude
-**Stato:** Da eseguire
+**Stato:** In esecuzione (Step 1-4 completati)
+**Branch:** `feature/microros-tethered`
 **Scope:** Fase 0A → Fase 0B chiuse via micro-ROS WiFi UDP, con refactor del firmware al modello multi-task previsto dalla spec.
 **Leggi prima:** `docs/specs/2026-04-26-stato-progetto-e-roadmap.md` (source of truth), `docs/02-FIRMWARE-ARCHITETTURA.md`, `docs/01-HARDWARE-BOM.md`, `CLAUDE.md`.
 
@@ -422,25 +423,37 @@ Pulsante "Publish" → tutti i motori al 10%. Watchdog spegne i motori se smetti
 
 Ogni step **deve** finire con `idf.py build` pulito + verifica funzionale prima di passare al successivo.
 
-### Step 1 — Setup managed component micro-ROS
+### Step 1 — Setup managed component micro-ROS ✅ COMPLETATO
+
+**Note esecuzione:** servono dipendenze Python nel venv ESP-IDF prima del primo build:
+```bash
+pip install catkin_pkg lark-parser empy==3.3.4 colcon-common-extensions
+```
+(senza queste, il build di micro-ROS fallisce con `ModuleNotFoundError: catkin_pkg`).
 - Creare `main/idf_component.yml` con dipendenza `micro_ros_espidf_component`
 - Aggiornare `sdkconfig.defaults` (sezione 4.4)
 - `idf.py reconfigure && idf.py build`
 - **Verifica:** build completa senza errori. `managed_components/` contiene `micro_ros_espidf_component` e dipendenze.
 
-### Step 2 — drone_config.h costanti
+### Step 2 — drone_config.h costanti ✅ COMPLETATO
+
+**Note esecuzione:** WiFi/agent esposti via `main/Kconfig.projbuild` (non hard-coded). `sdkconfig` rimosso dal versionamento (`.gitignore`). Costanti aggiunte: `STACK_*`, `QUEUE_DEPTH_BATT`, `WIFI_*`/`UROS_*` (lette da `CONFIG_*`), `MOTOR_CMD_TIMEOUT_MS`. I PRIO_* esistenti (`PRIO_TASK_*`) sono stati riusati invece di creare alias.
 - Aggiungere costanti sezione 4.1
 - Niente codice nuovo, solo header
 - **Verifica:** build pulita.
 
-### Step 3 — Skeleton task senza micro-ROS
+### Step 3 — Skeleton task senza micro-ROS ✅ COMPLETATO
+
+**Note esecuzione:** task_microros placeholder a 50Hz drena al massimo `QUEUE_DEPTH_IMU=5` per ciclo → ~250 IMU/s su 1000 prodotti. **Da affrontare in Step 5**: alzare `task_microros` a 100Hz e/o aumentare `QUEUE_DEPTH_IMU` per evitare drop massicci sull'`/imu/raw` decimato.
 - Creare `main/task_imu.c`, `task_flow.c`, `task_battery.c`, `task_motors.c`
 - `task_microros` per ora un placeholder che fa solo `xQueueReceive` da tutte le queue e logga ogni 100 messaggi
 - `main.c` refactor con menu+timeout, lancio task
 - Modalità `[1]` lancia i task; `[2]` e `[3]` sono il vecchio `sensor_log_mode` e `motor_test_mode`, intatti
 - **Verifica:** modalità 1 → log "imu_queue rcv N=100, flow_queue rcv N=20, batt_queue rcv N=1" senza crash, motori fermi (watchdog attivo, nessun cmd → stop).
 
-### Step 4 — WiFi connect in `uros_interface`
+### Step 4 — WiFi connect in `uros_interface` ✅ COMPLETATO
+
+**Note esecuzione:** IP assegnato dal router al drone in test: `192.168.1.15`. Mirrored networking WSL attivo, ping drone↔WSL OK. Rete è WPA3-SAE: configurato `WIFI_AUTH_WPA2_PSK` come threshold minimo (compatibile sia WPA2 che WPA3).
 - Implementare `uros_wifi_connect()`
 - Chiamarlo da `uros_mode()` prima di lanciare i task
 - `task_microros` ancora placeholder
