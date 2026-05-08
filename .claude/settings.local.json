@@ -8,7 +8,12 @@
       "Bash(for f:*)",
       "Bash(do python3:*)",
       "Bash(done)",
-      "Bash(pip install:*)"
+      "Bash(pip install:*)",
+      "Bash(git add *)",
+      "Bash(git commit -m 'docs: piano implementativo micro-ROS tethered + refactor task/queue *)",
+      "Bash(git push *)",
+      "Bash(git checkout *)",
+      "Bash(git check-ignore *)"
     ]
   }
 }

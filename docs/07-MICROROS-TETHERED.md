@@ -70,7 +70,7 @@ Avvia in un solo processo:
 
 ## 3. Topic disponibili
 
-### 3.1 Pubblicati dal drone (5)
+### 3.1 Pubblicati dal drone (8)
 
 | Topic | Tipo | Freq | QoS | Frame ID |
 |---|---|---|---|---|
@@ -79,20 +79,67 @@ Avvia in un solo processo:
 | `/drone_1/range` | `sensor_msgs/Range` | ~20 Hz | BEST_EFFORT | `range_link` |
 | `/drone_1/battery` | `sensor_msgs/BatteryState` | 1 Hz | BEST_EFFORT | `battery_link` |
 | `/drone_1/motors` | `std_msgs/Float32MultiArray` | ~100 Hz (echo) | BEST_EFFORT | — |
+| `/drone_1/armed` | `std_msgs/Bool` | on-change + 1 al boot | RELIABLE | — |
+| `/drone_1/temp` | `sensor_msgs/Temperature` | 1 Hz | BEST_EFFORT | `esp32_die` |
+| `/drone_1/log` | `rcl_interfaces/Log` | event-driven (max ~500/s) | BEST_EFFORT | — |
 
-### 3.2 Sottoscritti dal drone (1)
+Limiti micro-ROS in `app-colcon.meta`: `MAX_PUBLISHERS=12`, `MAX_SUBSCRIPTIONS=4`. 8/12 e 2/4 attualmente.
+
+### 3.2 Sottoscritti dal drone (2)
 
 | Topic | Tipo | QoS | Comportamento |
 |---|---|---|---|
-| `/drone_1/cmd_motor_test` | `std_msgs/Float32MultiArray` | RELIABLE | `data[0..3]` = duty FL,RL,RR,FR in 0-100. Lunghezza ≠ 4 → scartato + warning. Clamp 0-100. Watchdog 500ms su `task_motors`: assenza di nuovo comando → motori a 0. |
+| `/drone_1/cmd_motor_test` | `std_msgs/Float32MultiArray` | RELIABLE | `data[0..3]` = duty FL,RL,RR,FR in 0-100. Lunghezza ≠ 4 → scartato + warning. Clamp 0-100. Watchdog 500ms su `task_motors`: assenza di nuovo comando → motori a 0. **Quando disarmato i motori sono forzati a 0** indipendentemente dal cmd ricevuto. |
+| `/drone_1/arm` | `std_msgs/Bool` | RELIABLE | Sticky software arm. `true` → motori abilitati a girare (subordinatamente al watchdog cmd). `false` → motori forzati a 0 immediatamente (latenza ≤1ms a 1kHz). Boot: **DISARMED**. Sulla transizione disarm→arm il watchdog cmd è resettato: serve un nuovo `cmd_motor_test` prima che i motori possano girare. Echo dello stato su `/drone_1/armed`. |
 
 ---
 
-## 4. Pubblicare `cmd_motor_test` da Foxglove
+## 4. Arm software (`/drone_1/arm` + `/drone_1/armed`)
+
+Lo stato di arm è un flag atomico in firmware (`g_armed`, default `false` al boot). Cambia **solo** quando arriva un messaggio sul topic `/drone_1/arm`. Quando disarmato, `task_motors` forza l'output PWM a 0 a ogni ciclo (1kHz, latenza max ~1ms) ignorando qualsiasi `cmd_motor_test`.
+
+### 4.1 Pannello Publish — arm/disarm
+
+In Foxglove aggiungi un pannello **Publish**:
+- **Topic:** `/drone_1/arm`
+- **Schema:** `std_msgs/msg/Bool`
+- **Button mode:** `Publish` (one-shot — lo stato è sticky lato firmware)
+- Payload ARM: `{ "data": true }` — Payload DISARM: `{ "data": false }`
+
+Comoda anche una coppia di pulsanti separati (due pannelli Publish, uno per `true` e uno per `false`).
+
+### 4.2 Indicatore stato (`/drone_1/armed`)
+
+Aggiungi un pannello **Indicator** o **Plot** su `/drone_1/armed.data`. Il drone ripubblica lo stato:
+- una volta dopo `uros_init` (DISARMED)
+- a ogni transizione (callback `arm_cb`)
+
+Se il pannello Indicator non vede nulla all'apertura, premi una volta arm/disarm — il messaggio successivo riempie l'indicatore.
+
+### 4.3 CLI equivalente
+
+```bash
+ros2 topic pub --once /drone_1/arm  std_msgs/msg/Bool "{data: true}"
+ros2 topic pub --once /drone_1/arm  std_msgs/msg/Bool "{data: false}"
+ros2 topic echo /drone_1/armed
+```
+
+### 4.4 Comportamento sulle transizioni
+
+| Transizione | Effetto |
+|---|---|
+| boot | `g_armed=false`, motori a 0, /armed pubblicato (false) |
+| disarmato → armato | `last_cmd_us=0` → motori restano 0 finché non arriva un nuovo `cmd_motor_test` (anti-replay di cmd stantii) |
+| armato → disarmato | motori a 0 entro 1ms (gate in `task_motors`) |
+| arm con stesso valore | nessun publish duplicato su `/armed` (only on-change) |
+
+---
+
+## 5. Pubblicare `cmd_motor_test` da Foxglove
 
 Foxglove Studio supporta la pubblicazione di topic ROS2 attraverso il `foxglove_bridge`. Il pannello dedicato è **Publish**.
 
-### 4.1 Setup pannello Publish
+### 5.1 Setup pannello Publish
 
 1. In Foxglove Studio: pannello in alto a destra → "+" → cerca **Publish** → aggiungi
 2. Nel pannello, configura:
@@ -108,7 +155,9 @@ Foxglove Studio supporta la pubblicazione di topic ROS2 attraverso il `foxglove_
    ```
    `data` è l'unico campo che leggiamo: 4 float in 0-100, mapping FL, RL, RR, FR.
 
-### 4.2 Test sequenza (eliche STACCATE, switch arm ON)
+### 5.2 Test sequenza (eliche STACCATE, switch arm hardware ON, **arm software ON**)
+
+> Prerequisito: pubblica `/drone_1/arm` con `data: true` prima di iniziare. Senza arm i motori restano a 0 anche con cmd validi.
 
 | # | Azione | Atteso |
 |---|---|---|
@@ -117,10 +166,12 @@ Foxglove Studio supporta la pubblicazione di topic ROS2 attraverso il `foxglove_
 | 3 | Pubblica `[15,0,0,0]` once | Solo FL gira. |
 | 4 | Pubblica `[150,-10,50,200]` once | Echo `[100,0,50,100]` (clamp). |
 | 5 | Pubblica `data` di lunghezza 2 | Serial monitor: `W (uros) cmd_motor_test: size=2 atteso 4 — scartato`. Motori restano fermi. |
+| 6 | In pieno duty `[20,20,20,20]` @ 5Hz, pubblica `arm: false` | Motori a 0 entro 1ms. /armed → false. cmd_motor_test continua ad arrivare ma è ignorato. |
+| 7 | Da disarmato, pubblica `arm: true` senza inviare cmd | Motori restano 0 (anti-replay: watchdog richiede un cmd nuovo). |
 
 > **Watchdog:** il `task_motors` azzera i motori se non riceve un cmd entro `MOTOR_CMD_TIMEOUT_MS=500ms`. Per duty sostenuto serve `Publish at rate` ≥ 3Hz (3 cmd/s, margine 333ms < 500ms).
 
-### 4.3 Alternativa CLI
+### 5.3 Alternativa CLI
 
 ```bash
 ros2 topic pub -r 5 /drone_1/cmd_motor_test std_msgs/msg/Float32MultiArray \
@@ -128,9 +179,63 @@ ros2 topic pub -r 5 /drone_1/cmd_motor_test std_msgs/msg/Float32MultiArray \
 # Ctrl+C → motori a 0 entro 500ms
 ```
 
+> **Nota:** alcune versioni del Publish panel di Foxglove **non hanno l'opzione "Publish at rate" nativa** (solo bottone one-shot o "publish on hold"). In quel caso è obbligatorio usare il `ros2 topic pub -r` da terminale. Il drone non si comporta diversamente: vale solo il rate effettivo a cui i messaggi arrivano sul topic.
+
 ---
 
-## 5. Troubleshooting
+## 6. Console di debug Foxglove (`/drone_1/log`)
+
+Il drone pubblica una console di log strutturata su `/drone_1/log` (`rcl_interfaces/msg/Log`, BEST_EFFORT). Foxglove la mostra nativamente nel **Log panel**, con filtri per livello e per `name`.
+
+### 6.1 Aggiungere il pannello
+
+`+` → cerca **Log** → Add. Settings → Topic = `/drone_1/log`. Default OK: mostra tutti i livelli, `name` filterable.
+
+Livelli usati:
+
+| Livello | Valore | Quando |
+|---|---|---|
+| INFO  | 20 | eventi normali (boot, WiFi up, ARM ack) |
+| WARN  | 30 | retry, transizioni di safety, anomalie recuperabili |
+| ERROR | 40 | reset reason critici (BROWNOUT, PANIC, WDT) |
+
+### 6.2 Eventi loggati attualmente
+
+| Evento | Livello | Messaggio tipico |
+|---|---|---|
+| Reset reason al boot | INFO/WARN/ERROR | `boot reset_reason=BROWNOUT (15)` |
+| uROS pronto | INFO | `uROS ready: node=/drone_1/drone_node, agent=...:8888` |
+| WiFi associato | INFO | `WiFi associato, attesa DHCP` |
+| WiFi disconnesso | WARN | `WiFi disconnect retry=3 reason=201` |
+| WiFi connesso (IP) | INFO | `WiFi connected IP=192.168.1.15` |
+| Arm/disarm | WARN | `ARM DISARMED -> ARMED` |
+| Watchdog motori scattato | WARN | `motors watchdog: cmd timeout >500ms, motori azzerati` |
+| Flusso cmd ripreso | INFO | `motors: cmd flow ripreso` |
+| `cmd_motor_test` malformato | WARN | `cmd_motor_test size=2 (atteso 4) scartato` |
+
+> **Caso d'uso primario adesso:** se il drone si resetta durante un test motori (sospetto brownout dovuto al supply / buck-boost), al boot successivo il primo log su `/drone_1/log` ti dice `boot reset_reason=BROWNOUT` con livello ERROR. Conferma diagnosi senza dover essere collegato al monitor seriale.
+
+### 6.3 CLI equivalente
+
+```bash
+# Live tail di tutti i log del drone (BEST_EFFORT obbligatorio)
+ros2 topic echo /drone_1/log --qos-reliability best_effort
+
+# Solo le entry warning+ (filtro client-side)
+ros2 topic echo /drone_1/log --qos-reliability best_effort \
+  --filter "m.level >= 30"
+```
+
+### 6.4 Vincoli
+
+- Implementazione: queue FreeRTOS 16 slot, drain in `task_microros` cap 5 msg/ciclo (10ms) → 500/s effettivi. **Burst oltre soglia: drop silenzioso** (la perdita di un log non è critica).
+- Lunghezza messaggio troncata a ~190 byte.
+- `uros_log()` (vedi `components/uros_interface/include/uros_interface.h`) **non va chiamata da ISR**.
+- BEST_EFFORT: i log persi non vengono ritrasmessi. È accettabile per un canale diagnostico; per eventi critici di safety usare un publisher RELIABLE dedicato.
+
+---
+
+## 7. Troubleshooting
 
 ### Drone non si connette al WiFi
 - Verifica credenziali in `sdkconfig` (gitignored, possono tornare al default dopo `idf.py reconfigure`):
@@ -182,7 +287,11 @@ ros2 topic pub -r 5 /drone_1/cmd_motor_test std_msgs/msg/Float32MultiArray \
 
 ---
 
-## 6. Stato test al 2026-05-08
+## 8. Stato test
+
+**2026-05-09:** console `/drone_1/log` aggiunta (rcl_interfaces/Log, BEST_EFFORT). 8/12 publisher utilizzati. Test motori in corso: drone si resetta sopra il 20% PWM su 2+ motori — sospetto brownout dovuto al buck-boost AliExpress; da confermare via reset reason loggato al boot successivo (`boot reset_reason=BROWNOUT` su `/drone_1/log`). Soluzione raccomandata: passaggio a LiPo 1S 25C, oppure cap 1000 µF + 100 nF sull'uscita del buck.
+
+**2026-05-08:**
 
 | Test | Stato | Note |
 |---|---|---|
@@ -194,13 +303,15 @@ ros2 topic pub -r 5 /drone_1/cmd_motor_test std_msgs/msg/Float32MultiArray \
 | Battery placeholder | ⚠️ | `0.0` da USB, da rivalidare con BT2.0 |
 | Subscriber `cmd_motor_test` callback | ⚠️ implementato non testato | Motori non saldati al 2026-05-08 |
 | Watchdog 500ms motori | ⚠️ implementato non testato | Idem |
-| Foxglove Publish panel cmd_motor_test | ⚠️ pendente | Quando motori operativi |
+| Subscriber `/arm` + gate motori | ⚠️ implementato non testato | Build OK al 2026-05-08, test motori pendente |
+| Publisher `/armed` on-change | ⚠️ implementato non testato | Idem |
+| Foxglove Publish panel cmd_motor_test / arm | ⚠️ pendente | Quando motori operativi |
 
 Il bring-up motori (saldatura, alimentazione BT2.0, switch arm, prima rotazione) chiuderà ufficialmente la Fase 0B.
 
 ---
 
-## 7. Vincoli operativi (rimemoria)
+## 8. Vincoli operativi (rimemoria)
 
 - **Eliche STACCATE** in tutta la fase tethered (fino a fine Fase 1 PID).
 - **Switch arm motori OFF** durante flash; ON solo per test attivi.

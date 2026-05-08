@@ -50,9 +50,14 @@ GPIO ──[100Ω]── Gate ──┬── MOSFET
 
 ## Watchdog (modalità uROS)
 
-Quando il firmware gira in modalità `[1] uROS` (default), `task_motors` (1kHz) implementa un watchdog di sicurezza: se non riceve un nuovo `motor_cmd_t` da `cmd_queue` entro `MOTOR_CMD_TIMEOUT_MS` (500ms, vedi `drone_config.h`) i 4 duty vengono forzati a 0. Anche al boot, `last_cmd_us=0` mantiene i motori fermi finché non arriva il primo comando da micro-ROS.
+Quando il firmware gira in modalità `[1] uROS` (default), `task_motors` (1kHz) implementa due gate di sicurezza:
 
-I comandi entrano via subscriber `/drone_1/cmd_motor_test` (`std_msgs/Float32MultiArray`, 4 valori 0-100%, mapping FL/RL/RR/FR). Vedi `docs/07-MICROROS-TETHERED.md` per la guida operativa (Foxglove Publish panel).
+1. **Watchdog cmd 500ms:** se non riceve un nuovo `motor_cmd_t` da `cmd_queue` entro `MOTOR_CMD_TIMEOUT_MS` (vedi `drone_config.h`) i 4 duty vengono forzati a 0. Al boot `last_cmd_us=0` mantiene i motori fermi finché non arriva il primo comando.
+2. **Arm gate (sticky):** flag atomico globale `g_armed` (in `drone_types.h`, scritto dalla callback `/drone_1/arm` in `uros_interface`). Quando `false`, i motori sono forzati a 0 a ogni ciclo (latenza max ~1ms) **anche se** ci sono cmd validi in coda. Boot: DISARMED.
+
+Sulla transizione disarm→arm il task resetta `last_cmd_us=0`: il watchdog richiede un nuovo `cmd_motor_test` prima di far girare i motori (impedisce che cmd stantii pre-disarm riprendano automaticamente).
+
+I comandi entrano via subscriber `/drone_1/cmd_motor_test` (`std_msgs/Float32MultiArray`, 4 valori 0-100%, mapping FL/RL/RR/FR). L'arm via `/drone_1/arm` (`std_msgs/Bool`, sticky). Vedi `docs/07-MICROROS-TETHERED.md` §4-5 e `docs/08-BRINGUP-QUICKSTART.md` §5 per la guida operativa (Foxglove Publish panel).
 
 ## Test
 

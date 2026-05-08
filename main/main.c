@@ -18,6 +18,11 @@
 
 static const char *TAG = "main";
 
+// Definizione del flag globale di arm. Boot DISARMED per safety: nessun
+// comando residuo può far girare i motori prima di un publish esplicito su
+// /drone_1/arm. Dichiarazione in components/common/include/drone_types.h.
+atomic_bool g_armed = false;
+
 // Forward declaration dei task definiti in main/task_*.c
 void task_imu(void *arg);
 void task_flow(void *arg);

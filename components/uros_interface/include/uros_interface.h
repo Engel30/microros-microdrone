@@ -27,3 +27,23 @@ esp_err_t uros_init(const uros_queues_t *queues);
 // Task micro-ROS (Core 0, prio PRIO_TASK_MICROROS, ~50Hz).
 // arg = uros_queues_t* (deve sopravvivere fino a fine task).
 void task_microros(void *arg);
+
+// ============================================================================
+// Console di debug Foxglove — publisher /drone_1/log (rcl_interfaces/Log)
+// ============================================================================
+// Livelli ROS2 standard. Il Log panel di Foxglove filtra per livello e stampa
+// con colori. uros_log() può essere chiamata da qualsiasi task (NON da ISR).
+// Drop on full: la queue interna è dimensionata per non saturare la rete; se
+// piena, il messaggio viene scartato (non blocca il chiamante).
+typedef enum {
+    UROS_LOG_DEBUG = 10,
+    UROS_LOG_INFO  = 20,
+    UROS_LOG_WARN  = 30,
+    UROS_LOG_ERROR = 40,
+    UROS_LOG_FATAL = 50,
+} uros_log_level_t;
+
+// Logga su /drone_1/log. Safe-on-not-ready: prima che uros_init crei la queue
+// la chiamata è no-op (nessun crash). Lunghezza messaggio troncata a ~190 byte.
+void uros_log(uros_log_level_t level, const char *fmt, ...)
+    __attribute__((format(printf, 2, 3)));

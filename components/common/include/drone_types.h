@@ -1,6 +1,8 @@
 #pragma once
 
 #include <stdint.h>
+#include <stdatomic.h>
+#include <stdbool.h>
 
 // Dati IMU raw dal MPU6050
 typedef struct {
@@ -33,3 +35,11 @@ typedef struct {
     float motor[4];                    // 0.0 - 100.0 %
     int64_t timestamp_us;
 } motor_cmd_t;
+
+// ============================================================================
+// Stato di arm software (sticky). Default DISARMED al boot.
+// Scrittore: callback subscriber /drone_1/arm (Core 0).
+// Lettori: task_motors (Core 1, 1kHz). Atomic per accesso cross-core safe.
+// Vedi components/uros_interface/README.md e main/task_motors.c.
+// ============================================================================
+extern atomic_bool g_armed;
