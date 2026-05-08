@@ -90,7 +90,7 @@
 // ============================================================================
 #define FREQ_IMU_HZ         1000
 #define FREQ_FLOW_HZ        20
-#define FREQ_MICROROS_HZ    50
+#define FREQ_MICROROS_HZ    100   // Step 5: 100Hz per pubblicare /imu/raw a 100Hz (decimation 1/10 da 1kHz)
 #define FREQ_BATTERY_HZ     1
 #define FREQ_MOTORS_HZ      1000
 
@@ -107,7 +107,7 @@
 // ============================================================================
 // FreeRTOS Queue Depths
 // ============================================================================
-#define QUEUE_DEPTH_IMU     5
+#define QUEUE_DEPTH_IMU     20  // Step 5: profondo per non perdere campioni 1kHz fra cicli uROS 100Hz
 #define QUEUE_DEPTH_FLOW    3
 #define QUEUE_DEPTH_STATE   3
 #define QUEUE_DEPTH_BATT    2
