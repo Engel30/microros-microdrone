@@ -1,0 +1,12 @@
+# Build artefatti colcon
+build/
+install/
+log/
+
+# Sorgenti scaricati via vcs import — versioni gestite da microros.repos
+src/micro_ros_agent/
+src/micro_ros_msgs/
+
+# Permettere i pacchetti nostri sotto src/
+!src/drone_bringup/
+!src/drone_planning/
