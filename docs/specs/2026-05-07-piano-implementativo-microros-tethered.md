@@ -2,7 +2,7 @@
 
 **Data:** 2026-05-07
 **Autore:** Angelo + Claude
-**Stato:** In esecuzione (Step 1-4 completati)
+**Stato:** In esecuzione (Step 1-6 completati). Step 7 (subscriber + watchdog motori) prossimo.
 **Branch:** `feature/microros-tethered`
 **Scope:** Fase 0A → Fase 0B chiuse via micro-ROS WiFi UDP, con refactor del firmware al modello multi-task previsto dalla spec.
 **Leggi prima:** `docs/specs/2026-04-26-stato-progetto-e-roadmap.md` (source of truth), `docs/02-FIRMWARE-ARCHITETTURA.md`, `docs/01-HARDWARE-BOM.md`, `CLAUDE.md`.
@@ -459,14 +459,33 @@ pip install catkin_pkg lark-parser empy==3.3.4 colcon-common-extensions
 - `task_microros` ancora placeholder
 - **Verifica:** boot mostra log `WiFi connected, IP=192.168.x.y`. Drone pingabile da WSL.
 
-### Step 5 — micro-ROS init + 1 publisher (`/imu/raw`)
-- Implementare `uros_init()` minimale: support, node, 1 publisher, executor
-- `task_microros` pubblica `/drone_1/imu/raw` a 100Hz
-- **Verifica:** in WSL `ros2 topic list` mostra `/drone_1/imu/raw`. `ros2 topic hz /drone_1/imu/raw` → ~100Hz. Foxglove plotta accel/gyro.
+### Step 5 — micro-ROS init + 1 publisher (`/imu/raw`) ✅ COMPLETATO
 
-### Step 6 — Restanti publisher
-- Aggiungere `/flow`, `/range`, `/battery`, `/motors`
-- **Verifica:** tutti i topic visibili con frequenza corretta. Foxglove dashboard con plot multipli.
+**Note esecuzione:**
+- `FREQ_MICROROS_HZ` alzato 50→100, `QUEUE_DEPTH_IMU` 5→20 (tenere 1kHz IMU senza drop tra cicli a 100Hz).
+- Publisher BEST_EFFORT per `/drone_1/imu/raw` (`sensor_msgs/Imu`). Decimazione naturale: drain di tutta la coda, publish dell'ultimo campione → 100Hz da 1kHz.
+- Conversioni: accel `g→m/s²` (×9.80665), gyro `deg/s→rad/s` (×π/180).
+- Covarianze a `-1` su `[0]` (convenzione ROS2 "unknown"), `frame_id="imu_link"`.
+- Timestamp da `esp_timer_get_time()` (microsecondi monotonic ESP).
+- **Aggiunto ping retry infinito** prima di `support_init` (sezione "Criticità" sotto): senza, ogni assenza dell'agent causa reboot in panic loop.
+- `uros_init` retry anche su `support_init` (max 30 tentativi).
+- **Verifica OK:** `ros2 topic hz /drone_1/imu/raw --window 200` → 102.7 Hz medi, std_dev 4ms.
+
+### Step 6 — Restanti publisher ✅ COMPLETATO
+
+**Note esecuzione:**
+- 4 publisher BEST_EFFORT aggiuntivi: `/flow` (`geometry_msgs/Vector3Stamped`, ~20Hz), `/range` (`sensor_msgs/Range`, ~20Hz), `/battery` (`sensor_msgs/BatteryState`, 1Hz), `/motors` (`std_msgs/Float32MultiArray`, ~100Hz).
+- Frame_id: `flow_link`, `range_link`, `battery_link`.
+- Range type: `INFRARED` (convenzione standard per ToF in ROS2), FoV ~27° (0.471 rad), range 0.04-4m.
+- Battery: tecnologia LIPO, percentuale lineare 3.0-4.2V (placeholder), campi `current/charge/capacity/temperature` a `NAN` ("unknown").
+- Motors echo: il `motor_echo_queue` è scritto da task_motors a 1kHz con `xQueueOverwrite`; pubblichiamo l'ultimo a freq task (100Hz).
+- **Default micro-ROS troppo restrittivi**: serviti override via `app-colcon.meta` (sezione "Criticità"). Modifiche cumulative:
+  - `RMW_UXRCE_MAX_PUBLISHERS=8` (era 2)
+  - `RMW_UXRCE_MAX_SUBSCRIPTIONS=4` (era 2)
+  - `RMW_UXRCE_MAX_HISTORY=4` (era 1)
+  - `RMW_UXRCE_STREAM_HISTORY=8` (era 4)
+  - `UCLIENT_UDP_TRANSPORT_MTU=2048` (era 512)
+- **Verifica OK:** tutti i topic visibili e a frequenza nominale (verificate con `--qos-reliability best_effort` o Foxglove, NON con `ros2 topic hz` di default che usa QoS RELIABLE → mismatch silenzioso).
 
 ### Step 7 — Subscriber `cmd_motor_test` + watchdog
 - Aggiungere subscriber RELIABLE
@@ -555,10 +574,102 @@ new:        docs/07-MICROROS-TETHERED.md
 
 ---
 
+## 10bis. Criticità incontrate durante l'esecuzione (Step 1-6)
+
+Raccolta degli intoppi reali e delle scoperte che NON erano previste dal piano. Da consultare in caso di rigressioni o per nuove macchine.
+
+### Build & dipendenze
+
+1. **Dipendenze Python micro-ROS mancanti dal venv ESP-IDF.** Il primo build di `libmicroros.a` fallisce con `ModuleNotFoundError: catkin_pkg` o `lark`. Fix una tantum:
+   ```bash
+   pip install catkin_pkg lark-parser empy==3.3.4 colcon-common-extensions
+   ```
+
+2. **Default micro-ROS troppo restrittivi per multi-publisher.** I limiti hard-coded in `managed_components/micro_ros_espidf_component/colcon.meta` permettono solo 2 publisher e 2 subscription. Per 5 publisher serve override via `app-colcon.meta` nel root del progetto. Trigger del rebuild della `libmicroros.a` non automatico: serve cancellare manualmente:
+   ```bash
+   rm -f managed_components/micro_ros_espidf_component/libmicroros.a
+   rm -rf managed_components/micro_ros_espidf_component/micro_ros_src/{build,install}
+   rm -rf build
+   idf.py build   # ~5 min full rebuild
+   ```
+
+3. **MTU UDP del client e stream history.** Default `UCLIENT_UDP_TRANSPORT_MTU=512` e `RMW_UXRCE_STREAM_HISTORY=4` saturano i buffer di output con 5 publisher attivi → drop massicci asimmetrici (battery 100% perso, imu 50%, range 0%). Bumped a 2048 + 8 in `app-colcon.meta`. Verifica del nuovo valore in `micro_ros_src/install/include/uxr/client/config.h` dopo il rebuild.
+
+4. **`esp_timer.h` non auto-richiesto.** `components/uros_interface/CMakeLists.txt` deve avere `esp_timer` esplicito in `REQUIRES`, altrimenti compile error.
+
+### WiFi
+
+5. **WPA2/WPA3 transition mode richiede PMF.** Con `threshold.authmode = WIFI_AUTH_WPA2_PSK` + nessun PMF, l'auth fallisce in transition con codice `0x200` (sequenza `auth → init` ripetuta). Fix:
+   ```c
+   wifi_config.sta.threshold.authmode = WIFI_AUTH_OPEN;  // niente filtro
+   wifi_config.sta.pmf_cfg.capable = true;               // richiesto da SAE
+   wifi_config.sta.pmf_cfg.required = false;             // ma compatibile WPA2
+   ```
+
+6. **`sdkconfig` reset perde le credenziali.** Le credenziali WiFi sono in `Kconfig.projbuild` ma il valore vivo sta in `sdkconfig` (gitignored). Dopo `idf.py reconfigure` o pulizie possono tornare al default `"YOUR_PASS"`. Verificare con `grep DRONE_WIFI sdkconfig` prima di indagare auth fail.
+
+### micro-ROS / agent
+
+7. **Reboot loop se l'agent non c'è al boot.** `rclc_support_init_with_options` ritorna `RCL_RET_ERROR` se l'agent non è raggiungibile, e con `RCCHECK` causa panic+reboot. Soluzione: ping retry infinito **prima** di `support_init` con `rmw_uros_ping_agent_options`, sleep 1s, log ogni 10 tentativi. Niente reboot, drone aspetta l'agent indefinitamente.
+
+8. **Docker `--net=host` su WSL2 non basta per Fast-DDS.** Anche con mirrored networking attivo, il container condivide rete ma NON IPC namespace → Fast-DDS shared memory transport fallisce → ROS2 client riceve a frequenza erratica (es. 5Hz invece di 100Hz, burst con std_dev 0.4s). Soluzioni provate in ordine:
+   - `--ipc=host` (non testato a fondo)
+   - `FASTDDS_BUILTIN_TRANSPORTS=UDPv4` env var su entrambi i lati
+   - **Soluzione adottata**: agent buildato nativo in WSL via `ros2_ws/` con `vcs import`, niente Docker. 100Hz reali con std_dev 4ms.
+
+9. **Windows Defender blocca UDP 8888 inbound.** Anche con WSL2 mirrored e agent in ascolto su 192.168.1.9:8888, il drone non raggiunge l'agent. Fix una tantum (PowerShell admin):
+   ```powershell
+   New-NetFirewallRule -DisplayName "uROS Agent UDP 8888" -Direction Inbound -Protocol UDP -LocalPort 8888 -Action Allow
+   ```
+
+10. **`ros-humble-micro-ros-agent` non è un pacchetto apt standard.** Va buildato da sorgente. Workspace dedicato `ros2_ws/` con `microros.repos` (vcs import) gestisce tutto. Vedi `ros2_ws/README.md`.
+
+### ROS2 client side
+
+11. **`ros2 topic hz` con QoS default è inaffidabile per BEST_EFFORT publisher.** Crea il subscriber con QoS `SYSTEM_DEFAULT` che spesso è RELIABLE → mismatch silenzioso → frequenze sottostimate (50% di drop apparente) o zero (es. `/battery` mostrava 0Hz mentre `echo --qos-reliability best_effort` riceveva tutti i messaggi). **Per misurare correttamente i nostri topic usare:**
+    ```bash
+    ros2 topic echo /drone_1/<topic> --qos-reliability best_effort
+    # oppure ros2 topic hz con --window grande, ma diagnosi via echo
+    ```
+    Foxglove Studio fa QoS automatico → affidabile.
+
+12. **ROS2 daemon stantio.** Dopo restart agent o cambi rete, `ros2 topic list` può rimanere bloccato indefinitamente. Workaround:
+    ```bash
+    pkill -9 -f "_ros2_daemon"
+    ros2 daemon start
+    # oppure ros2 topic list --no-daemon
+    ```
+
+### Hardware
+
+13. **`voltage: 0.0` nel topic `/battery`** quando il drone è alimentato solo da USB (no BT2.0/batteria sul partitore). Atteso: il pin ADC `PIN_BATTERY_ADC` è collegato al partitore della linea VBAT che è scollegata. Non è un bug. Quando si alimenta da BT2.0 deve apparire la tensione vera.
+
+14. **`design_capacity = 0.3` è placeholder.** Da parametrizzare quando si conosce la batteria definitiva (probabile 200-300mAh per coreless 8520).
+
+### Convenzioni e best practice scoperte
+
+15. **Frame ID con `micro_ros_string_utilities_set`.** Le `rosidl_runtime_c__String` non si possono assegnare con costanti C `=` ; serve l'helper `micro_ros_string_utilities_set` per allocare correttamente.
+
+16. **NaN per campi "unknown" in BatteryState.** Convenzione ROS2: `current/charge/capacity/percentage/temperature = NAN` se non noti. Visualizzato come `.nan` in `topic echo`.
+
+17. **`xQueueOverwrite` per coda depth=1.** `motor_echo_queue` viene scritto a 1kHz da task_motors ma letto a 100Hz da task_microros. Senza overwrite, FreeRTOS bloccherebbe o droppa imprevedibilmente.
+
+---
+
 ## 11. Avvio della prossima sessione
 
 Apri una nuova chat di Claude Code in questa repo. Bastano le seguenti istruzioni:
 
-> Leggi `docs/specs/2026-05-07-piano-implementativo-microros-tethered.md` ed eseguilo step-by-step. Ferma prima di ogni step di verifica e mostrami i comandi di test prima di procedere allo step successivo.
+> Sono sul branch `feature/microros-tethered`. Step 1-6 del piano `docs/specs/2026-05-07-piano-implementativo-microros-tethered.md` sono completati e funzionanti (5 publisher attivi: imu/raw, flow, range, battery, motors). Riprendi dallo Step 7 (subscriber `/cmd_motor_test` + watchdog motori 500ms). Leggi anche la sezione "10bis. Criticità incontrate" del piano per non rifare gli stessi inciampi. Ferma prima di ogni step di verifica e mostrami i comandi di test.
 
-Il piano è pensato per essere autosufficiente: include contesto, scelte fatte, struttura attuale, struttura target, modifiche puntuali ai file, ordine di esecuzione, test plan, rischi.
+Il piano è pensato per essere autosufficiente: include contesto, scelte fatte, struttura attuale, struttura target, modifiche puntuali ai file, ordine di esecuzione, test plan, rischi, **criticità reali incontrate**.
+
+### Stato hardware al 2026-05-08
+- Drone alimentato solo da USB-C XIAO (BT2.0 staccato → `voltage: 0.0` su `/battery` è atteso, non bug)
+- Eliche staccate, switch arm motori OFF
+- WiFi: rete LiboHouse, drone IP 192.168.1.15, agent IP 192.168.1.9 (PC su WSL nativo)
+
+### Stato software al 2026-05-08
+- ROS2 ws nativo in `ros2_ws/` (Humble + Foxglove via apt + agent vcs import). Launch: `ros2 launch drone_bringup drone.launch.py`.
+- Firmware `feature/microros-tethered`: tutti i 5 publisher attivi e funzionanti.
+- `app-colcon.meta` in root con override limiti micro-ROS (8 pub, MTU 2048, stream history 8). Modificarlo richiede rebuild manuale (vedi criticità #2).
