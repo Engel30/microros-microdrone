@@ -2,7 +2,7 @@
 
 Bridge tra micro-ROS (ROS2) e le FreeRTOS queues interne del drone.
 
-## Stato: Step 6 completato (5 publisher attivi). Step 7 pending (subscriber `cmd_motor_test`).
+## Stato: Step 7 completato (5 publisher + 1 subscriber + executor). Watchdog motori 500ms in `task_motors`.
 
 ## API
 
@@ -22,12 +22,14 @@ Bridge tra micro-ROS (ROS2) e le FreeRTOS queues interne del drone.
 
 Frame ID: `imu_link`, `flow_link`, `range_link`, `battery_link`. Timestamp via `esp_timer_get_time()` (microsecondi monotonic, NON sincronizzato con clock agent).
 
-## Topic sottoscritti (pendenti)
+## Topic sottoscritti
 
-| Topic | Tipo messaggio | Step |
-|-------|---------------|------|
-| `/drone_1/cmd_motor_test` | `std_msgs/msg/Float32MultiArray` (data[0..3] FL,RL,RR,FR 0-100%) | 7 |
-| `/drone_1/cmd_attitude` | `geometry_msgs/msg/Quaternion` | Fase 1 |
+| Topic | Tipo messaggio | QoS | Stato |
+|-------|---------------|-----|-------|
+| `/drone_1/cmd_motor_test` | `std_msgs/msg/Float32MultiArray` (data[0..3] FL,RL,RR,FR 0-100%) | RELIABLE | Step 7 ✅ |
+| `/drone_1/cmd_attitude` | `geometry_msgs/msg/Quaternion` | — | Fase 1 |
+
+Callback `cmd_motor_test`: scarta messaggi con `data.size != 4` (log warning), clampa 0-100, scrive su `cmd_queue` con `xQueueOverwrite`. `task_motors` legge la queue e aggiorna il timestamp watchdog: se nessun cmd entro `MOTOR_CMD_TIMEOUT_MS` (500ms) → motori a 0.
 
 ## Configurazione
 

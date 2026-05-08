@@ -60,7 +60,7 @@
 | Fase | Status | Obiettivo |
 |:-----|:-------|:----------|
 | **0A** | ✅ | Sensori raw, logging CSV |
-| **0B** | ⏸️ | Motor driver (ESP32 bruciato, fix: pull-down 10kΩ) |
+| **0B** | 🟡 | Motor driver firmware completo via micro-ROS (subscriber + watchdog 500ms). Bring-up motori sul PCB pendente. Vedi `docs/07-MICROROS-TETHERED.md`. |
 | **1** | 📅 | PID attitudine, hover stabile |
 | **2** | 📅 | Velocity hold optical flow |
 | **3** | 📅 | Position control waypoint |

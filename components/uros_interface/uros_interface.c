@@ -140,17 +140,53 @@ static rcl_publisher_t       s_pub_flow;
 static rcl_publisher_t       s_pub_range;
 static rcl_publisher_t       s_pub_battery;
 static rcl_publisher_t       s_pub_motors;
+static rcl_subscription_t    s_sub_cmd_motor;
+static rclc_executor_t       s_executor;
 static sensor_msgs__msg__Imu              s_msg_imu;
 static geometry_msgs__msg__Vector3Stamped s_msg_flow;
 static sensor_msgs__msg__Range            s_msg_range;
 static sensor_msgs__msg__BatteryState     s_msg_battery;
 static std_msgs__msg__Float32MultiArray   s_msg_motors;
 static float                              s_motors_data[4];
+// Buffer pre-allocato per il messaggio in arrivo. micro-ROS deserializza
+// in-place, quindi data.data e data.capacity devono puntare a memoria valida.
+static std_msgs__msg__Float32MultiArray   s_msg_cmd_motor;
+static float                              s_cmd_motor_data[8];
+static QueueHandle_t                      s_cmd_queue_ref = NULL;
 static bool                  s_uros_ready = false;
+
+// Callback subscriber /drone_1/cmd_motor_test
+// Validazione: data.size deve essere == 4, altrimenti scarta + log warning.
+// Clamp 0-100 per ciascun duty. Scrive su cmd_queue con xQueueOverwrite
+// (depth=1: sempre l'ultimo comando vince). task_motors aggiornerà il proprio
+// timestamp watchdog quando legge dalla queue.
+static void cmd_motor_test_cb(const void *msgin)
+{
+    const std_msgs__msg__Float32MultiArray *m = (const std_msgs__msg__Float32MultiArray *)msgin;
+
+    if (m == NULL || m->data.size != 4) {
+        ESP_LOGW(TAG, "cmd_motor_test: size=%u atteso 4 — scartato",
+                 (unsigned)(m ? m->data.size : 0));
+        return;
+    }
+
+    motor_cmd_t cmd = { .timestamp_us = esp_timer_get_time() };
+    for (int i = 0; i < 4; i++) {
+        float v = m->data.data[i];
+        if (v < 0.0f) v = 0.0f;
+        if (v > 100.0f) v = 100.0f;
+        cmd.motor[i] = v;
+    }
+
+    if (s_cmd_queue_ref) {
+        xQueueOverwrite(s_cmd_queue_ref, &cmd);
+    }
+}
 
 esp_err_t uros_init(const uros_queues_t *queues)
 {
     if (!queues) return ESP_ERR_INVALID_ARG;
+    s_cmd_queue_ref = queues->cmd_queue;
 
     s_allocator = rcl_get_default_allocator();
 
@@ -256,6 +292,26 @@ esp_err_t uros_init(const uros_queues_t *queues)
     s_msg_motors.data.size     = 4;
     s_msg_motors.data.capacity = 4;
     memset(s_motors_data, 0, sizeof(s_motors_data));
+
+    // Subscriber RELIABLE per cmd_motor_test (Float32MultiArray, attesi 4 valori)
+    RCCHECK(rclc_subscription_init_default(
+        &s_sub_cmd_motor, &s_node,
+        ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Float32MultiArray),
+        "cmd_motor_test"));
+
+    // Buffer di deserializzazione: capacity > 4 per gestire publish "lunghi"
+    // (la callback li scarterà comunque), evita errori out-of-buffer.
+    std_msgs__msg__Float32MultiArray__init(&s_msg_cmd_motor);
+    s_msg_cmd_motor.data.data     = s_cmd_motor_data;
+    s_msg_cmd_motor.data.size     = 0;
+    s_msg_cmd_motor.data.capacity = sizeof(s_cmd_motor_data) / sizeof(s_cmd_motor_data[0]);
+
+    // Executor con 1 handle (solo il subscriber). I publisher non passano
+    // dall'executor: pubblichiamo direttamente da task_microros.
+    RCCHECK(rclc_executor_init(&s_executor, &s_support.context, 1, &s_allocator));
+    RCCHECK(rclc_executor_add_subscription(
+        &s_executor, &s_sub_cmd_motor, &s_msg_cmd_motor,
+        &cmd_motor_test_cb, ON_NEW_DATA));
 
     s_uros_ready = true;
     ESP_LOGI(TAG, "uros_init OK: node=/%s/%s pub=/%s/imu/raw",
@@ -396,6 +452,10 @@ void task_microros(void *arg)
             motor_pub++;
             have_mecho = false;
         }
+
+        // Spin executor per eseguire la callback del subscriber cmd_motor_test.
+        // Timeout corto (5ms) per non sforare il periodo del task (10ms @ 100Hz).
+        rclc_executor_spin_some(&s_executor, RCL_MS_TO_NS(5));
 
         // Log diagnostico ogni 1s
         int64_t now = esp_timer_get_time();

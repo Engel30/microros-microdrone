@@ -48,10 +48,16 @@ GPIO ──[100Ω]── Gate ──┬── MOSFET
 - **Condensatore 100μF** sulla linea 5V motori: consigliato. Filtra rumore.
 - Le pull-down interne dell'ESP32 NON bastano (si attivano solo dopo il boot del firmware).
 
+## Watchdog (modalità uROS)
+
+Quando il firmware gira in modalità `[1] uROS` (default), `task_motors` (1kHz) implementa un watchdog di sicurezza: se non riceve un nuovo `motor_cmd_t` da `cmd_queue` entro `MOTOR_CMD_TIMEOUT_MS` (500ms, vedi `drone_config.h`) i 4 duty vengono forzati a 0. Anche al boot, `last_cmd_us=0` mantiene i motori fermi finché non arriva il primo comando da micro-ROS.
+
+I comandi entrano via subscriber `/drone_1/cmd_motor_test` (`std_msgs/Float32MultiArray`, 4 valori 0-100%, mapping FL/RL/RR/FR). Vedi `docs/07-MICROROS-TETHERED.md` per la guida operativa (Foxglove Publish panel).
+
 ## Test
 
-All'avvio del firmware, selezionare modalità [2] Motor test dal menu.
-Menu interattivo permette di comandare ogni motore singolarmente o tutti insieme.
+- **Modalità `[1] uROS`:** comandi via topic ROS2, watchdog 500ms attivo. Implementato (Step 7 del piano `2026-05-07-piano-implementativo-microros-tethered`), **non ancora testato sui motori reali** (al 2026-05-08 motori non saldati al PCB v1.0).
+- **Modalità `[2] Motor test`:** menu USB Serial interattivo legacy, ogni motore singolarmente o tutti insieme. Validato in passato sul vecchio ESP32 (poi bruciato pre-PCB).
 
 ## Dipendenze
 

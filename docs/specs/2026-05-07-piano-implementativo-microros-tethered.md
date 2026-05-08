@@ -2,7 +2,7 @@
 
 **Data:** 2026-05-07
 **Autore:** Angelo + Claude
-**Stato:** In esecuzione (Step 1-6 completati). Step 7 (subscriber + watchdog motori) prossimo.
+**Stato:** Step 1-6 completati e validati. Step 7 implementato ma **non testato** (motori non saldati al 2026-05-08). Step 8 in corso (chiusura documentale Fase 0B).
 **Branch:** `feature/microros-tethered`
 **Scope:** Fase 0A → Fase 0B chiuse via micro-ROS WiFi UDP, con refactor del firmware al modello multi-task previsto dalla spec.
 **Leggi prima:** `docs/specs/2026-04-26-stato-progetto-e-roadmap.md` (source of truth), `docs/02-FIRMWARE-ARCHITETTURA.md`, `docs/01-HARDWARE-BOM.md`, `CLAUDE.md`.
@@ -487,11 +487,17 @@ pip install catkin_pkg lark-parser empy==3.3.4 colcon-common-extensions
   - `UCLIENT_UDP_TRANSPORT_MTU=2048` (era 512)
 - **Verifica OK:** tutti i topic visibili e a frequenza nominale (verificate con `--qos-reliability best_effort` o Foxglove, NON con `ros2 topic hz` di default che usa QoS RELIABLE → mismatch silenzioso).
 
-### Step 7 — Subscriber `cmd_motor_test` + watchdog
-- Aggiungere subscriber RELIABLE
-- Callback popola `cmd_queue` con `xQueueOverwrite`
-- `task_motors` watchdog 500ms (già scritto in step 3, ora riceve cmd reali)
-- **Verifica con eliche STACCATE:**
+### Step 7 — Subscriber `cmd_motor_test` + watchdog ⚠️ IMPLEMENTATO, NON TESTATO
+
+**Note esecuzione (2026-05-08):**
+- Subscriber RELIABLE su `/drone_1/cmd_motor_test` (`std_msgs/Float32MultiArray`).
+- Callback `cmd_motor_test_cb`: scarta msg con `data.size != 4` (log warning), clampa 0-100, `xQueueOverwrite` su `cmd_queue`.
+- Buffer di deserializzazione `s_cmd_motor_data[8]` (capacity > 4 per non droppare publish lunghi a livello transport, scartati comunque dalla callback per `size != 4`).
+- Executor con 1 handle, `rclc_executor_spin_some(5ms)` nel loop di `task_microros`.
+- `task_motors` watchdog 500ms già operativo dallo Step 3, ora riceve cmd reali.
+- Build pulita, firmware non flashato. Motori del PCB non ancora saldati/alimentati → niente test funzionale.
+
+**Verifica funzionale rinviata** a quando i motori sono operativi. Comandi di test (eliche STACCATE):
   1. Pubblica `{data:[5,5,5,5]}` da Foxglove → motori girano a duty basso
   2. Smetti di pubblicare → entro 500ms motori si fermano (osservabile, sentibile)
   3. Pubblica solo `data[0]=15` → solo FL gira

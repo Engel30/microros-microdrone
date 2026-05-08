@@ -13,7 +13,7 @@ Questo documento è il riferimento unico per architettura, decisioni e roadmap d
 | Asset | Stato |
 |---|---|
 | Fase 0A — Sensori raw (IMU + Flow + Battery + log Foxglove) | ✅ Completata |
-| Fase 0B — Motor driver | ⚠️ Bloccata 2026-03-19 (ESP32 bruciato, GPIO floating + MOSFET) |
+| Fase 0B — Motor driver | 🟡 Firmware completo (subscriber `cmd_motor_test` + watchdog 500ms via micro-ROS, branch `feature/microros-tethered`). Bring-up motori sul PCB v1.0 pendente (saldatura motori + BT2.0 + switch arm). Vedi `docs/07-MICROROS-TETHERED.md`. |
 | PCB custom v1.0 (carrier 2-layer, pull-down 10kΩ, switch arm, partitore V-Sense) | 🔄 Layout EasyEDA in corso, ordine JLCPCB pendente |
 | Nuovi ESP32-S3 XIAO | 📦 In arrivo |
 | Componenti firmware esistenti | `common`, `imu_driver`, `flow_driver`, `motor_driver`, `battery_monitor`, `uros_interface` |
@@ -115,7 +115,7 @@ QoS: BEST_EFFORT telemetria, RELIABLE comandi.
 | Fase | Stato | Obiettivo | Criterio di successo |
 |---|---|---|---|
 | 0A | ✅ | Sensori raw + log Foxglove | Tutti i topic visibili e coerenti |
-| **0B** | **🔜 prossima** | Bring-up PCB custom + motor driver | 4 motori controllabili da Foxglove/CLI, no surriscaldamento, MOSFET stabili al boot |
+| **0B** | **🟡 in corso** | Bring-up PCB custom + motor driver (firmware via micro-ROS pronto) | 4 motori controllabili da Foxglove/CLI, no surriscaldamento, MOSFET stabili al boot |
 | 1 | 📅 | PID attitudine, hover stabile | Hover con sola IMU |
 | 2 | 📅 | Velocity hold con optical flow | Drone fermo nell'aria senza drift |
 | 3 | 📅 | Position control waypoint | Drone raggiunge target da PC |
