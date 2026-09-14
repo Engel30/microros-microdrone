@@ -21,7 +21,7 @@ Il progetto è rimasto fermo dal 2026-05-09 al 2026-09-14 (4 mesi, nessun file t
 
 5. **Dati hardware errati in documenti di produzione.** `docs/pcb-custom/easyeda-guida-uso.md` e `pcb-design-spec.md` indicano MOSFET SI2302 (LCSC `C10487`) e diodo 1N5819 in package DO-41 THT. La board v1.0 monta **AO3400A (SOT-23)** e **SS14 (SMA)** — confermato da Angelo il 2026-09-14. Chi riordinasse la PCB da questi documenti comprerebbe i componenti sbagliati.
 
-6. **Due timeline parallele** (`docs/archive/timeline-2026-05.md`, `docs/archive/timeline.md`) con storie complementari mai unite; la seconda ha anche l'ordine cronologico rotto (2026-03-20 elencato dopo 2026-04-26).
+6. **Due timeline parallele** (`docs/archive/timeline-2026-05.md`, `docs/archive/timeline-2026-04.md`) con storie complementari mai unite; la seconda ha anche l'ordine cronologico rotto (2026-03-20 elencato dopo 2026-04-26).
 
 7. **Root disordinata:** `attach-usb.md` (3 righe, duplicate di `04-SETUP-AMBIENTE.md`), `temp/` (4 schematici tracciati in git), `3d models/` (spazio nel nome), `logs/`, `sdkconfig.old`.
 
@@ -140,11 +140,11 @@ Contenuto **copiato fedelmente** dalle timeline esistenti, senza riscritture int
 |---|---|---|
 | `2026-05-09-test-motori-brownout.md` | `docs/archive/timeline-2026-05.md` | 1 |
 | `2026-05-08-microros-tethered-arm-e-diagnostica.md` | `docs/archive/timeline-2026-05.md` | 7 (Step 5+6, Step 7+8, quickstart, arm software, publisher temp, WiFi retry, WiFi/USB brownout) |
-| `2026-04-26-consolidamento-documentazione.md` | `docs/archive/timeline.md` | 1 |
-| `2026-03-20-pcb-custom-design.md` | `docs/archive/timeline.md` | 1 |
-| `2026-03-19-motor-driver-esp32-bruciato.md` | `docs/archive/timeline.md` | 1 |
-| `2026-03-11-fase-0a-sensori.md` | `docs/archive/timeline.md` | 1 (range 03-11 → 03-19) |
-| `2026-03-10-architettura-e-design-spec.md` | `docs/archive/timeline.md` | 1 |
+| `2026-04-26-consolidamento-documentazione.md` | `docs/archive/timeline-2026-04.md` | 1 |
+| `2026-03-20-pcb-custom-design.md` | `docs/archive/timeline-2026-04.md` | 1 |
+| `2026-03-19-motor-driver-esp32-bruciato.md` | `docs/archive/timeline-2026-04.md` | 1 |
+| `2026-03-11-fase-0a-sensori.md` | `docs/archive/timeline-2026-04.md` | 1 (range 03-11 → 03-19) |
+| `2026-03-10-architettura-e-design-spec.md` | `docs/archive/timeline-2026-04.md` | 1 |
 
 Le due timeline originali → `docs/archive/timeline-2026-05.md` e `docs/archive/timeline-2026-04.md`.
 

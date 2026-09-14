@@ -17,8 +17,12 @@
 # (`uros_interface/`), le librerie esterne (`esp-idf-lib/mpu6050`) e le menzioni
 # in prosa di sorgenti e comandi (`drone_config.h`, `main.c`, `idf.py`).
 #
-# docs/archive/ e' escluso: i documenti archiviati citano la disposizione dei
-# file dell'epoca (incluse spec poi eliminate) e non vanno riscritti.
+# Esclusi docs/archive/ e docs/specs/: sono documenti immutabili. Una spec e'
+# l'istantanea di un momento — i suoi riferimenti descrivono la disposizione dei
+# file di allora (e a volte percorsi solo proposti, mai realizzati) e fanno parte
+# dell'istantanea. Riscriverli falsificherebbe la traccia delle decisioni.
+# Il checker sorveglia la documentazione VIVA: STATO, grounding, sessions,
+# pcb-custom, README di root e dei componenti.
 #
 # Risoluzione: valido se esiste relativo alla cartella del file che lo cita
 # OPPURE relativo alla radice del repo (in questo repo la prosa usa percorsi
@@ -39,7 +43,7 @@ is_excluded() {
     ./build/*|./managed_components/*|./old/*|./.git/*) return 0 ;;
     ./ros2_ws/build/*|./ros2_ws/install/*|./ros2_ws/log/*) return 0 ;;
     ./ros2_ws/src/micro_ros_agent/*|./ros2_ws/src/micro_ros_msgs/*) return 0 ;;
-    ./docs/archive/*) return 0 ;;
+    ./docs/archive/*|./docs/specs/*) return 0 ;;
     *) return 1 ;;
   esac
 }
@@ -72,9 +76,11 @@ while IFS= read -r -d '' f; do
   while IFS= read -r ref; do
     [ -n "$ref" ] && check_ref "$f" "$ref"
   done < <(grep -oE '\]\([^)]+\)' "$f" 2>/dev/null | sed -E 's/^\]\(//; s/\)$//')
+  # nei link markdown il testo fra backtick e' l'etichetta, non un percorso:
+  # i link sono gia' stati verificati sopra, qui vanno rimossi per non contarli due volte
   while IFS= read -r ref; do
     [ -n "$ref" ] && check_ref "$f" "$ref"
-  done < <(grep -oE '`[^`]+`' "$f" 2>/dev/null | tr -d '`')
+  done < <(sed -E 's/\[[^]]*\]\([^)]*\)//g' "$f" | grep -oE '`[^`]+`' 2>/dev/null | tr -d '`')
 done < <(find . -name '*.md' -type f -print0)
 
 echo
