@@ -63,7 +63,7 @@ Ogni componente ha un proprio `README.md` con documentazione di API, stato e dip
 
 **Requisiti:** Windows 11 + WSL2 (Ubuntu 22.04), ESP-IDF v5.4, ROS2
 
-Guida completa: [`docs/setup-guide.md`](docs/setup-guide.md)
+Guida completa: [`docs/grounding/04-SETUP-AMBIENTE.md`](docs/grounding/04-SETUP-AMBIENTE.md)
 
 ### Quick start
 
@@ -108,6 +108,6 @@ idf.py -p /dev/ttyACM0 monitor
 ## Documentazione
 
 - [`docs/specs/`](docs/specs/) — Design spec (source of truth)
-- [`docs/setup-guide.md`](docs/setup-guide.md) — Setup completo ambiente di sviluppo
-- [`docs/HARDWARE_DIAGRAM.md`](docs/HARDWARE_DIAGRAM.md) — Schema connessioni
-- [`docs/HARDWARE_BOM.md`](docs/HARDWARE_BOM.md) — Bill of Materials
+- [`docs/grounding/04-SETUP-AMBIENTE.md`](docs/grounding/04-SETUP-AMBIENTE.md) — Setup completo ambiente di sviluppo
+- [`docs/grounding/02-HARDWARE-BOM.md`](docs/grounding/02-HARDWARE-BOM.md) — Schema connessioni
+- [`docs/grounding/02-HARDWARE-BOM.md`](docs/grounding/02-HARDWARE-BOM.md) — Bill of Materials

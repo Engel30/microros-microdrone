@@ -57,7 +57,7 @@ Quando il firmware gira in modalità `[1] uROS` (default), `task_motors` (1kHz) 
 
 Sulla transizione disarm→arm il task resetta `last_cmd_us=0`: il watchdog richiede un nuovo `cmd_motor_test` prima di far girare i motori (impedisce che cmd stantii pre-disarm riprendano automaticamente).
 
-I comandi entrano via subscriber `/drone_1/cmd_motor_test` (`std_msgs/Float32MultiArray`, 4 valori 0-100%, mapping FL/RL/RR/FR). L'arm via `/drone_1/arm` (`std_msgs/Bool`, sticky). Vedi `docs/07-MICROROS-TETHERED.md` §4-5 e `docs/08-BRINGUP-QUICKSTART.md` §5 per la guida operativa (Foxglove Publish panel).
+I comandi entrano via subscriber `/drone_1/cmd_motor_test` (`std_msgs/Float32MultiArray`, 4 valori 0-100%, mapping FL/RL/RR/FR). L'arm via `/drone_1/arm` (`std_msgs/Bool`, sticky). Vedi `docs/grounding/06-MICROROS-TETHERED.md` §4-5 e `docs/grounding/05-BRINGUP-QUICKSTART.md` §5 per la guida operativa (Foxglove Publish panel).
 
 ## Test
 

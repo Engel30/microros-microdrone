@@ -91,4 +91,4 @@
 ## 5. Riferimenti
 
 - Schematico EasyEDA: `docs/pcb-custom/`
-- Firmware: `docs/02-FIRMWARE-ARCHITETTURA.md`
+- Firmware: `docs/grounding/03-FIRMWARE-ARCHITETTURA.md`

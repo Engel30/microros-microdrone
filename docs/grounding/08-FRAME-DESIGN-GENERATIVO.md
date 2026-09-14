@@ -160,5 +160,5 @@ In alternativa: usa **ABS Plastic** dalla libreria come proxy — proprietà mec
 ## Riferimenti
 
 - CLAUDE.md (architettura progetto, pinout, hardware)
-- docs/01-HARDWARE-BOM.md
+- docs/grounding/02-HARDWARE-BOM.md
 - docs/pcb-custom/pcb-design-spec.md

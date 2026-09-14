@@ -2,7 +2,7 @@
 
 **Obiettivo:** in <5 minuti avere drone connesso, telemetria su Foxglove, e (motori montati) capacità di pubblicare `cmd_motor_test`.
 
-Questo è il **flusso da seguire ogni sessione**. Per i dettagli (topologia, topic, troubleshooting esteso, sequenze di test) vedi `07-MICROROS-TETHERED.md`. Per il setup iniziale di ROS2/agent una tantum, vedi `../ros2_ws/README.md`.
+Questo è il **flusso da seguire ogni sessione**. Per i dettagli (topologia, topic, troubleshooting esteso, sequenze di test) vedi `06-MICROROS-TETHERED.md`. Per il setup iniziale di ROS2/agent una tantum, vedi `../../ros2_ws/README.md`.
 
 ---
 
@@ -158,7 +158,7 @@ ros2 topic pub --once /drone_1/arm std_msgs/msg/Bool "{data: true}"
 ros2 topic pub --once /drone_1/arm std_msgs/msg/Bool "{data: false}"
 ```
 
-> Anti-replay: alla transizione disarm→arm il watchdog cmd è resettato. I motori NON ripartono col vecchio cmd: serve un nuovo `cmd_motor_test`. Vedi `07-MICROROS-TETHERED.md` §4.
+> Anti-replay: alla transizione disarm→arm il watchdog cmd è resettato. I motori NON ripartono col vecchio cmd: serve un nuovo `cmd_motor_test`. Vedi `06-MICROROS-TETHERED.md` §4.
 
 ### 5.1 Pannello Publish in Foxglove — `cmd_motor_test`
 
@@ -238,8 +238,8 @@ ros2 topic pub -r 5 /drone_1/cmd_motor_test std_msgs/msg/Float32MultiArray \
 
 ## 8. Riferimenti
 
-- **Guida operativa estesa:** `07-MICROROS-TETHERED.md`
-- **Setup iniziale ROS2 workspace:** `../ros2_ws/README.md`
-- **Stato/roadmap progetto:** `specs/2026-04-26-stato-progetto-e-roadmap.md`
-- **Piano implementativo + criticità:** `specs/2026-05-07-piano-implementativo-microros-tethered.md` (sezione 10bis)
-- **Architettura firmware:** `02-FIRMWARE-ARCHITETTURA.md`
+- **Guida operativa estesa:** `06-MICROROS-TETHERED.md`
+- **Setup iniziale ROS2 workspace:** `../../ros2_ws/README.md`
+- **Stato/roadmap progetto:** `../specs/2026-04-26-stato-progetto-e-roadmap.md`
+- **Piano implementativo + criticità:** `../specs/2026-05-07-piano-implementativo-microros-tethered.md` (sezione 10bis)
+- **Architettura firmware:** `03-FIRMWARE-ARCHITETTURA.md`
