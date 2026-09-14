@@ -29,9 +29,9 @@ Controllo PWM per 4 motori brushed via LEDC ESP-IDF.
 ## Hardware
 
 - Motori: 8520 coreless brushed 3.7V 1S
-- MOSFET: SI2302 low-side switch (Rds_on ~40mΩ, Vgs_th ~1.2V)
-- Diodo flyback: 1N5819 per motore (catodo verso +5V, anodo verso drain)
-- Drive: GPIO 3.3V → gate SI2302 (ampio margine sopra threshold)
+- MOSFET: AO3400A (SOT-23) low-side switch, logic-level (Rds_on ~28mΩ @ Vgs=4.5V, Vgs(th) ~0.65-1.45V)
+- Diodo flyback: SS14 (SMA, Schottky 40V 1A, Vf ~0.5V) per motore, catodo verso VBAT_MOTORS, anodo verso drain
+- Drive: GPIO 3.3V → gate AO3400A (ampio margine sopra threshold)
 
 ### ⚠️ Protezioni OBBLIGATORIE
 

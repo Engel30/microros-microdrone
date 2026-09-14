@@ -88,9 +88,9 @@ Ogni motore ha un circuito identico:
                  │  8520  │
                  └───┬───┘
                      │
-              D (1N5819)──── catodo a VBAT_MOTORS
+              D (SS14)───── catodo a VBAT_MOTORS
               │      │       anodo a Drain
-              │ Drain SI2302
+              │ Drain AO3400A
               │ Gate ───[R 100Ω]─── GPIOx (ESP32)
               │  │
               │ [R 10kΩ]
@@ -104,8 +104,8 @@ Ogni motore ha un circuito identico:
 
 | Componente | Valore | Package | Funzione |
 |-----------|--------|---------|----------|
-| Q (MOSFET) | SI2302 | SOT-23 | Low-side switch |
-| D (flyback) | 1N5819 | DO-41 (THT) | Protezione spike induttivi |
+| Q (MOSFET) | AO3400A | SOT-23 | Low-side switch, logic-level |
+| D (flyback) | SS14 | SMA (SMD) | Protezione spike induttivi |
 | R_pulldown | 10kΩ | 0603 SMD | Pull-down gate (OBBLIGATORIA) |
 | R_series | 100Ω | 0603 SMD | Limita corrente spike verso GPIO |
 
@@ -121,7 +121,7 @@ Ogni motore ha un circuito identico:
 **Perché ogni componente è necessario:**
 - **R_pulldown 10kΩ:** durante il boot (~300ms) i GPIO sono flottanti. Senza pull-down il gate è indeterminato → MOSFET si accende → spike induttivi → distruggono i diodi di clamp interni dell'ESP32 → cortocircuito 3V3-GND permanente. È esattamente quello che ha bruciato il primo ESP32.
 - **R_series 100Ω:** limita la corrente di picco durante la commutazione e protegge il GPIO da spike che arrivano dal gate. Rallenta leggermente lo switching ma a 20kHz non è un problema.
-- **D flyback 1N5819:** Schottky con bassa Vf (~0.4V). Quando il MOSFET si spegne, la corrente del motore (induttivo) continua a fluire attraverso il diodo invece di generare spike di tensione.
+- **D flyback SS14:** Schottky 40V 1A con bassa Vf (~0.5V). Quando il MOSFET si spegne, la corrente del motore (induttivo) continua a fluire attraverso il diodo invece di generare spike di tensione.
 
 ### 3.3 Monitoraggio Batteria (V-Sense)
 
@@ -282,9 +282,14 @@ Ogni net della PCB con i pin che collega:
 
 ### Componenti SMD (lato top)
 
+> **DA VERIFICARE:** i codici LCSC di Q1-Q4 (AO3400A) e D1-D4 (SS14) vanno presi
+> dalla BOM della PCB v1.0 già prodotta. Non inventarli: un part number sbagliato
+> qui produce un ordine sbagliato.
+
 | Ref | Componente | Valore | Package | Qtà | LCSC Part # (esempio) |
 |-----|-----------|--------|---------|-----|----------------------|
-| Q1-Q4 | MOSFET N-ch | SI2302 | SOT-23 | 4 | C10487 |
+| Q1-Q4 | MOSFET N-ch | AO3400A | SOT-23 | 4 | DA VERIFICARE |
+| D1-D4 | Diodo Schottky | SS14 | SMA | 4 | DA VERIFICARE |
 | R_pd1-4 | Resistenza | 10kΩ | 0603 | 4 | C25804 |
 | R_s1-4 | Resistenza | 100Ω | 0603 | 4 | C22775 |
 | R1, R2 | Resistenza | 100kΩ | 0603 | 2 | C25803 |
@@ -296,7 +301,6 @@ Ogni net della PCB con i pin che collega:
 
 | Ref | Componente | Valore | Package | Qtà |
 |-----|-----------|--------|---------|-----|
-| D1-D4 | Diodo Schottky | 1N5819 | DO-41 | 4 |
 | C1 | Condensatore elettrolitico | 470μF 6.3V | Radiale Ø8×11mm | 1 |
 | J_BAT | Connettore BT2.0 | Femmina | THT | 1 |
 | J_SW1, J_SW2 | Connettore | JST-PH 2 pin | THT | 2 |
@@ -520,9 +524,9 @@ La PCB sarà il riferimento per il design del frame:
    │  ┌──────┐             │
    └──┤ C1   │        ┌────┴──────────────────────────────┐
       │470μF │        │  ×4 Motor Driver                  │
-      └──────┘        │  GPIO ─[100Ω]─ Gate ─┬─ SI2302   │
+      └──────┘        │  GPIO ─[100Ω]─ Gate ─┬─ AO3400A  │
                       │                 [10kΩ]│  │Drain│   │
-   ┌─────┐            │                  GND  │  1N5819   │
+   ┌─────┐            │                  GND  │   SS14    │
    │ SW2 │──► VBAT_M ─┤                       │     │     │
    │ arm │            │              VBAT_M ───┴─ Motor   │──► [JST] ──► Motore
    └─────┘            └───────────────────────────────────┘

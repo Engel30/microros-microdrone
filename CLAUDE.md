@@ -57,7 +57,7 @@ usbipd attach --wsl --busid 1-6
 | D9 | GPIO_NUM_8 | Buzzer | PWM |
 | D10 | GPIO_NUM_9 | LED status | GPIO |
 
-Motori: 8520 coreless brushed 3.7V 1S, MOSFET SI2302 low-side, diodo flyback 1N5819.
+Motori: 8520 coreless brushed 3.7V 1S, MOSFET AO3400A (SOT-23) low-side, diodo flyback SS14 (SMA).
 **⚠️ OBBLIGATORIO:** Pull-down 10kΩ tra gate e source di ogni MOSFET (i GPIO sono flottanti durante il boot → motori partono a caso → spike distruggono l'ESP32).
 
 ## Struttura progetto
