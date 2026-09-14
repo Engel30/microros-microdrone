@@ -11,21 +11,21 @@
 
 Il progetto è rimasto fermo dal 2026-05-09 al 2026-09-14 (4 mesi, nessun file toccato, working tree pulito). Alla ripresa, la documentazione non permette di capire dove si è rimasti senza leggere il `git log`:
 
-1. **Il source of truth è scaduto.** `docs/specs/2026-04-26-stato-progetto-e-roadmap.md` dichiara "PCB layout in corso, ordine JLCPCB pendente, bring-up motori pendente". Ma `docs/timeline.md` documenta che l'8-9 maggio il PCB v1.0 era saldato, i 4 motori giravano e il brownout del buck-boost era stato diagnosticato. Il documento designato come riferimento unico è indietro di due sessioni.
+1. **Il source of truth è scaduto.** `docs/specs/2026-04-26-stato-progetto-e-roadmap.md` dichiara "PCB layout in corso, ordine JLCPCB pendente, bring-up motori pendente". Ma `docs/archive/timeline-2026-05.md` documenta che l'8-9 maggio il PCB v1.0 era saldato, i 4 motori giravano e il brownout del buck-boost era stato diagnosticato. Il documento designato come riferimento unico è indietro di due sessioni.
 
-2. **L'informazione di stato è spalmata su 4 file** (`specs/2026-04-26`, `docs/timeline.md`, `README.md`, `CLAUDE.md`), ognuno con una versione diversa della verità. È la causa strutturale del punto 1: nessuno di questi file ha un unico proprietario dello stato.
+2. **L'informazione di stato è spalmata su 4 file** (`specs/2026-04-26`, `docs/archive/timeline-2026-05.md`, `README.md`, `CLAUDE.md`), ognuno con una versione diversa della verità. È la causa strutturale del punto 1: nessuno di questi file ha un unico proprietario dello stato.
 
-3. **`README.md` è rotto.** Rimanda a `docs/setup-guide.md`, `docs/HARDWARE_DIAGRAM.md`, `docs/HARDWARE_BOM.md`, `docs/PROJECT_CONTEXT.md`, `docs/PROJECT_CONCEPT.md` — tutti spostati in `docs/old/` ad aprile. Non cita nessuno degli otto doc `01-08`. La tabella roadmap dichiara "Fase 0A in corso" (completata a marzo).
+3. **`README.md` è rotto.** Rimanda a `docs/grounding/04-SETUP-AMBIENTE.md`, `docs/grounding/02-HARDWARE-BOM.md`, `docs/grounding/02-HARDWARE-BOM.md`, `docs/PROJECT_CONTEXT.md`, `docs/PROJECT_CONCEPT.md` — tutti spostati in `docs/archive/` ad aprile. Non cita nessuno degli otto doc `01-08`. La tabella roadmap dichiara "Fase 0A in corso" (completata a marzo).
 
-4. **`CLAUDE.md` è disallineato.** L'albero struttura mostra `docs/setup-guide.md` (inesistente) e omette i doc `01-08`; la roadmap dice "Fase 0B bloccata, ESP32 bruciato" (superato dal 2026-05-09, commit `5296be5` *"drone funzionante"*).
+4. **`CLAUDE.md` è disallineato.** L'albero struttura mostra `docs/grounding/04-SETUP-AMBIENTE.md` (inesistente) e omette i doc `01-08`; la roadmap dice "Fase 0B bloccata, ESP32 bruciato" (superato dal 2026-05-09, commit `5296be5` *"drone funzionante"*).
 
 5. **Dati hardware errati in documenti di produzione.** `docs/pcb-custom/easyeda-guida-uso.md` e `pcb-design-spec.md` indicano MOSFET SI2302 (LCSC `C10487`) e diodo 1N5819 in package DO-41 THT. La board v1.0 monta **AO3400A (SOT-23)** e **SS14 (SMA)** — confermato da Angelo il 2026-09-14. Chi riordinasse la PCB da questi documenti comprerebbe i componenti sbagliati.
 
-6. **Due timeline parallele** (`docs/timeline.md`, `docs/old/timeline.md`) con storie complementari mai unite; la seconda ha anche l'ordine cronologico rotto (2026-03-20 elencato dopo 2026-04-26).
+6. **Due timeline parallele** (`docs/archive/timeline-2026-05.md`, `docs/archive/timeline-2026-04.md`) con storie complementari mai unite; la seconda ha anche l'ordine cronologico rotto (2026-03-20 elencato dopo 2026-04-26).
 
-7. **Root disordinata:** `attach-usb.md` (3 righe, duplicate di `03-SETUP-AMBIENTE.md`), `temp/` (4 schematici tracciati in git), `3d models/` (spazio nel nome), `logs/`, `sdkconfig.old`.
+7. **Root disordinata:** `attach-usb.md` (3 righe, duplicate di `04-SETUP-AMBIENTE.md`), `temp/` (4 schematici tracciati in git), `3d models/` (spazio nel nome), `logs/`, `sdkconfig.old`.
 
-**Causa radice del marcire:** `CLAUDE.md` prescrive *"aggiorna `docs/timeline.md` a fine sessione"*. È una regola che dipende dalla memoria dell'agente e che copre solo la timeline: infatti la timeline è stata aggiornata e il source of truth no.
+**Causa radice del marcire:** `CLAUDE.md` prescrive *"aggiorna `docs/archive/timeline-2026-05.md` a fine sessione"*. È una regola che dipende dalla memoria dell'agente e che copre solo la timeline: infatti la timeline è stata aggiornata e il source of truth no.
 
 ## 2. Obiettivi
 
@@ -63,7 +63,7 @@ microros-microdrone/
     ├── specs/                       # spec datate, immutabili
     ├── pcb-custom/                  # invariato salvo correzioni MOSFET
     ├── assets/                      # ex temp/
-    └── archive/                     # ex docs/old/ + timeline + attach-usb.md
+    └── archive/                     # ex docs/archive/ + timeline + attach-usb.md
 ```
 
 ### 3.1 Separazione delle responsabilità
@@ -111,7 +111,7 @@ Link alle spec. Non ricopiate.
 Link a docs/sessions/.
 ```
 
-**Contenuto iniziale** (dedotto da `docs/timeline.md` 2026-05-09 e commit `5296be5`, nessun evento fuori repo da maggio — confermato da Angelo):
+**Contenuto iniziale** (dedotto da `docs/archive/timeline-2026-05.md` 2026-05-09 e commit `5296be5`, nessun evento fuori repo da maggio — confermato da Angelo):
 
 - Fase 0A ✅; Fase 0B 🟡 motori girano ma alimentazione inadeguata.
 - Blocker 1: brownout del buck-boost AliExpress al transitorio PWM (2 motori @20% → reset). Soluzione: LiPo 1S 300-600mAh 25C; workaround 1000µF + 100nF sull'uscita del buck.
@@ -138,13 +138,13 @@ Contenuto **copiato fedelmente** dalle timeline esistenti, senza riscritture int
 
 | Nuovo file | Origine | Voci |
 |---|---|---|
-| `2026-05-09-test-motori-brownout.md` | `docs/timeline.md` | 1 |
-| `2026-05-08-microros-tethered-arm-e-diagnostica.md` | `docs/timeline.md` | 7 (Step 5+6, Step 7+8, quickstart, arm software, publisher temp, WiFi retry, WiFi/USB brownout) |
-| `2026-04-26-consolidamento-documentazione.md` | `docs/old/timeline.md` | 1 |
-| `2026-03-20-pcb-custom-design.md` | `docs/old/timeline.md` | 1 |
-| `2026-03-19-motor-driver-esp32-bruciato.md` | `docs/old/timeline.md` | 1 |
-| `2026-03-11-fase-0a-sensori.md` | `docs/old/timeline.md` | 1 (range 03-11 → 03-19) |
-| `2026-03-10-architettura-e-design-spec.md` | `docs/old/timeline.md` | 1 |
+| `2026-05-09-test-motori-brownout.md` | `docs/archive/timeline-2026-05.md` | 1 |
+| `2026-05-08-microros-tethered-arm-e-diagnostica.md` | `docs/archive/timeline-2026-05.md` | 7 (Step 5+6, Step 7+8, quickstart, arm software, publisher temp, WiFi retry, WiFi/USB brownout) |
+| `2026-04-26-consolidamento-documentazione.md` | `docs/archive/timeline-2026-04.md` | 1 |
+| `2026-03-20-pcb-custom-design.md` | `docs/archive/timeline-2026-04.md` | 1 |
+| `2026-03-19-motor-driver-esp32-bruciato.md` | `docs/archive/timeline-2026-04.md` | 1 |
+| `2026-03-11-fase-0a-sensori.md` | `docs/archive/timeline-2026-04.md` | 1 (range 03-11 → 03-19) |
+| `2026-03-10-architettura-e-design-spec.md` | `docs/archive/timeline-2026-04.md` | 1 |
 
 Le due timeline originali → `docs/archive/timeline-2026-05.md` e `docs/archive/timeline-2026-04.md`.
 
@@ -154,20 +154,20 @@ Le due timeline originali → `docs/archive/timeline-2026-05.md` e `docs/archive
 
 | Nuovo | Era | Ruolo |
 |---|---|---|
-| `01-VISIONE-PROGETTO.md` | `04` | perché esiste |
-| `02-HARDWARE-BOM.md` | `01` | di cosa è fatto |
-| `03-FIRMWARE-ARCHITETTURA.md` | `02` | come è fatto il software |
-| `04-SETUP-AMBIENTE.md` | `03` | come si monta l'ambiente |
-| `05-BRINGUP-QUICKSTART.md` | `08` | come si accende |
-| `06-MICROROS-TETHERED.md` | `07` | come ci si parla |
-| `07-ARCHITETTURA-SWARM.md` | `05` | dove va |
-| `08-FRAME-DESIGN-GENERATIVO.md` | `06` | meccanica |
+| `docs/grounding/01-VISIONE-PROGETTO.md` | `04` | perché esiste |
+| `docs/grounding/02-HARDWARE-BOM.md` | `01` | di cosa è fatto |
+| `docs/grounding/03-FIRMWARE-ARCHITETTURA.md` | `02` | come è fatto il software |
+| `docs/grounding/04-SETUP-AMBIENTE.md` | `03` | come si monta l'ambiente |
+| `docs/grounding/05-BRINGUP-QUICKSTART.md` | `08` | come si accende |
+| `docs/grounding/06-MICROROS-TETHERED.md` | `07` | come ci si parla |
+| `docs/grounding/07-ARCHITETTURA-SWARM.md` | `05` | dove va |
+| `docs/grounding/08-FRAME-DESIGN-GENERATIVO.md` | `06` | meccanica |
 
 **Rischio: ciclo di rinomina.** 01→02, 02→03, 03→04, 04→01 è un ciclo: un `git mv` sequenziale sovrascriverebbe file. Mitigazione: rinomina in due fasi passando da nomi temporanei, oppure `git mv` verso `docs/grounding/` con il nome nuovo in un colpo solo (i file partono da `docs/`, la destinazione è un'altra directory → nessuna collisione). Si adotta la seconda.
 
-**Riferimenti da riscrivere: 61** (36 ai doc numerati, 25 a `specs/`/`old/`/`pcb-custom/`), distribuiti su `docs/timeline.md`, le due spec, `02-FIRMWARE`, `08-BRINGUP`, `06-FRAME`, `01-HARDWARE`, `components/motor_driver/README.md`, `CLAUDE.md`.
+**Riferimenti da riscrivere: 61** (36 ai doc numerati, 25 a `specs/`/`old/`/`pcb-custom/`), distribuiti su `docs/archive/timeline-2026-05.md`, le due spec, `02-FIRMWARE`, `08-BRINGUP`, `06-FRAME`, `01-HARDWARE`, `components/motor_driver/README.md`, `CLAUDE.md`.
 
-**Trappola dei link relativi:** i grounding doc scendono di un livello (`docs/` → `docs/grounding/`). I riferimenti relativi verso l'esterno vanno corretti, in particolare `../ros2_ws/README.md` in `08-BRINGUP-QUICKSTART.md` → `../../ros2_ws/README.md`.
+**Trappola dei link relativi:** i grounding doc scendono di un livello (`docs/` → `docs/grounding/`), quindi ogni riferimento relativo che esce dalla cartella ha bisogno di un `../` in più. Casi presenti in `docs/grounding/05-BRINGUP-QUICKSTART.md`: il link al README di `ros2_ws/` e i rimandi a `docs/specs/`. È una rottura che un `sed` sui soli nomi file non intercetta — da qui la necessità del link-checker.
 
 ## 7. Correzione componenti SMD
 
@@ -210,13 +210,19 @@ Confermato da Angelo il 2026-09-14: la board v1.0 monta **AO3400A (SOT-23)** e *
 
 ## 10. Verifica
 
-Script `docs/check-links.sh`: estrae ogni link markdown relativo del repo (esclusi `build/`, `managed_components/`, `old/`, `ros2_ws/src/micro_ros_*`) e verifica che il target esista. Exit code ≠ 0 se un link è morto.
+Script `docs/check-links.sh`: estrae i riferimenti a file del repo — sia link markdown `[testo](percorso)` sia percorsi citati fra backtick — e verifica che il target esista, risolvendo sia relativo al file che cita sia relativo alla radice.
+
+La seconda forma è quella che conta davvero qui: in questo repo i rimandi sono quasi tutti in prosa fra backtick, e sono quelli che si rompono in silenzio perché nessun renderer markdown li segnala.
+
+Per non produrre falsi positivi vengono considerati riferimenti a file solo le stringhe che finiscono con un'estensione nota e che contengono una `/` (o hanno la forma di un doc di grounding citato da un fratello). Restano quindi fuori namespace di topic, tipi di messaggio ROS, nomi di componenti e menzioni in prosa di sorgenti o comandi.
+
+Esclusi dalla scansione: `build/`, `managed_components/`, `old/`, i sorgenti vendored di `ros2_ws/` e `docs/archive/` (i documenti archiviati citano la disposizione dei file dell'epoca, comprese spec poi eliminate, e non vanno riscritti). Exit code ≠ 0 se un riferimento è morto.
 
 **Definizione di fatto:**
 
 - [ ] `check-links.sh` → 0 errori, output incollato in chat
 - [ ] `grep -riE 'si2302|1n5819'` → zero risultati fuori da `archive/` e `specs/`
-- [ ] `grep -rn 'docs/old/\|setup-guide.md\|HARDWARE_DIAGRAM'` → zero risultati nei doc vivi
+- [ ] `grep -rn 'docs/old/\|docs/0[1-8]-\|setup-guide\.md\|HARDWARE_DIAGRAM'` → zero risultati nei doc vivi (percorsi della vecchia disposizione)
 - [ ] `git log --follow` su un file spostato mostra la storia completa (prova che si è usato `git mv`)
 - [ ] `STATO.md` risponde a "dove siamo" e "prossimi 3 passi" senza aprire altri file
 - [ ] `idf.py build` invariato (nessun file di build toccato)

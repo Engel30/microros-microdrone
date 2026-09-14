@@ -37,16 +37,21 @@ Se conosci il codice LCSC (dalla BOM del design spec), cercalo direttamente:
 
 ### Componenti con codice LCSC (cerca per codice)
 
+> **DA VERIFICARE:** i codici LCSC di AO3400A e SS14 non sono riportati perché
+> non confermati sul progetto EasyEDA reale. Prendili dalla BOM della PCB v1.0
+> già prodotta prima di ordinare. Fino al 2026-09-14 questa tabella indicava
+> SI2302 (`C10487`) e 1N5819 DO-41: componenti sbagliati, mai montati sulla board.
+
 | Componente | Cerca | LCSC Code | Note |
 |-----------|-------|-----------|------|
-| SI2302 MOSFET | `C10487` | C10487 | SOT-23, ne servono 4 |
+| AO3400A MOSFET | cerca "AO3400A" | DA VERIFICARE | SOT-23, ne servono 4 |
 | Resistenza 10kΩ 0603 | `C25804` | C25804 | Pull-down gate, ne servono 4 |
 | Resistenza 100Ω 0603 | `C22775` | C22775 | Serie gate, ne servono 4 |
 | Resistenza 100kΩ 0603 | `C25803` | C25803 | Partitore V-Sense, ne servono 2 |
 | Resistenza 330Ω 0603 | `C23138` | C23138 | LED, ne serve 1 |
 | Condensatore 100nF 0603 | `C14663` | C14663 | Disaccoppiamento, ne servono 4 |
 | LED verde 0603 | `C72043` | C72043 | Status LED |
-| Diodo 1N5819 | cerca "1N5819" | vari | DO-41 THT, ne servono 4 |
+| Diodo SS14 | cerca "SS14" | DA VERIFICARE | SMA (SMD), ne servono 4 |
 | Condensatore 470μF 6.3V | cerca "470uF 6.3V" | vari | Elettrolitico radiale, ne serve 1 |
 | JST-PH 2 pin THT | cerca "JST PH 2P vertical" | vari | Ne servono 6 (4 motori + 2 switch) |
 | Pin header M 1×4 | cerca "Pin Header 1x4 2.54" | vari | Per connettore flow |

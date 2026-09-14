@@ -45,7 +45,7 @@ Il processo di design ha due fasi distinte:
 
 Ogni componente ha un **footprint** — la sua "impronta" fisica sulla PCB:
 
-- **THT (Through-Hole Technology):** componenti con piedini che passano attraverso fori nella PCB. Più facili da saldare a mano. Esempi: pin header, diodi 1N5819, condensatori elettrolitici.
+- **THT (Through-Hole Technology):** componenti con piedini che passano attraverso fori nella PCB. Più facili da saldare a mano. Esempi: pin header, connettori JST-PH, condensatori elettrolitici.
 - **SMD (Surface Mount Device):** componenti saldati sulla superficie senza fori. Più piccoli e leggeri. Esempi: resistenze 0603, MOSFET SOT-23, LED 0603.
 
 ### Codici package SMD comuni

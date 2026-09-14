@@ -2,7 +2,7 @@
 
 **Framework:** ESP-IDF v5.4, FreeRTOS, micro-ROS (XRCE-DDS over UDP WiFi)
 
-> **Scope:** singolo drone (Fasi 0B → 3). Per lo sciame, micro-ROS viene sostituito da ESP-NOW (vedi `docs/05-ARCHITETTURA-SWARM.md`). Source of truth: `docs/specs/2026-04-26-stato-progetto-e-roadmap.md`.
+> **Scope:** singolo drone (Fasi 0B → 3). Per lo sciame, micro-ROS viene sostituito da ESP-NOW (vedi `docs/grounding/07-ARCHITETTURA-SWARM.md`). Source of truth: `docs/specs/2026-04-26-stato-progetto-e-roadmap.md`.
 
 ---
 
@@ -60,7 +60,7 @@
 | Fase | Status | Obiettivo |
 |:-----|:-------|:----------|
 | **0A** | ✅ | Sensori raw, logging CSV |
-| **0B** | 🟡 | Motor driver firmware completo via micro-ROS (subscriber + watchdog 500ms). Bring-up motori sul PCB pendente. Vedi `docs/07-MICROROS-TETHERED.md`. |
+| **0B** | 🟡 | Motor driver firmware completo via micro-ROS (subscriber + watchdog 500ms). Bring-up motori sul PCB pendente. Vedi `docs/grounding/06-MICROROS-TETHERED.md`. |
 | **1** | 📅 | PID attitudine, hover stabile |
 | **2** | 📅 | Velocity hold optical flow |
 | **3** | 📅 | Position control waypoint |
@@ -110,6 +110,6 @@ components/
 
 - Source of truth: `docs/specs/2026-04-26-stato-progetto-e-roadmap.md`
 - Spec storica (HW + fasi 0-3): `docs/specs/2026-03-10-swarm-drone-architecture-design.md`
-- Setup ambiente: `docs/03-SETUP-AMBIENTE.md`
-- Hardware: `docs/01-HARDWARE-BOM.md`
-- Architettura swarm: `docs/05-ARCHITETTURA-SWARM.md`
+- Setup ambiente: `docs/grounding/04-SETUP-AMBIENTE.md`
+- Hardware: `docs/grounding/02-HARDWARE-BOM.md`
+- Architettura swarm: `docs/grounding/07-ARCHITETTURA-SWARM.md`

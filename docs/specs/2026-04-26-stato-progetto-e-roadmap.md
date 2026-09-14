@@ -13,7 +13,7 @@ Questo documento è il riferimento unico per architettura, decisioni e roadmap d
 | Asset | Stato |
 |---|---|
 | Fase 0A — Sensori raw (IMU + Flow + Battery + log Foxglove) | ✅ Completata |
-| Fase 0B — Motor driver | 🟡 Firmware completo (subscriber `cmd_motor_test` + watchdog 500ms via micro-ROS, branch `feature/microros-tethered`). Bring-up motori sul PCB v1.0 pendente (saldatura motori + BT2.0 + switch arm). Vedi `docs/07-MICROROS-TETHERED.md`. |
+| Fase 0B — Motor driver | 🟡 Firmware completo (subscriber `cmd_motor_test` + watchdog 500ms via micro-ROS, branch `feature/microros-tethered`). Bring-up motori sul PCB v1.0 pendente (saldatura motori + BT2.0 + switch arm). Vedi `docs/grounding/06-MICROROS-TETHERED.md`. |
 | PCB custom v1.0 (carrier 2-layer, pull-down 10kΩ, switch arm, partitore V-Sense) | 🔄 Layout EasyEDA in corso, ordine JLCPCB pendente |
 | Nuovi ESP32-S3 XIAO | 📦 In arrivo |
 | Componenti firmware esistenti | `common`, `imu_driver`, `flow_driver`, `motor_driver`, `battery_monitor`, `uros_interface` |
@@ -58,7 +58,7 @@ Motivazioni:
 - Liberazione RAM e build time
 - Contributo originale per la tesi: protocollo binario strutturato con header, ACK, retry
 
-Modello (riassunto, dettaglio in `docs/05-ARCHITETTURA-SWARM.md`):
+Modello (riassunto, dettaglio in `docs/grounding/07-ARCHITETTURA-SWARM.md`):
 - 4 ruoli: **Explorer** (mappa), **Relay** (riposizionato dal PC su RSSI), **Rescue** (missione), **Bridge** (AP locale + UDP↔ESP-NOW gateway)
 - PC = cervello (mission planning, mappa, dashboard Flask+WebSocket)
 - Drone = esecutore (PID, obstacle avoidance locale)
@@ -149,11 +149,11 @@ QoS: BEST_EFFORT telemetria, RELIABLE comandi.
 
 | Tema | Documento operativo |
 |---|---|
-| Hardware / BOM | `docs/01-HARDWARE-BOM.md` |
-| Firmware (riassunto operativo) | `docs/02-FIRMWARE-ARCHITETTURA.md` |
-| Setup ambiente | `docs/03-SETUP-AMBIENTE.md` |
-| Visione + timeline | `docs/04-VISIONE-PROGETTO.md` |
-| Architettura swarm (dettaglio protocollo) | `docs/05-ARCHITETTURA-SWARM.md` |
+| Hardware / BOM | `docs/grounding/02-HARDWARE-BOM.md` |
+| Firmware (riassunto operativo) | `docs/grounding/03-FIRMWARE-ARCHITETTURA.md` |
+| Setup ambiente | `docs/grounding/04-SETUP-AMBIENTE.md` |
+| Visione + timeline | `docs/grounding/01-VISIONE-PROGETTO.md` |
+| Architettura swarm (dettaglio protocollo) | `docs/grounding/07-ARCHITETTURA-SWARM.md` |
 | PCB | `docs/pcb-custom/` |
 | Storico decisioni | `docs/specs/2026-03-10-...md`, `docs/specs/2026-04-14-...md` |
 

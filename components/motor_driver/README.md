@@ -29,9 +29,9 @@ Controllo PWM per 4 motori brushed via LEDC ESP-IDF.
 ## Hardware
 
 - Motori: 8520 coreless brushed 3.7V 1S
-- MOSFET: SI2302 low-side switch (Rds_on ~40mΩ, Vgs_th ~1.2V)
-- Diodo flyback: 1N5819 per motore (catodo verso +5V, anodo verso drain)
-- Drive: GPIO 3.3V → gate SI2302 (ampio margine sopra threshold)
+- MOSFET: AO3400A (SOT-23) low-side switch, logic-level (Rds_on ~28mΩ @ Vgs=4.5V, Vgs(th) ~0.65-1.45V)
+- Diodo flyback: SS14 (SMA, Schottky 40V 1A, Vf ~0.5V) per motore, catodo verso VBAT_MOTORS, anodo verso drain
+- Drive: GPIO 3.3V → gate AO3400A (ampio margine sopra threshold)
 
 ### ⚠️ Protezioni OBBLIGATORIE
 
@@ -57,7 +57,7 @@ Quando il firmware gira in modalità `[1] uROS` (default), `task_motors` (1kHz) 
 
 Sulla transizione disarm→arm il task resetta `last_cmd_us=0`: il watchdog richiede un nuovo `cmd_motor_test` prima di far girare i motori (impedisce che cmd stantii pre-disarm riprendano automaticamente).
 
-I comandi entrano via subscriber `/drone_1/cmd_motor_test` (`std_msgs/Float32MultiArray`, 4 valori 0-100%, mapping FL/RL/RR/FR). L'arm via `/drone_1/arm` (`std_msgs/Bool`, sticky). Vedi `docs/07-MICROROS-TETHERED.md` §4-5 e `docs/08-BRINGUP-QUICKSTART.md` §5 per la guida operativa (Foxglove Publish panel).
+I comandi entrano via subscriber `/drone_1/cmd_motor_test` (`std_msgs/Float32MultiArray`, 4 valori 0-100%, mapping FL/RL/RR/FR). L'arm via `/drone_1/arm` (`std_msgs/Bool`, sticky). Vedi `docs/grounding/06-MICROROS-TETHERED.md` §4-5 e `docs/grounding/05-BRINGUP-QUICKSTART.md` §5 per la guida operativa (Foxglove Publish panel).
 
 ## Test
 

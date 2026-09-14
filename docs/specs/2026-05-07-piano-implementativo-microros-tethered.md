@@ -5,7 +5,7 @@
 **Stato:** Step 1-6 completati e validati. Step 7 implementato ma **non testato** (motori non saldati al 2026-05-08). Step 8 in corso (chiusura documentale Fase 0B).
 **Branch:** `feature/microros-tethered`
 **Scope:** Fase 0A → Fase 0B chiuse via micro-ROS WiFi UDP, con refactor del firmware al modello multi-task previsto dalla spec.
-**Leggi prima:** `docs/specs/2026-04-26-stato-progetto-e-roadmap.md` (source of truth), `docs/02-FIRMWARE-ARCHITETTURA.md`, `docs/01-HARDWARE-BOM.md`, `CLAUDE.md`.
+**Leggi prima:** `docs/specs/2026-04-26-stato-progetto-e-roadmap.md` (source of truth), `docs/grounding/03-FIRMWARE-ARCHITETTURA.md`, `docs/grounding/02-HARDWARE-BOM.md`, `CLAUDE.md`.
 
 ---
 
@@ -504,10 +504,10 @@ pip install catkin_pkg lark-parser empy==3.3.4 colcon-common-extensions
   4. Pubblica `data` di lunghezza ≠ 4 → callback rifiuta, log warning, nessun cambio
 
 ### Step 8 — Documentazione
-- `docs/timeline.md`: aggiungere riga 2026-05-07
-- Nuovo `docs/07-MICROROS-TETHERED.md`: guida operativa breve (avvio agent, Foxglove, troubleshooting WSL)
+- `docs/archive/timeline-2026-05.md`: aggiungere riga 2026-05-07
+- Nuovo `docs/grounding/06-MICROROS-TETHERED.md`: guida operativa breve (avvio agent, Foxglove, troubleshooting WSL)
 - Aggiornare README di `uros_interface/`, `motor_driver/`, eventuali `main/`
-- Aggiornare `docs/02-FIRMWARE-ARCHITETTURA.md` (Fase 0B → ✅)
+- Aggiornare `docs/grounding/03-FIRMWARE-ARCHITETTURA.md` (Fase 0B → ✅)
 - Aggiornare `docs/specs/2026-04-26-stato-progetto-e-roadmap.md` (snapshot Fase 0B chiusa)
 - **Verifica:** `git diff --stat` coerente; CLAUDE.md non richiede modifiche (la struttura task è già descritta).
 
@@ -537,7 +537,7 @@ Criterio di chiusura: tutti i punti passano. A quel punto **Fase 0B è chiusa vi
 - **Linguaggio firmware**: C puro (vincolo ESP-IDF)
 - **Non modificare** `old/`
 - Aggiornare README di **ogni** componente toccato
-- A fine lavoro: aggiornare `docs/timeline.md`
+- A fine lavoro: aggiornare `docs/archive/timeline-2026-05.md`
 - Ogni risposta finale deve avere **riassunto modifiche + spiegazione tecnica**
 - Eliche **staccate** durante tutto il flusso di sviluppo
 - Switch arm motori del PCB: **OFF** durante flash, **ON** solo quando si testa il watchdog
@@ -572,10 +572,10 @@ new:        components/uros_interface/include/uros_interface.h
 modified:   components/uros_interface/uros_interface.c   # implementazione vera
 modified:   components/uros_interface/README.md
 modified:   components/motor_driver/README.md            # menzione watchdog
-modified:   docs/02-FIRMWARE-ARCHITETTURA.md             # Fase 0B → ✅
+modified:   docs/grounding/03-FIRMWARE-ARCHITETTURA.md             # Fase 0B → ✅
 modified:   docs/specs/2026-04-26-stato-progetto-e-roadmap.md
-modified:   docs/timeline.md
-new:        docs/07-MICROROS-TETHERED.md
+modified:   docs/archive/timeline-2026-05.md
+new:        docs/grounding/06-MICROROS-TETHERED.md
 ```
 
 ---
