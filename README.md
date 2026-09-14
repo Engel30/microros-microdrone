@@ -1,16 +1,18 @@
 # micro-ROS Microdrone — ESP32-S3 Swarm Platform
 
-Piattaforma drone didattica low-cost basata su ESP32-S3 per sciami di micro-droni coordinati via WiFi.
+Piattaforma drone didattica low-cost (<30€/unità) basata su ESP32-S3, pensata per studiare swarm intelligence, sistemi distribuiti e mesh networking su hardware reale.
 
 **Framework:** ESP-IDF v5.4 + FreeRTOS + micro-ROS
-**Hardware:** Seeed XIAO ESP32-S3, MPU6050, PMW3901+VL53L1X, motori brushed 8520
-**Comunicazione:** micro-ROS (Micro XRCE-DDS) su UDP WiFi verso PC con Foxglove Studio
+**Hardware:** Seeed XIAO ESP32-S3, MPU6050, PMW3901 + VL53L1X, motori brushed 8520, PCB custom
+**Telemetria:** micro-ROS (Micro XRCE-DDS) su UDP WiFi → agent sul PC → Foxglove Studio
+
+> **Stato del progetto:** [`docs/STATO.md`](docs/STATO.md) — dove siamo, cosa blocca, prossimi passi.
 
 ---
 
 ## Architettura
 
-Ogni drone è un nodo micro-ROS con namespace `/drone_N/`. Il PC esegue il micro-ROS agent e Foxglove Studio per visualizzazione e comandi.
+Ogni drone è un nodo micro-ROS con namespace `/drone_N/`. Il PC esegue l'agent e Foxglove Studio per visualizzazione e comandi.
 
 ```
 Drone (ESP32-S3)              PC
@@ -18,96 +20,75 @@ Drone (ESP32-S3)              PC
 | micro-ROS client | -----> | micro-ROS agent  |
 | (XRCE-DDS)       |        |       |          |
 +------------------+        |       v          |
-                             | ROS2 DDS         |
-                             |       |          |
-                             |       v          |
-                             | Foxglove Studio  |
-                             +------------------+
+                            | ROS2 DDS         |
+                            |       |          |
+                            |       v          |
+                            | Foxglove Studio  |
+                            +------------------+
 ```
 
-### Dual Core
+Il carico è diviso sui due core: **Core 0** tiene WiFi, micro-ROS e monitoraggio batteria; **Core 1** resta dedicato al volo (sensori, PID, motori), così la latenza del loop di controllo non dipende dalla rete. È anche ciò che rende sostituibile il trasporto: passare a ESP-NOW per lo sciame tocca solo il task di comunicazione.
 
-- **Core 0:** WiFi, micro-ROS (50Hz), battery monitor (1Hz)
-- **Core 1:** Sensori (IMU 1kHz, Flow 20Hz), PID (1kHz), motori (1kHz)
+Dettaglio: [`docs/grounding/03-FIRMWARE-ARCHITETTURA.md`](docs/grounding/03-FIRMWARE-ARCHITETTURA.md)
 
-## Struttura progetto
-
-```
-microros-microdrone/
-├── CMakeLists.txt                  # Progetto ESP-IDF top-level
-├── sdkconfig.defaults              # Configurazione hardware
-├── main/
-│   └── main.c                      # Punto di ingresso: crea queue e lancia task
-├── components/
-│   ├── common/                     # Tipi condivisi e configurazione pin/frequenze
-│   ├── imu_driver/                 # Driver MPU6050 via I2C a 1kHz
-│   ├── flow_driver/                # Parser protocollo CXOF via UART a ~20Hz
-│   ├── motor_driver/               # Controllo PWM 4 motori via LEDC
-│   ├── pid_controller/             # Controller PID generico con anti-windup
-│   ├── sensor_fusion/              # Fusione IMU + optical flow (Fase 2+)
-│   ├── battery_monitor/            # Monitoraggio tensione + buzzer allarme
-│   └── uros_interface/             # Bridge micro-ROS <-> FreeRTOS queues
-├── docs/
-│   ├── setup-guide.md              # Guida installazione ambiente
-│   ├── specs/                      # Design spec dettagliato
-│   ├── HARDWARE_DIAGRAM.md         # Schema connessioni
-│   ├── HARDWARE_BOM.md             # Bill of Materials
-│   ├── PROJECT_CONTEXT.md          # Contesto e architettura
-│   └── PROJECT_CONCEPT.md          # Studio di fattibilità
-└── old/                            # Vecchio firmware Arduino (riferimento)
-```
-
-Ogni componente ha un proprio `README.md` con documentazione di API, stato e dipendenze.
-
-## Setup ambiente
-
-**Requisiti:** Windows 11 + WSL2 (Ubuntu 22.04), ESP-IDF v5.4, ROS2
-
-Guida completa: [`docs/grounding/04-SETUP-AMBIENTE.md`](docs/grounding/04-SETUP-AMBIENTE.md)
-
-### Quick start
+## Quick start
 
 ```bash
-# Attiva ambiente ESP-IDF
-. ~/esp/esp-idf/export.sh
-
-# Compila
+. ~/esp/esp-idf/export.sh    # Attiva ambiente ESP-IDF
 idf.py build
-
-# Flash (prima fare usbipd attach dalla PowerShell Windows)
-idf.py -p /dev/ttyACM0 flash
-
-# Monitor seriale (Ctrl+] per uscire)
-idf.py -p /dev/ttyACM0 monitor
+idf.py -p /dev/ttyACM0 flash monitor
 ```
+
+Su WSL serve prima `usbipd attach --wsl --busid 1-6` da PowerShell Admin.
+
+Procedura completa di accensione (drone + agent + Foxglove): [`docs/grounding/05-BRINGUP-QUICKSTART.md`](docs/grounding/05-BRINGUP-QUICKSTART.md)
+Installazione dell'ambiente da zero: [`docs/grounding/04-SETUP-AMBIENTE.md`](docs/grounding/04-SETUP-AMBIENTE.md)
 
 ## Hardware
 
 | Pin | Funzione | Bus |
 |-----|----------|-----|
-| D0 | Motore Front-Left | PWM |
-| D1 | Motore Rear-Left | PWM |
-| D2 | Motore Rear-Right | PWM |
-| D3 | Motore Front-Right | PWM |
+| D0-D3 | Motori FL, RL, RR, FR | PWM LEDC 20kHz |
 | D4/D5 | MPU6050 IMU | I2C 400kHz |
-| D6/D7 | Optical Flow + ToF | UART 19200 |
+| D6/D7 | Optical flow + ToF | UART 19200 |
 | D8 | Tensione batteria | ADC |
 | D9 | Buzzer | PWM |
 | D10 | LED status | GPIO |
+
+Driver motori: MOSFET AO3400A low-side + diodo flyback SS14, **pull-down 10kΩ obbligatoria su ogni gate** (senza, i GPIO flottanti al boot accendono i motori a caso e gli spike distruggono l'ESP32 — è già successo).
+
+BOM completa e connessioni: [`docs/grounding/02-HARDWARE-BOM.md`](docs/grounding/02-HARDWARE-BOM.md) · PCB: [`docs/pcb-custom/`](docs/pcb-custom/)
+
+## Struttura
+
+```
+main/           app_main() + i task FreeRTOS
+components/     driver e logica, un README per componente
+ros2_ws/        workspace ROS2 nativo sul PC (agent + foxglove bridge)
+docs/           documentazione — parti da docs/README.md
+hardware/       modelli 3D del frame
+logs/           CSV di calibrazione sensori
+old/            firmware Arduino originale (solo riferimento)
+```
 
 ## Roadmap
 
 | Fase | Obiettivo | Stato |
 |------|-----------|-------|
-| 0A | Sensori raw + micro-ROS → Foxglove | In corso (IMU OK, Flow OK, battery e micro-ROS pending) |
-| 0B | Test motori via topic ROS2 | Da implementare |
-| 1 | Stabilizzazione attitudine (PID hover) | Da implementare |
-| 2 | Velocity hold (optical flow) | Da implementare |
-| 3 | Position control (comandi dal PC) | Da implementare |
+| 0A | Sensori raw + telemetria su Foxglove | ✅ Completata |
+| 0B | Motor driver + bring-up PCB custom | 🟡 In corso |
+| 1 | Stabilizzazione attitudine (PID hover) | 📅 |
+| 2 | Velocity hold con optical flow | 📅 |
+| 3 | Position control a waypoint | 📅 |
+| Swarm | Migrazione a ESP-NOW peer-to-peer | 📅 |
+
+Stato aggiornato e blockers correnti: [`docs/STATO.md`](docs/STATO.md)
 
 ## Documentazione
 
-- [`docs/specs/`](docs/specs/) — Design spec (source of truth)
-- [`docs/grounding/04-SETUP-AMBIENTE.md`](docs/grounding/04-SETUP-AMBIENTE.md) — Setup completo ambiente di sviluppo
-- [`docs/grounding/02-HARDWARE-BOM.md`](docs/grounding/02-HARDWARE-BOM.md) — Schema connessioni
-- [`docs/grounding/02-HARDWARE-BOM.md`](docs/grounding/02-HARDWARE-BOM.md) — Bill of Materials
+[`docs/README.md`](docs/README.md) — indice completo con percorsi di lettura.
+
+- [`docs/STATO.md`](docs/STATO.md) — dove siamo (l'unico file con stato volatile)
+- [`docs/grounding/`](docs/grounding/) — come funziona il sistema, 8 doc in ordine di lettura
+- [`docs/specs/`](docs/specs/) — decisioni di progetto, datate e immutabili
+- [`docs/sessions/`](docs/sessions/) — cosa è successo in ogni giornata di lavoro
