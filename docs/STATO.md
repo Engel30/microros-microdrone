@@ -1,6 +1,6 @@
 # STATO — microros-microdrone
 
-**Aggiornato:** 2026-09-14 · **Ultima sessione:** [2026-05-09](sessions/2026-05-09-test-motori-brownout.md) · **Branch:** `main`
+**Aggiornato:** 2026-09-14 · **Ultima sessione:** [2026-09-14](sessions/2026-09-14-riorganizzazione-documentale.md) · **Branch:** `main`
 
 > Questo è l'unico documento del progetto che contiene informazione **volatile**.
 > I doc in `grounding/` descrivono *come funziona*, quelli in `specs/` *cosa è stato deciso e quando*, quelli in `sessions/` *cosa è successo quel giorno*. Qui c'è *a che punto siamo*.
@@ -10,11 +10,11 @@
 
 ## In una riga
 
-Il drone vola-a-banco: telemetria completa su Foxglove e motori controllabili via micro-ROS, ma l'alimentazione da buck-boost va in brownout sopra il 20% di PWM. Prossimo passo: LiPo 1S e poi il PID di assetto (Fase 1).
+Il drone vola-a-banco: telemetria completa su Foxglove e motori controllabili via micro-ROS, ma l'alimentazione da buck-boost va in brownout sopra il 20% di PWM. Prossimo passo: LiPo 1S, poi il PID di assetto (Fase 1).
 
 ## Dove siamo
 
-**Il progetto è fermo dal 2026-05-09** (4 mesi). Nessun lavoro fuori dal repo in questo periodo. Lo stato qui sotto è quello di fine giornata del 9 maggio.
+**Lo stato tecnico è fermo al 2026-05-09.** La sessione del 2026-09-14 ha riorganizzato solo la documentazione: nessun sorgente firmware toccato, nessun test su hardware, `idf.py build` invariato. L'ultimo commit che cambia il comportamento del drone resta `5296be5`.
 
 **Cosa funziona, con evidenza:**
 
@@ -40,15 +40,23 @@ Il drone vola-a-banco: telemetria completa su Foxglove e motori controllabili vi
 
 **Vincolo di sicurezza permanente:** eliche staccate fino a fine Fase 1.
 
+## Debiti aperti
+
+Non bloccano il volo, ma mordono se ignorati.
+
+- **Codici LCSC di AO3400A e SS14 marcati `DA VERIFICARE`** in [`pcb-custom/easyeda-guida-uso.md`](pcb-custom/easyeda-guida-uso.md) e [`pcb-custom/pcb-design-spec.md`](pcb-custom/pcb-design-spec.md). Vanno recuperati dalla BOM del progetto EasyEDA della v1.0 già prodotta. **Da fare prima di qualsiasi riordino della PCB.**
+- `feature/microros-tethered` è interamente dentro `main` e può essere cancellato.
+- [`specs/2026-04-26-stato-progetto-e-roadmap.md`](specs/2026-04-26-stato-progetto-e-roadmap.md) non ha l'header "STORICO" che hanno le altre spec superate.
+
 ## Prossimi 3 passi
 
-1. **Alimentazione da LiPo 1S 25C 300–600 mAh (BT2.0).** Bypassa il buck-boost. Ri-test dei 4 motori sopra il 20% PWM per confermare che il brownout sparisce. Senza questo il punto 3 non è testabile.
+1. **Alimentazione da LiPo 1S 25C 300–600 mAh (BT2.0).** Bypassa il buck-boost. Ri-test dei 4 motori sopra il 20% PWM per confermare che il brownout sparisce. **Senza questo il passo 3 non è testabile.**
 2. **Frame 2.0**, stampato in modo da avvolgere i coreless 8520 e smorzare le vibrazioni verso l'IMU.
 3. **Fase 1 — PID di assetto.** Componente `pid_controller` + `task_pid_attitude` @ 1 kHz su Core 1 (inner loop rate roll/pitch/yaw + outer loop angle). Topic `/drone_1/cmd_attitude` (`geometry_msgs/Quaternion`). Tuning in tethered, eliche staccate.
 
 ## Alla ripresa, da verificare fisicamente
 
-Il progetto è stato fermo 4 mesi. Prima di ricollegare alimentazione:
+Il progetto è stato fermo da maggio a settembre. Prima di ricollegare alimentazione:
 
 - [ ] Switch arm motori **OFF**
 - [ ] Eliche staccate
@@ -77,11 +85,12 @@ Non ricopiate qui: stanno nelle spec.
 - **Pivot STM32+UWB scartato**, si resta su ESP32-S3 + optical flow — [`specs/2026-04-26`](specs/2026-04-26-stato-progetto-e-roadmap.md)
 - **Architettura dual-core e code inter-task** — [`specs/2026-03-10`](specs/2026-03-10-swarm-drone-architecture-design.md), operativa in [`grounding/03-FIRMWARE-ARCHITETTURA.md`](grounding/03-FIRMWARE-ARCHITETTURA.md)
 - **Pull-down 10kΩ obbligatorie sui gate** — lezione del [2026-03-19](sessions/2026-03-19-motor-driver-esp32-bruciato.md), recepita nella PCB v1.0
+- **Stato volatile solo in questo file, chiusura sessione via comando** — [`specs/2026-09-14`](specs/2026-09-14-riorganizzazione-documentale.md)
 
 ## Ultime 3 sessioni
 
+- [2026-09-14 — Riorganizzazione documentale e sistema di continuità sessioni](sessions/2026-09-14-riorganizzazione-documentale.md)
 - [2026-05-09 — Test motori: brownout buck-boost + console Foxglove](sessions/2026-05-09-test-motori-brownout.md)
 - [2026-05-08 — micro-ROS tethered: publisher, subscriber, arm, diagnostica WiFi](sessions/2026-05-08-microros-tethered-arm-e-diagnostica.md)
-- [2026-04-26 — Consolidamento documentazione](sessions/2026-04-26-consolidamento-documentazione.md)
 
 [Tutte le sessioni →](sessions/README.md)
