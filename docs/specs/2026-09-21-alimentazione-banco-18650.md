@@ -67,9 +67,9 @@ Le LiPo 1S da micro-drone non montano fusibili perché hanno IR 50–80 mΩ e ca
 ```
 Scheda UPS 18650 (1S2P)
  ┌─────────────────────┐
- │ [G30] ──┬── B+ ─────┼──[FUSIBILE 10 A mini]──── 18 AWG ────┐
+ │ [G30] ──┬── B+ ─────┼──[FUSIBILE 10 A mini]──── 20 AWG ────┐
  │ [G30] ──┘           │                                      │
- │         ┌── B- ─────┼──────────────────────── 18 AWG ────┐ │
+ │         ┌── B- ─────┼──────────────────────── 20 AWG ────┐ │
  │ [G30] ──┤           │                                    │ │
  │ [G30] ──┘           │                              ┌─────┴─┴─────┐
  │  USB-C ── charger   │                              │ BT2.0 maschio│
@@ -83,7 +83,7 @@ Scheda UPS 18650 (1S2P)
 | Fusibile | lama automotive **mini (ATM/APM) 10 A** (rossa), 32 V DC | contatti larghi, pochi mΩ; tiene 100% nominale indefinitamente, apre al 200% in secondi, in ms su un corto da 40–100 A |
 | Portafusibile | volante a spina con code 16–18 AWG e cappuccio | in serie su `B+`, saldato, **vicino alla scheda UPS** (le code contano nella lunghezza) |
 | Non usare | vetro 5×20 (portafusibili da 6.3 A, clip a decine di mΩ), PTC/polyfuse (interviene in secondi, 30–80 mΩ propri) | aggiungono la caduta che stiamo eliminando |
-| Cavi | **18 AWG silicone, 50 cm per conduttore, coppia intrecciata** (3–4 giri ogni 10 cm) | 50 cm servono da tether per il tuning PID in Fase 1. 18 AWG = 21 mΩ andata+ritorno → 0.10 V a 5 A (hover), 0.17 V a 8 A; a 20 AWG sarebbero 0.26 V, tutto il budget. 16 AWG (0.10 V) è troppo rigido e pesante (~17 g) per un tether. Il twist dimezza l'induttanza; i fronti di commutazione li fornisce `C1` sulla PCB, il cavo ricarica `C1` tra un fronte e l'altro |
+| Cavi | **20 AWG silicone, 45 cm per conduttore, coppia intrecciata** (realizzato il 21/09) | 45 cm servono da tether per il tuning PID in Fase 1. 20 AWG = 30 mΩ andata+ritorno → 0.15 V a 5 A (hover), 0.24 V a 8 A: è il massimo per un 20 AWG singolo (sotto i ~3.6 V di cella l'LDO della XIAO va in dropout). Se servisse più margine: secondo 20 AWG in parallelo per polo (→ 15 mΩ, 0.12 V a 8 A). Il twist dimezza l'induttanza; i fronti di commutazione li fornisce `C1` sulla PCB |
 | Tether | il cavo arriva al drone **dall'alto**, appeso con un'ansa lasca | un cavo che tira dal basso è un disturbo di coppia e di peso sulla taratura PID |
 | Connettore | pigtail BT2.0 maschio (riuso di quello sull'uscita del buck-boost) | compatibile con `J_BAT` della PCB v1.0 |
 | Scorta | 2–3 fusibili da 10 A | se scatta, si indaga la causa, non si resta fermi |
