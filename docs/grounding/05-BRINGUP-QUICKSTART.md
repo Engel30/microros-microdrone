@@ -246,7 +246,7 @@ Se #2/#3 falliscono, puntali sul metallo delle celle durante il carico: se lì l
 | Reboot loop drone | regressione del fix ping-prima-di-`support_init` | controlla log, segnala |
 | `voltage: 0.0` | alimentazione USB-C, BT2.0 staccato | atteso |
 | `app-colcon.meta` modificato non applicato | `libmicroros.a` non rebuilda | `rm -f managed_components/.../libmicroros.a` + `rm -rf build` + rebuild (~5 min) |
-| Drone si resetta a duty motori >10% | brownout rail VCC: buck-boost AliExpress non regge transient PWM | controlla `/drone_1/log` al boot dopo: `boot reset_reason=BROWNOUT` conferma. Fix: pacco da banco 1S2P 30Q (§5.5) o LiPo 1S 25C; sul buck, cap 1000 µF sull'uscita come ripiego. |
+| Drone si resetta a duty motori >10% | brownout rail VCC: buck-boost AliExpress non regge transient PWM | controlla `/drone_1/log` al boot dopo: `boot reset_reason=BROWNOUT` conferma. Fix: pacco da banco 1S2P G30 (§5.5) o LiPo 1S 25C; sul buck, cap 1000 µF sull'uscita come ripiego. |
 
 ---
 

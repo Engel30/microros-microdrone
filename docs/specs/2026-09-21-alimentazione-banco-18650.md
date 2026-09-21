@@ -1,8 +1,9 @@
-# Alimentazione da banco: pacco 1S2P Samsung 30Q su scheda UPS 18650
+# Alimentazione da banco: pacco 1S2P Golisi G30 su scheda UPS 18650
 
 **Data:** 2026-09-21
 **Autore:** Angelo + Claude
 **Stato:** Approvata — da costruire e collaudare
+**Revisione:** 2026-09-21 sera — celle cambiate da Samsung 30Q a Golisi G30 (vedi §3.1)
 **Sostituisce:** il buck-boost AliExpress usato nei test del 2026-05-09
 
 ---
@@ -26,30 +27,32 @@ La soluzione indicata a maggio era una LiPo 1S 25C 300–600 mAh, che resta la b
 
 ## 3. Decisione
 
-**Pacco 1S2P con le due Samsung 30Q, montate stabilmente nella scheda UPS.** USB-C per la ricarica. Uscita presa direttamente dai pad `B+`/`B-`, con fusibile in serie, verso il BT2.0 del drone. L'uscita boost della scheda non si usa. L'holder da 4 slot non si usa.
+**Pacco 1S2P con le due Golisi G30, montate stabilmente nella scheda UPS.** USB-C per la ricarica. Uscita presa direttamente dai pad `B+`/`B-`, con fusibile in serie, verso il BT2.0 del drone. L'uscita boost della scheda non si usa. L'holder da 4 slot non si usa.
 
-### 3.1 Perché le 30Q
+### 3.1 Perché le G30
 
-| Coppia | Chimica | Corrente continua | Esito |
-|---|---|---|---|
-| **Samsung INR18650-30Q** | NMC | 15 A (20 A con limite termico) | **scelta** |
-| Golisi G30 | NMC | 20 A dichiarati | riserva |
-| Avatar "ICV" | probabile LiCoO₂ | ~5 A | esclusa |
-| Generiche 2600 mAh | ICR generica / recupero | ~5 A | esclusa |
+| Coppia | Chimica | Corrente continua | Tensione a vuoto (21/09) | Esito |
+|---|---|---|---|---|
+| **Golisi G30** | NMC (etichetta "IMR", rewrap) | 20 A dichiarati, ~15–20 A nei test indipendenti | 3.6 V entrambe | **scelta** |
+| Samsung INR18650-30Q | NMC | 15 A (20 A con limite termico) | una 3.1 V, una **0 V** | una scartata, una di riserva |
+| Avatar "ICV" | probabile LiCoO₂ | ~5 A | — | esclusa |
+| Generiche 2600 mAh | ICR generica / recupero | ~5 A | — | esclusa |
 
-Con 8 A di picco le 30Q in 2P lavorano al 25% del rating. Le ICR in 2P arriverebbero a ~10 A al limite, con sag paragonabile al buck-boost.
+La prima scelta erano le 30Q. Durante la carica di equalizzazione, la 30Q trovata a 0 V **si è scaldata molto**: sintomo di corto interno da dissoluzione del rame (§5, passo 0). Scartata. La 30Q superstite da sola non fa un 2P (serve lo stesso modello), quindi si passa alla coppia G30, trovate entrambe a 3.6 V, cioè a tensione di stoccaggio e già equalizzate.
+
+Con 8 A di picco le G30 in 2P lavorano al 20–25% del rating. Le ICR in 2P arriverebbero a ~10 A al limite, con sag paragonabile al buck-boost.
 
 Tutte le 18650 sono Li-ion (cilindriche, elettrolita liquido). La differenza tra sigle è il catodo, quindi la corrente erogabile; il range di tensione 2.5/3.0–4.2 V è lo stesso per INR e ICR. Nessuna cella IFR (LiFePO₄, 3.2 V) tra quelle disponibili: sarebbe stata incompatibile.
 
 ### 3.2 Perché 2P e non una cella sola
 
-Non per le celle: una 30Q da sola coprirebbe gli 8 A. **Per i contatti a molla** dell'holder: 50–100 mΩ ciascuno, non progettati per 8 A. Con una cella sola i 8 A passano su due molle in serie → 0.8–1.6 V di caduta → brownout identico a quello del buck-boost. Con due slot in parallelo i percorsi di contatto sono in parallelo e la caduta si dimezza. In più: 6000 mAh di autonomia al banco e 4 A per cella.
+Non per le celle: una G30 da sola coprirebbe gli 8 A. **Per i contatti a molla** dell'holder: 50–100 mΩ ciascuno, non progettati per 8 A. Con una cella sola i 8 A passano su due molle in serie → 0.8–1.6 V di caduta → brownout identico a quello del buck-boost. Con due slot in parallelo i percorsi di contatto sono in parallelo e la caduta si dimezza. In più: 6000 mAh di autonomia al banco e 4 A per cella.
 
 Costo del 2P: le due celle vanno **equalizzate prima del primo inserimento** (§5). Dopo, caricandosi sempre insieme, restano gemelle.
 
 ### 3.3 Perché il fusibile è obbligatorio
 
-I pad `B+`/`B-` sono a monte della protezione della scheda. In corto (filo sfilato, ponte di stagno, MOSFET in corto — guasto tipico), la corrente è limitata solo dalla resistenza interna: una 30Q ha IR ≈ 20–25 mΩ → 40–60 A; in 2P 80–120 A. Un 20 AWG diventa rosso in secondi, la cella sfiata oltre 30–40 A. **Una cella sola non rende sicuro omettere il fusibile**: il rapporto corto/portata del filo è già 4–5×.
+I pad `B+`/`B-` sono a monte della protezione della scheda. In corto (filo sfilato, ponte di stagno, MOSFET in corto — guasto tipico), la corrente è limitata solo dalla resistenza interna: una cella high-drain ha IR ≈ 20–25 mΩ → 40–60 A; in 2P 80–120 A. Un 20 AWG diventa rosso in secondi, la cella sfiata oltre 30–40 A. **Una cella sola non rende sicuro omettere il fusibile**: il rapporto corto/portata del filo è già 4–5×.
 
 Le LiPo 1S da micro-drone non montano fusibili perché hanno IR 50–80 mΩ e capacità piccola. Una 18650 da torcia/trapano è un ordine di grandezza più "cattiva" in corto.
 
@@ -64,11 +67,11 @@ Le LiPo 1S da micro-drone non montano fusibili perché hanno IR 50–80 mΩ e ca
 ```
 Scheda UPS 18650 (1S2P)
  ┌─────────────────────┐
- │ [30Q] ──┬── B+ ─────┼──[FUSIBILE 10 A mini]──── 20 AWG ────┐
- │ [30Q] ──┘           │                                      │
+ │ [G30] ──┬── B+ ─────┼──[FUSIBILE 10 A mini]──── 20 AWG ────┐
+ │ [G30] ──┘           │                                      │
  │         ┌── B- ─────┼──────────────────────── 20 AWG ────┐ │
- │ [30Q] ──┤           │                                    │ │
- │ [30Q] ──┘           │                              ┌─────┴─┴─────┐
+ │ [G30] ──┤           │                                    │ │
+ │ [G30] ──┘           │                              ┌─────┴─┴─────┐
  │  USB-C ── charger   │                              │ BT2.0 maschio│
  │  OUT 5/9/12V (n.c.) │                              └──────┬───────┘
  └─────────────────────┘                                     │
@@ -84,12 +87,13 @@ Scheda UPS 18650 (1S2P)
 | Connettore | pigtail BT2.0 maschio (riuso di quello sull'uscita del buck-boost) | compatibile con `J_BAT` della PCB v1.0 |
 | Scorta | 2–3 fusibili da 10 A | se scatta, si indaga la causa, non si resta fermi |
 
-**Nessuna modifica firmware.** `BATTERY_LOW_VOLTAGE 3.3 V` e `BATTERY_CRITICAL_VOLTAGE 3.0 V` (`drone_config.h`) sono conservative rispetto ai 2.5 V minimi della 30Q. Il partitore 100k/100k legge 1.5–2.1 V, nel range ADC.
+**Nessuna modifica firmware.** `BATTERY_LOW_VOLTAGE 3.3 V` e `BATTERY_CRITICAL_VOLTAGE 3.0 V` (`drone_config.h`) sono conservative rispetto ai 2.5 V minimi della G30. Il partitore 100k/100k legge 1.5–2.1 V, nel range ADC.
 
 ## 5. Procedura di messa in servizio
 
 **Primo inserimento (una volta sola):**
-1. Verificare le 30Q: peso 45–47 g, involucro rosa opaco con scritta laser (le 30Q sono tra le celle più contraffatte; 35 g = riavvolta)
+0. **Cella sotto 2.0 V a vuoto: scartare, non caricare.** Sotto ~1.5 V il collettore di rame dell'anodo si dissolve; in ricarica si rideposita come dendriti che perforano il separatore. Sintomo in carica: la cella si scalda molto. È la sequenza che precede sfiato o thermal runaway. Tra 2.0 e 2.5 V si tenta solo a ≤ 0.1C con mano sulla cella; una cella che si scalda si toglie subito, si mette su superficie non infiammabile e si smaltisce (RAEE, terminali nastrati). *Lezione del 2026-09-21: la 30Q a 0 V.*
+1. Verificare peso e involucro: ~45–48 g, wrap integro, nessuna ammaccatura
 2. Misurare la tensione di entrambe. Devono stare **entro 0.05 V**. Se no: inserire da sola la più scarica nella scheda UPS e caricarla finché si allinea, poi inserire la seconda. Collegare due celle a tensione diversa in parallelo produce una corrente di equalizzazione limitata solo dalle due IR: decine di ampere e scintilla sul contatto
 3. Saldare il cablaggio di §4 con le celle **fuori** dalla scheda
 

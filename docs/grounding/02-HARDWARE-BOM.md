@@ -13,7 +13,7 @@
 | **Optical Flow + ToF** | Matek 3901-L0X clone | 1 |
 | **Motori** | 8520 Coreless 3.7V | 4 |
 | **Batteria di volo** | LiPo 1S 450-550mAh, BT2.0 | 2-3 |
-| **Pacco da banco** | 2× Samsung INR18650-30Q in scheda UPS 18650 (1S2P, carica USB-C) + fusibile mini 10 A | 1 |
+| **Pacco da banco** | 2× Golisi G30 in scheda UPS 18650 (1S2P, carica USB-C) + fusibile mini 10 A | 1 |
 | **MOSFET** | AO3400A (SOT-23) low-side | 4 |
 | **Diodo Flyback** | SS14 (SMA) | 4 |
 | **Condensatore Bulk** | 470µF / 16V | 1 |
@@ -64,7 +64,7 @@
 | Sorgente | Quando | Note |
 |---|---|---|
 | LiPo 1S 300-600mAh 25C, 10-15 g | volo | da procurare |
-| Pacco da banco 1S2P: 2× Samsung 30Q in scheda UPS 18650, uscita dai pad `B+`/`B-` con fusibile lama mini 10 A in serie, cavi 20 AWG ≤ 15 cm | bring-up e tuning PID tethered | ~110 g, non vola. Decisione e schema: [`specs/2026-09-21-alimentazione-banco-18650.md`](../specs/2026-09-21-alimentazione-banco-18650.md) |
+| Pacco da banco 1S2P: 2× Golisi G30 in scheda UPS 18650, uscita dai pad `B+`/`B-` con fusibile lama mini 10 A in serie, cavi 20 AWG ≤ 15 cm | bring-up e tuning PID tethered | ~110 g, non vola. Decisione e schema: [`specs/2026-09-21-alimentazione-banco-18650.md`](../specs/2026-09-21-alimentazione-banco-18650.md) |
 
 Il buck-boost usato a maggio non regge i transitori PWM dei coreless (brownout sopra il 20%): resta solo come sorgente di emergenza a bassa potenza.
 
