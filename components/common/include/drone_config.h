@@ -137,3 +137,16 @@
 // Watchdog comando motori (uROS subscriber → task_motors)
 // ============================================================================
 #define MOTOR_CMD_TIMEOUT_MS 500
+
+// ============================================================================
+// Spin-up motori (task_motors → motor_spinup)
+// ============================================================================
+// La corrente dopo un gradino di duty è Σ(D_nuovo − E_i)/R: la back-EMF E_i
+// insegue il duty con la costante di tempo meccanica, lunga a basso duty senza
+// eliche. Un gradino su motori non ancora a regime somma corrente a corrente
+// → brownout (2026-09-21: 8→30 su 4 motori resetta dopo 300 ms all'8%, passa
+// dopo 2 s). Da 0 si esce solo con rampa fino a MOTOR_SPIN_MIN_PCT + sosta
+// abbastanza lunga da raggiungere il regime meccanico; sopra, comando intatto.
+#define MOTOR_SPIN_MIN_PCT   8.0f   // duty di fine spin-up (inrush trascurabile)
+#define MOTOR_SPINUP_RAMP_MS 150    // rampa 0 → MOTOR_SPIN_MIN_PCT
+#define MOTOR_SPINUP_HOLD_MS 2000   // sosta a MOTOR_SPIN_MIN_PCT: 2 s provati, 300 ms no

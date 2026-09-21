@@ -57,13 +57,48 @@ Quando il firmware gira in modalità `[1] uROS` (default), `task_motors` (1kHz) 
 
 Sulla transizione disarm→arm il task resetta `last_cmd_us=0`: il watchdog richiede un nuovo `cmd_motor_test` prima di far girare i motori (impedisce che cmd stantii pre-disarm riprendano automaticamente).
 
+## Spin-up (`motor_spinup`)
+
+Un motore DC a PWM risponde a un gradino di duty con la costante di tempo elettrica (L/R ≈ 100 µs): la corrente salta subito a (D_nuovo − E)/R, dove la back-EMF E insegue il duty con la costante di tempo **meccanica**, lunga a basso duty senza eliche. Un gradino applicato a motori non ancora a regime somma corrente a corrente. Misure del 2026-09-21 sul pacco 18650 con `ros2_ws/tools/motor_steps.py` (celle a 3.65 V, rail 3V3 già in dropout):
+
+| Gradino | Esito |
+|---|---|
+| 0 → 30 su 3 motori | `BROWNOUT` |
+| 8 → 30 su 4 motori dopo **300 ms** all'8% | `BROWNOUT` |
+| 8 → 30 su 4 motori dopo **2 s** all'8% | ok |
+| 10 → 20 → 30 → 50 → 70 su 4, gradini di 3 s | ok |
+| 4 motori al 70% a regime | ok |
+| **con eliche**, 4 motori 15% o 3 motori 20%, spin-up attivo | `BROWNOUT` |
+
+Regola, applicata in `task_motors` dopo watchdog e arm gate, **per ogni motore indipendentemente**:
+
+> Da 0 si esce solo con una rampa lineare fino a `MOTOR_SPIN_MIN_PCT` (150 ms) e una sosta a quel duty abbastanza lunga da raggiungere il regime meccanico (2000 ms). Sopra `MOTOR_SPIN_MIN_PCT` il comando passa intatto.
+
+Lo spin-up copre i transitori a vuoto, **non il regime con le eliche**: il rail 3.3 V della XIAO sta sul rail motori tramite un LDO in dropout e con carico reale non regge (opzioni in `docs/specs/2026-09-21-alimentazione-logica-xiao.md`). La soglia è stretta (Σ Δduty ≈ 80 passa, ≈ 90 no, a 3.65 V): in Fase 1 il PID lavorerà sopra `MOTOR_SPIN_MIN_PCT` con correzioni differenziali (somma ≈ 0), ma variazioni **collettive** rapide di throttle superiori a ~20 punti su 4 motori richiederanno un limitatore di gradino collettivo. Decisione rimandata a quando ci sarà il PID.
+
+- `motor_spinup_init(s, spin_min_pct, ramp_ms, hold_ms)` — parametri da `drone_config.h` (`MOTOR_SPIN_MIN_PCT` 8%, `MOTOR_SPINUP_RAMP_MS`, `MOTOR_SPINUP_HOLD_MS`).
+- `motor_spinup_apply(s, req, out, now_us)` — `out` = comando effettivo; ritorna la bitmask dei motori che iniziano lo spin-up (loggata su `/drone_1/log` a INFO).
+- Comando che torna a 0 (watchdog, disarm, o richiesta) → il motore è fermo e la prossima uscita rifà lo spin-up da capo.
+- Comando sotto `MOTOR_SPIN_MIN_PCT` (es. 3%) attraversa la rampa e poi passa intatto.
+- L'echo `/drone_1/motors` riporta il duty **applicato**, non quello richiesto: dopo un `[30,30,30,30]` da fermo si vede la rampa, 2 s a 8%, poi 30.
+
+Il vincolo sta qui e non nel decollo perché è una proprietà dell'attuatore: vale per `cmd_motor_test` oggi, per il PID di Fase 1 domani, per un failsafe dopodomani. Il PID lavora sopra `MOTOR_SPIN_MIN_PCT` e non vede alcun limitatore; la fase di spin-up del decollo è una conseguenza di questa regola, non un caso a parte. L'arm resta "motori a 0" (scelta del 2026-09-21: un drone armato non deve per forza far girare le eliche).
+
+Il modulo è C puro senza dipendenze ESP-IDF, testato su host:
+
+```bash
+cd components/motor_driver && ./test/run.sh     # gcc, 5 casi
+```
+
+## Comandi
+
 I comandi entrano via subscriber `/drone_1/cmd_motor_test` (`std_msgs/Float32MultiArray`, 4 valori 0-100%, mapping FL/RL/RR/FR). L'arm via `/drone_1/arm` (`std_msgs/Bool`, sticky). Vedi `docs/grounding/06-MICROROS-TETHERED.md` §4-5 e `docs/grounding/05-BRINGUP-QUICKSTART.md` §5 per la guida operativa (Foxglove Publish panel).
 
 ## Test
 
-- **Modalità `[1] uROS`:** comandi via topic ROS2, watchdog 500ms attivo. Implementato (Step 7 del piano `2026-05-07-piano-implementativo-microros-tethered`), **non ancora testato sui motori reali** (al 2026-05-08 motori non saldati al PCB v1.0).
+- **Modalità `[1] uROS`:** comandi via topic ROS2, watchdog 500ms attivo. Testato sui motori reali su PCB v1.0 (maggio 2026 a 10%, 2026-09-21 fino a 4 motori @ 70% sul pacco 18650). Spin-up: test su host in `test/`, verifica sul drone in `docs/STATO.md`.
 - **Modalità `[2] Motor test`:** menu USB Serial interattivo legacy, ogni motore singolarmente o tutti insieme. Validato in passato sul vecchio ESP32 (poi bruciato pre-PCB).
 
 ## Dipendenze
 
-`common`, `esp_driver_ledc`
+`common`, `esp_driver_ledc` (`motor_spinup` solo `common`)

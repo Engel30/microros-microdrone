@@ -88,6 +88,21 @@ Foxglove Studio (Windows o nativo): `Open Connection → Foxglove WebSocket → 
 
 ---
 
+## Strumenti — `tools/`
+
+### `motor_steps.py` — sequenza di duty senza buchi
+
+`ros2 topic pub` non può cambiare valore senza Ctrl+C e rilancio (> 500 ms → il watchdog di `task_motors` azzera i motori, che ripartono da fermo). Questo script tiene un publisher unico a 10 Hz e attraversa i gradini in sequenza. Serve per i test di alimentazione: distingue l'inrush da fermo (rampa passa, gradino secco 0→30% no) dal picco a regime (resetta anche l'ultimo gradino della rampa).
+
+```bash
+source /opt/ros/humble/setup.bash
+python3 tools/motor_steps.py "10,10,10,0:3" "20,20,20,0:3" "30,30,30,0:5"
+```
+
+Argomenti `"FL,RL,RR,FR:secondi"` (secondi opzionali, default 3). Opzioni `--ns drone_1`, `--rate 10`. A fine sequenza o a Ctrl+C pubblica `[0,0,0,0]`. Esce con errore se nessun subscriber aggancia il topic entro 5 s (agent giù). **Pubblica appena parte: switch arm e drone pronti prima di lanciarlo.**
+
+---
+
 ## Aggiornare i sorgenti di terze parti
 
 ```bash

@@ -2,6 +2,7 @@
 #include "drone_config.h"
 #include "drone_types.h"
 #include "motor_driver.h"
+#include "motor_spinup.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "esp_log.h"
@@ -20,6 +21,12 @@ static const char *TAG = "task_motors";
 // si resetta last_cmd_us=0 per costringere il watchdog a richiedere un cmd
 // fresco prima di far girare i motori (evita che cmd stantii pre-disarm
 // riprendano automaticamente).
+//
+// Spin-up: dopo watchdog e arm gate, il comando passa da motor_spinup, che
+// impone rampa + sosta a MOTOR_SPIN_MIN_PCT a ogni uscita da 0 (per motore).
+// È il vincolo elettrico contro il brownout da inrush, e vale per qualsiasi
+// produttore di comando presente o futuro (cmd_motor_test, PID, failsafe).
+// L'echo su motor_echo_queue è il duty effettivamente applicato.
 void task_motors(void *arg)
 {
     uros_queues_t *Q = (uros_queues_t *)arg;
@@ -27,6 +34,10 @@ void task_motors(void *arg)
              FREQ_MOTORS_HZ, xPortGetCoreID(), MOTOR_CMD_TIMEOUT_MS);
 
     motor_cmd_t cmd = { .motor = {0}, .timestamp_us = 0 };
+    motor_cmd_t applied;
+    motor_spinup_t spinup;
+    motor_spinup_init(&spinup, MOTOR_SPIN_MIN_PCT,
+                      MOTOR_SPINUP_RAMP_MS, MOTOR_SPINUP_HOLD_MS);
     int64_t last_cmd_us = 0;
     bool prev_armed = false;
     bool prev_watchdog_expired = true;  // boot: nessun cmd → expired
@@ -71,8 +82,16 @@ void task_motors(void *arg)
         }
         prev_watchdog_expired = watchdog_expired;
 
-        motors_set(&cmd);
-        xQueueOverwrite(Q->motor_echo_queue, &cmd);
+        uint8_t started = motor_spinup_apply(&spinup, &cmd, &applied, now);
+        if (started) {
+            uros_log(UROS_LOG_INFO,
+                     "motors: spin-up mask=0x%X (rampa %dms + sosta %dms a %d%%)",
+                     started, MOTOR_SPINUP_RAMP_MS, MOTOR_SPINUP_HOLD_MS,
+                     (int)MOTOR_SPIN_MIN_PCT);
+        }
+
+        motors_set(&applied);
+        xQueueOverwrite(Q->motor_echo_queue, &applied);
 
         vTaskDelayUntil(&last, period);
     }

@@ -107,6 +107,8 @@ Scheda UPS 18650 (1S2P)
 
 ## 6. Test di accettazione
 
+> **Superato il 2026-09-21 sera:** il criterio "caduta < 0.3 V" presuppone che il rail 3.3 V tolleri 0.3 V di caduta; con celle sotto ~3.9 V l'LDO della XIAO è già in dropout e non li tollera. Criterio corretto e opzioni in [`2026-09-21-alimentazione-logica-xiao.md`](2026-09-21-alimentazione-logica-xiao.md). La tabella sotto resta come storia.
+
 Eliche staccate, switch arm ON solo durante la misura, multimetro su `TP_VBAT`.
 
 | # | Condizione | Misura | Passa se |

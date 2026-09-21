@@ -183,6 +183,13 @@ ros2 topic pub --once /drone_1/arm std_msgs/msg/Bool "{data: false}"
 - Per duty sostenuto serve **rate ≥ 3Hz** (margine 333ms).
 - Stop manuale = chiudi il pannello / smetti di pubblicare → motori a 0 entro 500ms.
 
+### 5.2b Spin-up automatico
+
+A ogni uscita da 0, ogni motore fa una rampa di 150 ms fino all'8% e ci resta 2 s prima di seguire il comando (`MOTOR_SPIN*` in `drone_config.h`, dettagli e misure in `components/motor_driver/README.md`). È la protezione contro il brownout da gradino di corrente su motori non a regime. Conseguenze pratiche:
+- un `[30,30,30,30]` da fermo arriva al 30% dopo ~2.2 s; su `/drone_1/motors` si vede la rampa, poi 8 per 2 s, poi 30;
+- con il Publish one-shot di Foxglove (500 ms di watchdog) il duty richiesto **non viene mai raggiunto**: per un test vero usa il rate o la CLI;
+- su `/drone_1/log` compare `motors: spin-up mask=0x..` a ogni partenza.
+
 ### 5.3 Alternativa CLI
 
 ```bash
@@ -194,6 +201,12 @@ ros2 topic pub -r 5 /drone_1/cmd_motor_test std_msgs/msg/Float32MultiArray \
 # Singolo motore (FL al 15%, gli altri a 0)
 ros2 topic pub -r 5 /drone_1/cmd_motor_test std_msgs/msg/Float32MultiArray \
   "{data: [15.0, 0.0, 0.0, 0.0]}"
+```
+
+Per una **sequenza di duty senza buchi** (un cambio con `ros2 topic pub` costa > 500 ms e fa scattare il watchdog): `ros2_ws/tools/motor_steps.py`, vedi `ros2_ws/README.md`.
+
+```bash
+python3 ros2_ws/tools/motor_steps.py "10,10,10,10:3" "50,50,50,50:3" "100,100,100,100:3"
 ```
 
 ### 5.4 Sequenza di test minima (riferimento §5.2 doc 07)
@@ -212,6 +225,8 @@ ros2 topic pub -r 5 /drone_1/cmd_motor_test std_msgs/msg/Float32MultiArray \
 | 7 | da disarmato, `arm: true` (senza nuovo cmd) | motori restano 0 (anti-replay watchdog) |
 
 ### 5.5 Test di accettazione alimentazione (pacco da banco 18650)
+
+> **Criterio superato il 2026-09-21:** la caduta su `TP_VBAT` non basta, con l'LDO della XIAO in dropout conta il **3V3 ≥ 3.0 V sotto carico**. Vedi [`specs/2026-09-21-alimentazione-logica-xiao.md`](../specs/2026-09-21-alimentazione-logica-xiao.md). Tabella lasciata come riferimento storico.
 
 Da eseguire una volta al primo uso del pacco 1S2P, e ogni volta che si tocca il cablaggio. Multimetro su `TP_VBAT`, eliche staccate, comandi da CLI (§5.3) a 10 Hz.
 

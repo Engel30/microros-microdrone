@@ -17,7 +17,7 @@
 - task_imu (1kHz): MPU6050 I2C
 - task_flow (~20Hz): CXOF UART parser
 - task_pid_attitude (1kHz): stabilizzazione attitudine
-- task_motors (1kHz): LEDC PWM motori
+- task_motors (1kHz): LEDC PWM motori — watchdog 500 ms, arm gate, spin-up per motore (rampa + sosta a `MOTOR_SPIN_MIN_PCT` a ogni uscita da 0, vedi `components/motor_driver/README.md`)
 - task_fusion (100Hz, Fase 2+): sensor fusion
 - task_pid_velocity (50Hz, Fase 2): velocity hold
 - task_pid_position (20Hz, Fase 3): position control
