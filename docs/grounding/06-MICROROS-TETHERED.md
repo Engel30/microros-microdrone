@@ -17,6 +17,8 @@ Documento operativo: come avviare il drone in modalità tethered, vedere telemet
 └──────┬──────┘          │  ros2_ws/    │
        │ WiFi STA        │  ├ agent UDP │
        │ 192.168.1.15    │  │  :8888    │
+       │ (PC .7, IP      │  │           │
+       │  prenotati)     │  │           │
        │                 │  └ foxglove  │
        └─── UDP 8888 ────┤    bridge ws │
             (uXRCE-DDS)  │    :8765     │
@@ -245,6 +247,7 @@ ros2 topic echo /drone_1/log --qos-reliability best_effort \
 - WPA2/WPA3 transition: già gestito (`WIFI_AUTH_OPEN` + `pmf_cfg.capable=true`). Reti pure-WPA3 senza transition non sono testate.
 
 ### Drone connette ma `Ping agent` continua a fallire
+- **L'IP del PC è ancora quello compilato nel firmware?** `hostname -I` vs `grep AGENT_IP sdkconfig`. Dopo una pausa il lease DHCP scade e il router riassegna l'IP (2026-09-21: `.9` era finito alla stampante, il PC era `.7`). Fix definitivo: prenotazione DHCP sul router per PC e drone
 - Agent in ascolto? `ss -unlp | grep 8888` in WSL
 - Windows Defender blocca UDP 8888 inbound:
   ```powershell
@@ -288,6 +291,8 @@ ros2 topic echo /drone_1/log --qos-reliability best_effort \
 ---
 
 ## 8. Stato test
+
+**2026-09-21:** ripresa dopo 4 mesi. Drone alimentato dal pacco da banco 1S2P (Golisi G30): boot pulito, nessun `BROWNOUT`, WiFi associato in 3 s (RSSI −48). Agent irraggiungibile perché l'IP del PC era cambiato (`.9` → `.7`): prenotazione DHCP sul router (PC `.7`, drone `.15`), `sdkconfig` ricostruito da `sdkconfig.old`, rebuild e flash con il nuovo IP → `uros_init OK`, Foxglove connesso. Test motori sul pacco ancora da fare.
 
 **2026-05-09:** console `/drone_1/log` aggiunta (rcl_interfaces/Log, BEST_EFFORT). 8/12 publisher utilizzati. Test motori in corso: drone si resetta sopra il 20% PWM su 2+ motori — sospetto brownout dovuto al buck-boost AliExpress; da confermare via reset reason loggato al boot successivo (`boot reset_reason=BROWNOUT` su `/drone_1/log`). Soluzione raccomandata: passaggio a LiPo 1S 25C, oppure cap 1000 µF + 100 nF sull'uscita del buck.
 

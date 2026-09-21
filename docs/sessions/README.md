@@ -8,6 +8,7 @@ I file vengono creati da `/chiudi-sessione`.
 
 | Data | Sessione | Esito |
 |---|---|---|
+| 2026-09-21 | [Pacco da banco 18650 e ripresa del drone dopo 4 mesi](2026-09-21-alimentazione-18650-e-ripresa.md) | Pacco 1S2P G30 costruito e funzionante; agent irraggiungibile per IP cambiato → DHCP prenotato, rebuild, flash; Foxglove connesso |
 | 2026-09-14 | [Riorganizzazione documentale e sistema di continuità sessioni](2026-09-14-riorganizzazione-documentale.md) | docs/ ristrutturata; STATO.md e /chiudi-sessione; componenti PCB corretti |
 | 2026-05-09 | [Test motori: brownout buck-boost + console Foxglove](2026-05-09-test-motori-brownout.md) | Motori girano; brownout del buck-boost sopra il 20% PWM |
 | 2026-05-08 | [micro-ROS tethered: publisher, subscriber, arm, diagnostica WiFi](2026-05-08-microros-tethered-arm-e-diagnostica.md) | Telemetria completa su Foxglove; WiFi flapping risolto (era alimentazione) |

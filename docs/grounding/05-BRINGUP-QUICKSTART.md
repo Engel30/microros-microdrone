@@ -10,9 +10,9 @@ Questo è il **flusso da seguire ogni sessione**. Per i dettagli (topologia, top
 
 - [ ] Eliche **STACCATE** (rimangono staccate fino a fine Fase 1 PID)
 - [ ] Switch arm motori sul PCB **OFF** (durante flash e idle; ON solo per test attivi)
-- [ ] BT2.0 staccato → drone alimentato solo USB-C (oppure BT2.0 collegato per leggere `voltage` reale)
+- [ ] **Mai USB-C e pacco batteria insieme**: il pin `VUSB` della XIAO è il VBUS USB senza diodo, e `VBAT → SW1 → VUSB` è un filo diretto. I 5 V del PC finirebbero nelle celle. Con l'alimentatore da banco era innocuo, con le 18650 no. Per flash/monitor: BT2.0 scollegato
 - [ ] Se si usa il pacco da banco 18650: USB-C della scheda UPS **staccata**, fusibile presente, pacco collegato al BT2.0 solo durante il test (vedi [`specs/2026-09-21`](../specs/2026-09-21-alimentazione-banco-18650.md) §5)
-- [ ] PC e drone sulla stessa rete WiFi (`LiboHouse` di default)
+- [ ] PC e drone sulla stessa rete WiFi (`WiFi LiboHouse`); PC `192.168.1.7` e drone `192.168.1.15` sono **prenotati sul router** — se `hostname -I` non dà `.7`, il firmware non troverà l'agent
 - [ ] WSL2 mirrored mode attivo (`cat /mnt/c/Users/<user>/.wslconfig` → `networkingMode=mirrored`)
 
 ---
@@ -245,6 +245,9 @@ Se #2/#3 falliscono, puntali sul metallo delle celle durante il carico: se lì l
 | `topic hz` mostra ~50% drop | QoS RELIABLE di default vs publisher BEST_EFFORT | aggiungere `--qos-reliability best_effort` |
 | Reboot loop drone | regressione del fix ping-prima-di-`support_init` | controlla log, segnala |
 | `voltage: 0.0` | alimentazione USB-C, BT2.0 staccato | atteso |
+| WiFi connesso ma `Agent non risponde (tentativo N)` all'infinito | (1) agent non avviato; (2) IP del PC ≠ quello compilato nel firmware (lease DHCP scaduto dopo una pausa) | `ss -unlp \| grep 8888`; `hostname -I` deve dare l'IP in `sdkconfig` (`grep AGENT_IP sdkconfig`). Fix: prenotazione DHCP sul router, o rebuild+flash con il nuovo IP |
+| La pagina del router dice che il drone "non è connesso" | la lista client dei router consumer non è affidabile per un ESP32 che genera poco traffico | fidati del seriale (`WiFi connected, IP=...`) e di `ping <ip drone>` dal PC |
+| `idf.py monitor` parte a configurare e fallisce | `build/` vuota e/o `sdkconfig` mancante | **non** proseguire: `rm -rf build`, vedi 04 §6; per leggere il seriale usa `python -m serial.tools.miniterm --rts 0 --dtr 0 /dev/ttyACM0 115200` |
 | `app-colcon.meta` modificato non applicato | `libmicroros.a` non rebuilda | `rm -f managed_components/.../libmicroros.a` + `rm -rf build` + rebuild (~5 min) |
 | Drone si resetta a duty motori >10% | brownout rail VCC: buck-boost AliExpress non regge transient PWM | controlla `/drone_1/log` al boot dopo: `boot reset_reason=BROWNOUT` conferma. Fix: pacco da banco 1S2P G30 (§5.5) o LiPo 1S 25C; sul buck, cap 1000 µF sull'uscita come ripiego. |
 

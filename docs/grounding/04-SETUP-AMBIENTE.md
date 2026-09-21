@@ -79,7 +79,12 @@ idf.py -p /dev/ttyACM0 flash monitor
 # Solo Monitor
 idf.py -p /dev/ttyACM0 monitor
 # Esci: Ctrl+]
+
+# Monitor "puro" senza toccare la build (se build/ o sdkconfig non ci sono)
+python -m serial.tools.miniterm --rts 0 --dtr 0 /dev/ttyACM0 115200
 ```
+
+> ⚠️ `idf.py monitor` **configura il progetto** se `build/` è vuota. Senza `sdkconfig` prende il target di default `esp32` (sbagliato: la XIAO è `esp32s3`) e lascia una cache CMake avvelenata. Se `sdkconfig` manca, prima ricostruiscilo (§6), oppure usa il miniterm.
 
 Dopo flash, ESP32 resetta USB. Riattiva da PowerShell Admin:
 ```powershell
@@ -96,25 +101,33 @@ usbipd attach --wsl --busid 1-6
 | `idf.py` non trovato | Lanciare `. ~/esp/esp-idf/export.sh` |
 | USB in uso | `kill $(lsof /dev/ttyACM0 \| tail -1 \| awk '{print $2}')` |
 | Python venv error | `sudo apt install -y python3.10-venv` |
+| `ERROR: File .component_hash or CHECKSUMS.json for component ... does not exist` | `managed_components/<comp>` svuotato: `rm -rf managed_components/esp-idf-lib__* dependencies.lock` e `idf.py build` li riscarica. **Non** cancellare `micro_ros_espidf_component`: contiene `libmicroros.a` (5–10 min di build) |
+| `IDF_TARGET not set, using default target: esp32` | `sdkconfig` mancante. `rm -rf build`, ricostruisci `sdkconfig` (§6), poi `idf.py build` |
+| `Agent non risponde` all'infinito con WiFi connesso | IP del PC cambiato (lease DHCP scaduto). Vedi §6 |
 
 ---
 
 ## 6. WiFi e micro-ROS
 
-Nel firmware, aggiungi:
-```c
-#define WIFI_SSID "tuaRete"
-#define WIFI_PASSWORD "password"
+SSID, password e IP dell'agent sono opzioni **Kconfig** (`main/Kconfig.projbuild`), salvate in `sdkconfig`:
+
+```bash
+idf.py menuconfig      # → "Drone — micro-ROS / WiFi"
+grep DRONE_ sdkconfig  # verifica
 ```
 
-Scopri IP WSL:
-```bash
-hostname -I
-```
+`sdkconfig` è **gitignored** (contiene la password) e viene compilato nel binario. Regole:
+- non cancellarlo: senza, `idf.py` rigenera i default `YOUR_SSID`/`YOUR_PASS`/`192.168.1.100`
+- se sparisce, ripartire da `sdkconfig.old` (copia automatica dell'ultima versione precedente): `cp sdkconfig.old sdkconfig`, poi correggere SSID/password/IP con `menuconfig` o `sed`
+- l'IP dell'agent è **hardcoded nel firmware** → l'IP del PC deve essere **prenotato sul router** (DHCP reservation su MAC), altrimenti dopo una pausa il lease scade, il router lo riassegna a un altro dispositivo e il drone bussa alla porta sbagliata. Lezione del [2026-09-21](../sessions/2026-09-21-alimentazione-18650-e-ripresa.md)
 
-Avvia agent (su PC/WSL):
+Configurazione attuale (prenotata sul router `LiboHouse`): PC `192.168.1.7`, drone `192.168.1.15`, SSID `"WiFi LiboHouse"` (con lo spazio).
+
+Avvio agent + foxglove bridge (su PC/WSL):
 ```bash
-micro_ros_agent udp4 --ip 192.168.x.x -p 8888
+cd ~/microros-microdrone/ros2_ws
+source /opt/ros/humble/setup.bash && source install/setup.bash
+ros2 launch drone_bringup drone.launch.py
 ```
 
 ---
