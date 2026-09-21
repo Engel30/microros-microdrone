@@ -11,6 +11,7 @@ Questo è il **flusso da seguire ogni sessione**. Per i dettagli (topologia, top
 - [ ] Eliche **STACCATE** (rimangono staccate fino a fine Fase 1 PID)
 - [ ] Switch arm motori sul PCB **OFF** (durante flash e idle; ON solo per test attivi)
 - [ ] BT2.0 staccato → drone alimentato solo USB-C (oppure BT2.0 collegato per leggere `voltage` reale)
+- [ ] Se si usa il pacco da banco 18650: USB-C della scheda UPS **staccata**, fusibile presente, pacco collegato al BT2.0 solo durante il test (vedi [`specs/2026-09-21`](../specs/2026-09-21-alimentazione-banco-18650.md) §5)
 - [ ] PC e drone sulla stessa rete WiFi (`LiboHouse` di default)
 - [ ] WSL2 mirrored mode attivo (`cat /mnt/c/Users/<user>/.wslconfig` → `networkingMode=mirrored`)
 
@@ -210,6 +211,19 @@ ros2 topic pub -r 5 /drone_1/cmd_motor_test std_msgs/msg/Float32MultiArray \
 | 6 | durante duty `[20,20,20,20]` @ 5Hz, `arm: false` | motori a 0 entro 1ms, /armed → false |
 | 7 | da disarmato, `arm: true` (senza nuovo cmd) | motori restano 0 (anti-replay watchdog) |
 
+### 5.5 Test di accettazione alimentazione (pacco da banco 18650)
+
+Da eseguire una volta al primo uso del pacco 1S2P, e ogni volta che si tocca il cablaggio. Multimetro su `TP_VBAT`, eliche staccate, comandi da CLI (§5.3) a 10 Hz.
+
+| # | Condizione | Passa se |
+|---|---|---|
+| 1 | armato, motori a 0 | `TP_VBAT` 3.6–4.2 V |
+| 2 | `[50,50,50,50]` @ 10 Hz | caduta rispetto a #1 < 0.3 V |
+| 3 | `[100,100,100,100]` @ 10 Hz | caduta < 0.3 V, nessun reset |
+| 4 | boot successivo | `/drone_1/log` senza `boot reset_reason=BROWNOUT` |
+
+Se #2/#3 falliscono, puntali sul metallo delle celle durante il carico: se lì la tensione regge, il problema sono i contatti a molla o i cavi, non le celle. Dettagli in [`specs/2026-09-21`](../specs/2026-09-21-alimentazione-banco-18650.md) §6.
+
 ---
 
 ## 6. Shutdown ordinato
@@ -232,7 +246,7 @@ ros2 topic pub -r 5 /drone_1/cmd_motor_test std_msgs/msg/Float32MultiArray \
 | Reboot loop drone | regressione del fix ping-prima-di-`support_init` | controlla log, segnala |
 | `voltage: 0.0` | alimentazione USB-C, BT2.0 staccato | atteso |
 | `app-colcon.meta` modificato non applicato | `libmicroros.a` non rebuilda | `rm -f managed_components/.../libmicroros.a` + `rm -rf build` + rebuild (~5 min) |
-| Drone si resetta a duty motori >10% | brownout rail VCC: buck-boost AliExpress non regge transient PWM | controlla `/drone_1/log` al boot dopo: `boot reset_reason=BROWNOUT` conferma. Fix: LiPo 1S 25C, oppure cap 1000 µF sull'uscita buck. |
+| Drone si resetta a duty motori >10% | brownout rail VCC: buck-boost AliExpress non regge transient PWM | controlla `/drone_1/log` al boot dopo: `boot reset_reason=BROWNOUT` conferma. Fix: pacco da banco 1S2P 30Q (§5.5) o LiPo 1S 25C; sul buck, cap 1000 µF sull'uscita come ripiego. |
 
 ---
 
